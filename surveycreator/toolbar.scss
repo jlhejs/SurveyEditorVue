@@ -1,0 +1,70 @@
+.svd_container {
+  .svd_toolbar {
+    margin-bottom: 1.17em;
+
+    .svd_action {
+      margin-right: 0.5em;
+      margin-top: 0.5em;
+      display: inline-block;
+
+      .svd-toolbar-button__image {
+        line-height: 1em;
+        display: inline-block;
+        .svd-svg-icon {
+          margin-top: -0.25em;
+          margin-right: 0.25em;
+        }
+      }
+      .svd-toolbar-button__title {
+        line-height: 1em;
+        display: inline-block;
+      }
+    }
+    .svd_state {
+      float: right;
+      line-height: 2.2em;
+      .icon {
+        display: inline-block;
+        + span {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .ddmenu-container {
+      &.toolbar-options {
+        ul {
+          border: 1px solid $dd-menu-border;
+          border-radius: 2px;
+          padding: 0;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          min-width: 160px;
+          left: 0;
+          margin-top: -1px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+          li {
+            margin: 5px 0;
+            a {
+              width: 100%;
+              white-space: nowrap;
+              display: block;
+              padding: 3px 20px;
+              clear: both;
+              font-weight: 400;
+              line-height: 1.42857143;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+
+    .svd-property-grid__header {
+      float: right;
+      margin-left: 1em;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+  }
+}

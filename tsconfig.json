@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "strict": false,
+    "allowJs": true,
+    "suppressImplicitAnyIndexErrors": false,
+    "allowUnreachableCode": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "webpack-env"
+    ],
+    "target": "es5",
+    "module": "es2015",
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [ 
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "src/js/**/*.ts",
+  ]
+}

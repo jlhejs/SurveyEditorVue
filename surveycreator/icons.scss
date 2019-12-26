@@ -1,0 +1,72 @@
+.svd_container {
+  .svd-svg-icon {
+    display: inline-block;
+    vertical-align: middle;
+    fill: $primary-icon-color;
+  }
+  .svd-primary-icon {
+    .svd-svg-icon {
+      fill: $primary-color;
+    }
+  }
+  .svd-secondary-icon {
+    .svd-svg-icon {
+      fill: $secondary-color;
+    }
+  }
+  .icon-gearactive {
+    .svd-svg-icon {
+      fill: $primary-color;
+    }
+  }
+  .icon-gear {
+    .svd-svg-icon {
+      fill: $icon-gear-color;
+    }
+  }
+  .icon-white {
+    .svd-svg-icon {
+      fill: $primary-bg-color;
+    }
+  }
+  .icon-status {
+    .svd-svg-icon {
+      fill: $icon-status-color;
+      margin-bottom: 0.3em;
+    }
+  }
+  .icon-actiondragelement {
+    cursor: move;
+    position: absolute;
+    left: 0;
+  }
+  .glyphicon {
+    font-weight: bold;
+    display: inline-block;
+    font-family: inherit;
+    cursor: pointer;
+    line-height: 1em;
+    top: 0;
+    &.glyphicon-plus::before {
+      font-weight: normal;
+      font-size: 20px;
+      content: "+";
+    }
+    &.glyphicon-option-horizontal::before {
+      font-size: 20px;
+      content: "⋯";
+    }
+    &.glyphicon-remove::before {
+      content: "✖";
+    }
+    &.glyphicon-edit::before {
+      content: "";
+    }
+    &.glyphicon-list-alt::before {
+      content: "⇐"; // '🗸'
+    }
+    &.glyphicon-exclamation-sign::before {
+      content: "⚠";
+    }
+  }
+}
