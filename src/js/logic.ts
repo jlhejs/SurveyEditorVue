@@ -13,9 +13,9 @@ export interface ISurveyLogicType {
   propertyName: string;
   templateName?: string;
   showInUI?: boolean;
-  showIf?: (survey: Survey.SurveyModel) => boolean;
-  createNewElement?: (survey: Survey.SurveyModel) => Survey.Base;
-  saveElement?: (survey: Survey.SurveyModel, op: SurveyLogicOperation) => void;
+  showIf?: (survey: Survey.Model) => boolean;
+  createNewElement?: (survey: Survey.Model) => Survey.Base;
+  saveElement?: (survey: Survey.Model, op: SurveyLogicOperation) => void;
   createTemplateObject?: (element: Survey.Base) => any;
   isUniqueItem?: boolean;
   questionNames?: Array<string>;
@@ -33,7 +33,7 @@ function getLogicString(name: string) {
 
 export class SurveyLogicType {
   public static expressionToDisplayText(
-    survey: Survey.SurveyModel,
+    survey: Survey.Model,
     options: ISurveyObjectEditorOptions,
     expression: string
   ): string {
@@ -46,7 +46,7 @@ export class SurveyLogicType {
   public koVisible: any;
   constructor(
     private logicType: ISurveyLogicType,
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public options: ISurveyObjectEditorOptions = null
   ) {
     this.koVisible = ko.observable(true);
@@ -102,7 +102,7 @@ export class SurveyLogicType {
   private get isTrigger(): boolean {
     return !!this.baseClass && this.baseClass.indexOf("trigger") > -1;
   }
-  public createNewElement(survey: Survey.SurveyModel): Survey.Base {
+  public createNewElement(survey: Survey.Model): Survey.Base {
     if (!!this.logicType.createNewElement)
       return this.logicType.createNewElement(survey);
     if (this.isTrigger) return this.createTriggerElement(survey);
@@ -174,7 +174,7 @@ export class SurveyLogicType {
     }
     return false;
   }
-  private createTriggerElement(survey: Survey.SurveyModel): Survey.Base {
+  private createTriggerElement(survey: Survey.Model): Survey.Base {
     var res = <Survey.SurveyTrigger>(
       Survey.Serializer.createClass(this.baseClass)
     );
@@ -432,7 +432,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       name: "page_visibility",
       baseClass: "page",
       propertyName: "visibleIf",
-      showIf: function(survey: Survey.SurveyModel) {
+      showIf: function(survey: Survey.Model) {
         return (
           survey.pages.length > 1 &&
           SurveyLogic.hasNeededElements(survey.pages, "visibleIf")
@@ -443,7 +443,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       name: "panel_visibility",
       baseClass: "panel",
       propertyName: "visibleIf",
-      showIf: function(survey: Survey.SurveyModel) {
+      showIf: function(survey: Survey.Model) {
         return SurveyLogic.hasNeededElements(
           survey.getAllPanels(),
           "visibleIf"
@@ -454,7 +454,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       name: "panel_enable",
       baseClass: "panel",
       propertyName: "enableIf",
-      showIf: function(survey: Survey.SurveyModel) {
+      showIf: function(survey: Survey.Model) {
         return SurveyLogic.hasNeededElements(survey.getAllPanels(), "enableIf");
       }
     },
@@ -462,7 +462,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       name: "question_visibility",
       baseClass: "question",
       propertyName: "visibleIf",
-      showIf: function(survey: Survey.SurveyModel) {
+      showIf: function(survey: Survey.Model) {
         return SurveyLogic.hasNeededElements(
           survey.getAllQuestions(),
           "visibleIf"
@@ -473,7 +473,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       name: "question_enable",
       baseClass: "question",
       propertyName: "enableIf",
-      showIf: function(survey: Survey.SurveyModel) {
+      showIf: function(survey: Survey.Model) {
         return SurveyLogic.hasNeededElements(
           survey.getAllQuestions(),
           "enableIf"
@@ -484,7 +484,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       name: "question_require",
       baseClass: "question",
       propertyName: "requiredIf",
-      showIf: function(survey: Survey.SurveyModel) {
+      showIf: function(survey: Survey.Model) {
         return SurveyLogic.hasNeededElements(
           survey.getAllQuestions(),
           "requiredIf"
@@ -595,7 +595,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       propertyName: "expression",
       isUniqueItem: true,
       templateName: "propertyeditorcontent-html",
-      createNewElement: function(survey: Survey.SurveyModel) {
+      createNewElement: function(survey: Survey.Model) {
         return new Survey.HtmlConditionItem();
       },
       createTemplateObject: function(element: Survey.Base) {
@@ -603,7 +603,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
         return { koValue: ko.observable(item.html), readOnly: false };
       },
       saveElement: function(
-        survey: Survey.SurveyModel,
+        survey: Survey.Model,
         op: SurveyLogicOperation
       ) {
         var item = <Survey.HtmlConditionItem>op.element;
@@ -694,7 +694,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
   public onChangedCallback: (item: SurveyLogicItem, changeType: string) => void;
 
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public options: ISurveyObjectEditorOptions = null
   ) {
     
@@ -744,7 +744,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     return null;
   }
   public update(
-    survey: Survey.SurveyModel = null,
+    survey: Survey.Model = null,
     options: ISurveyObjectEditorOptions = null
   ) {
     if (!!survey) {

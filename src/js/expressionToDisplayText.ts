@@ -4,7 +4,7 @@ import { ISurveyObjectEditorOptions } from "./propertyEditors/propertyEditorBase
 export class ExpressionToDisplayText {
   private currentQuestion: Survey.Question;
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     private options: ISurveyObjectEditorOptions = null
   ) {}
   public toDisplayText(expression: string): string {

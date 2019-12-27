@@ -54,7 +54,12 @@
     watch: {
       "editor.selectedObject":function(newValue){
         this.editor.selectedObjectChanged(newValue != null ? newValue.value : null);
-
+      },
+      "editor.generateValidJSON":function(newValue){
+        if (!this.editor.options) this.editor.options = {};
+        this.editor.options.generateValidJSON = newValue;
+        if (this.editor.generateValidJSONChangedCallback)
+        this.editor.generateValidJSONChangedCallback(newValue);
       }
     },
   }

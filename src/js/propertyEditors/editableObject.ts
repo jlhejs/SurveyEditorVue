@@ -2,8 +2,8 @@ import * as Survey from "survey-vue";
 
 export class EditableObject {
   public static getOrigionalSurvey(
-    survey: Survey.SurveyModel
-  ): Survey.SurveyModel {
+    survey: Survey.Model
+  ): Survey.Model {
     return !!survey && !!survey["origionalObj"]
       ? survey["origionalObj"]
       : survey;
@@ -38,7 +38,7 @@ export class EditableObject {
     var type = this.obj.getType();
     var res = <Survey.Base>Survey.Serializer.createClass(type);
     if (res == null && type == "survey") {
-      res = new Survey.SurveyModel();
+      res = new Survey.Model();
     }
     this.assignProperties(res);
     if (type == "matrixdropdowncolumn") {

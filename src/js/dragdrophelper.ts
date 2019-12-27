@@ -51,7 +51,7 @@ export class DragDropHelper {
   static counter: number = 1;
   private id: number = DragDropHelper.counter++;
   constructor(
-    public data: Survey.SurveyModel,
+    public data: Survey.Model,
     onModifiedCallback: (options?: any) => any,
     parent: HTMLElement = null
   ) {
@@ -184,8 +184,8 @@ export class DragDropHelper {
       surveyElement.dragDropHelper().end();
     };
   }
-  public get survey(): Survey.SurveyModel {
-    return <Survey.SurveyModel>this.data;
+  public get survey(): Survey.Model {
+    return <Survey.Model>this.data;
   }
   public startDragQuestion(event: DragEvent, element: any) {
     var json = new Survey.JsonObject().toJsonObject(element);

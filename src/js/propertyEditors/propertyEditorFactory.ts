@@ -629,7 +629,7 @@ interface Element {
 
 export class SurveyPropertyTriggersEditor extends SurveyPropertyItemsEditor {
   public static createTriggerEditor(
-    survey: Survey.SurveyModel,
+    survey: Survey.Model,
     trigger: Survey.SurveyTrigger,
     options: any
   ): SurveyPropertyTrigger {
@@ -804,10 +804,10 @@ export class SurveyPropertyTriggersEditor extends SurveyPropertyItemsEditor {
       this.options
     );
   }
-  private getSurvey(): Survey.SurveyModel {
+  private getSurvey(): Survey.Model {
     return !!this.object ? this.object : this.editingObject;
   }
-  private getOrigionalSurvey(): Survey.SurveyModel {
+  private getOrigionalSurvey(): Survey.Model {
     return EditableObject.getOrigionalSurvey(this.getSurvey());
   }
 }
@@ -819,7 +819,7 @@ export class SurveyPropertyTrigger {
   conditionEditor: SurveyPropertyConditionEditor = null;
 
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public trigger: Survey.SurveyTrigger,
     public options?: any
   ) {
@@ -893,7 +893,7 @@ export class SurveyPropertyVisibleTrigger extends SurveyPropertyTrigger {
   public pages: SurveyPropertyTriggerObjects;
   public questions: SurveyPropertyTriggerObjects;
   constructor(
-    public valueSurvey: Survey.SurveyModel,
+    public valueSurvey: Survey.Model,
     public trigger: Survey.SurveyTriggerVisible,
     public options: any,
     koPages: any,
@@ -927,9 +927,9 @@ export class SurveyPropertySetValueTrigger extends SurveyPropertyTrigger {
   koisVariable: any;
   koSurvey: any;
   koHasSurvey: any;
-  valueSurvey: Survey.SurveyModel;
+  valueSurvey: Survey.Model;
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public trigger: Survey.SurveyTriggerSetValue,
     public options: any
   ) {
@@ -1004,7 +1004,7 @@ export class SurveyPropertyCopyValueTrigger extends SurveyPropertyTrigger {
   kosetToName: any;
   kofromName: any;
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public trigger: Survey.SurveyTrigger,
     options?: any
   ) {
@@ -1031,7 +1031,7 @@ export class SurveyPropertySkipTrigger extends SurveyPropertyTrigger {
   koGotoName: any;
   gotoNameSelector: SurveyElementSelector;
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public trigger: Survey.SurveyTrigger,
     options?: any
   ) {
@@ -1055,7 +1055,7 @@ export class SurveyPropertyRunExpressionTrigger extends SurveyPropertyTrigger {
   public koDisplayError: any;
 
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     public trigger: Survey.SurveyTrigger,
     options?: any
   ) {

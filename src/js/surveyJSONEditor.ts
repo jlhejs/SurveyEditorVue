@@ -69,7 +69,7 @@ export class SurveyJSONEditor {
     this.textWorker = new SurveyTextWorker(this.text);
     return this.textWorker.isJsonCorrect;
   }
-  public get survey(): Survey.SurveyModel {
+  public get survey(): Survey.Model {
     return this.textWorker.survey;
   }
   private timeoutId: number = -1;

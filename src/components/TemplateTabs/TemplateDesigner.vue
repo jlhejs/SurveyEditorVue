@@ -1,6 +1,5 @@
 <template>
     <el-container class="editor-container" >
-      
       <el-aside style="width:auto;max-width: 200px;overflow: initial;border-right: solid 1px #e6e6e6;" class="nav left">
         <Toolbox v-if="editor.showToolbox" :editor="editor"></Toolbox>
       </el-aside>

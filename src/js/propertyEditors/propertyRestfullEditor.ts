@@ -7,7 +7,7 @@ import { SurveyPropertyEditorFactory } from "./propertyEditorFactory";
 
 export class SurveyPropertyResultfullEditor extends SurveyPropertyModalEditor {
   koItems: any;
-  public survey: Survey.SurveyModel;
+  public survey: Survey.Model;
   public question: Survey.QuestionDropdownModel;
   private items: Array<SurveyPropertyResultfullEditorItem> = [];
 

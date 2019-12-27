@@ -10,7 +10,7 @@ class TextParserPropery {
   valueEnd: number;
 }
 
-class SurveyForTextWorker extends  Survey.SurveyModel  {
+class SurveyForTextWorker extends  Survey.Model  {
   constructor(jsonObj: any) {
     super(jsonObj);
   }
@@ -22,7 +22,7 @@ class SurveyForTextWorker extends  Survey.SurveyModel  {
 export class SurveyTextWorker {
   public static newLineChar: string;
   public errors: Array<any>;
-  private surveyValue: Survey.SurveyModel;
+  private surveyValue: Survey.Model;
   private jsonValue: any;
   private surveyObjects: Array<any>;
   private isSurveyAsPage: boolean;
@@ -34,7 +34,7 @@ export class SurveyTextWorker {
     this.errors = [];
     this.process();
   }
-  public get survey(): Survey.SurveyModel {
+  public get survey(): Survey.Model {
     return this.surveyValue;
   }
   public get isJsonCorrect(): boolean {

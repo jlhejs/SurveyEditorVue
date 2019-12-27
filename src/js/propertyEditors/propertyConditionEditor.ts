@@ -116,8 +116,8 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     var survey = this.getSurvey();
     return !!survey ? survey.getAllQuestions() : [];
   }
-  protected getSurvey(): Survey.SurveyModel {
-    if (this.object instanceof Survey.SurveyModel) {
+  protected getSurvey(): Survey.Model {
+    if (this.object instanceof Survey.Model) {
       return this.getOrigionalSurvey(this.object);
     }
     if (
@@ -129,7 +129,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
       return this.getOrigionalSurvey(this.object.survey);
     return null;
   }
-  private getOrigionalSurvey(survey: Survey.SurveyModel): Survey.SurveyModel {
+  private getOrigionalSurvey(survey: Survey.Model): Survey.Model {
     return EditableObject.getOrigionalSurvey(survey);
   }
   public get allConditionQuestions(): any[] {
@@ -206,7 +206,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     delete json["enable"];
     delete json["enableIf"];
   }
-  private createValueSurvey(qjson: any, questionName: string): Survey.SurveyModel {
+  private createValueSurvey(qjson: any, questionName: string): Survey.Model {
     qjson.name = "question";
     qjson.title = editorLocalization.editorLocalization.getString(
       "pe.conditionValueQuestionTitle"
@@ -225,7 +225,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     json.questions.push(qjson);
     var survey = !!this.options
       ? this.options.createSurvey(json, "conditionEditor")
-      : new Survey.SurveyModel(json);
+      : new Survey.Model(json);
     var self = this;
     survey.onValueChanged.add(function(survey, options) {
       if (!self.isValueChanging) {

@@ -276,10 +276,10 @@ export class SurveyLiveTester {
     survey["afterRenderSurvey"](element);
   }
 
-  public koHasFrame = ko.computed(() => {
-    var device = simulatorDevices[this.koActiveDevice()];
+  public koHasFrame = () => {
+    var device = simulatorDevices[this.koActiveDevice];
     return this.simulatorEnabled && device.deviceType !== "desktop";
-  });
+  };
 
   public koSimulatorFrame = ko.computed(() => {
     if (!this.koHasFrame) {

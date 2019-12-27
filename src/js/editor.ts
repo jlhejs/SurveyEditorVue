@@ -1,5 +1,6 @@
 import Vue from "vue";
 import * as Survey from "survey-vue";
+import * as SurveyKo from "survey-knockout";
 import { editorLocalization } from "./editorLocalization";
 import { StylesManager } from "./stylesmanager";
 import { SurveyObjects } from "./surveyObjects";
@@ -22,7 +23,8 @@ import {
   SurveyPropertyEditorBase
 } from "./propertyEditors/propertyEditorBase";
 var s=Survey
-console.log(s)
+// console.log(s.SurveyModel)
+// console.log(s.VueSurveyModel)
 
 
 /*
@@ -359,7 +361,7 @@ export class SurveyEditor extends SurveyCreator {
     any
   > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
   /**
-   * The event is fired when the survey creator creates a survey object (Survey.SurveyModel).
+   * The event is fired when the survey creator creates a survey object (Survey.Model).
    * <br/> sender the survey creator object that fires the event
    * <br/> options.survey the survey object showing in the creator.
    * <br/> options.reason indicates what component of the creator requests the survey.
@@ -369,7 +371,7 @@ export class SurveyEditor extends SurveyCreator {
     any
   > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
   /**
-   * The event is fired when the survey creator is initialized and a survey object (Survey.SurveyModel) is created.
+   * The event is fired when the survey creator is initialized and a survey object (Survey.Model) is created.
    * <br/> sender the survey creator object that fires the event
    * <br/> options.survey  the survey object showing in the creator.
    */
@@ -788,7 +790,6 @@ export class SurveyEditor extends SurveyCreator {
     this.text=""
    this.addToolbarItems();
     var vueFn=this
-    console.log(vueFn)
   }
   public setOptions(options:any) {
     if (!options) options = {};
@@ -965,7 +966,7 @@ export class SurveyEditor extends SurveyCreator {
   public createSurvey(
     json: any = {},
     reason: string = "designer",
-    surveyType :any= Survey.SurveyModel
+    surveyType :any= Survey.Model
   ) {
     var survey = new surveyType(json);
     this.onSurveyInstanceCreated.fire(this, { survey: survey, reason: reason });
@@ -1060,7 +1061,7 @@ export class SurveyEditor extends SurveyCreator {
   }
   showLiveSurvey() {
     var self = this;
-    this.surveyLive.onSurveyCreatedCallback = function(survey: Survey.SurveyModel) {
+    this.surveyLive.onSurveyCreatedCallback = function(survey: Survey.Model) {
       self.onTestSurveyCreated.fire(self, { survey: survey });
     };
     this.surveyLive.setJSON(this.getSurveyJSON());
@@ -1436,22 +1437,22 @@ export class SurveyEditor extends SurveyCreator {
     this.surveyObjects.survey = this.survey;
     this.pages=this.survey.pages;
     this.surveyValue.onSelectedElementChanged.add(
-      (sender: Survey.SurveyModel, options) => {
+      (sender: Survey.Model, options) => {
         self.surveyObjects.selectObject(sender["selectedElement"]);
       }
     );
-    this.surveyValue.onEditButtonClick.add((sender: Survey.SurveyModel) => {
+    this.surveyValue.onEditButtonClick.add((sender: Survey.Model) => {
       // self.showQuestionEditor(self.koSelectedObject().value);
     });
     this.surveyValue.onElementDoubleClick.add(
-      (sender: Survey.SurveyModel, options) => {
+      (sender: Survey.Model, options) => {
         self.onElementDoubleClick.fire(self, options);
       }
     );
-    this.surveyValue.onProcessHtml.add((sender: Survey.SurveyModel, options) => {
+    this.surveyValue.onProcessHtml.add((sender: Survey.Model, options) => {
       options.html = self.processHtml(options.html);
     });
-    this.surveyValue.onQuestionAdded.add((sender: Survey.SurveyModel, options) => {
+    this.surveyValue.onQuestionAdded.add((sender: Survey.Model, options) => {
       self.doOnQuestionAdded(options.question, options.parentPanel);
     });
     this.surveyValue.onQuestionRemoved.add(

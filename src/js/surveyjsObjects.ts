@@ -13,7 +13,7 @@ export interface ISurveyObjectMenuItem {
   template?: string;
 }
 
-export class SurveyForDesigner extends Survey.SurveyModel {
+export class SurveyForDesigner extends Survey.Model {
   private selectedElementValue: any;
   editQuestionClick: any;
   public onSelectedElementChanged: Survey.Event<
@@ -41,7 +41,7 @@ export class SurveyForDesigner extends Survey.SurveyModel {
     super(jsonObj);
     var self = this;
     this.setDesignMode(true);
-    this.onAfterRenderPage.add((sender: Survey.SurveyModel, options) => {
+    this.onAfterRenderPage.add((sender: Survey.Model, options) => {
       options.page["onAfterRenderPage"](options.htmlElement);
     });
     this.editQuestionClick = function() {

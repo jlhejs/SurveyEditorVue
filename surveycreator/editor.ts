@@ -1951,6 +1951,8 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     reason: string = "designer",
     surveyType = Survey.Survey
   ) {
+    var s=Survey
+    console.log(s)
     var survey = new surveyType(json);
     this.onSurveyInstanceCreated.fire(this, { survey: survey, reason: reason });
     return survey;

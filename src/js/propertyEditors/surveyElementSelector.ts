@@ -23,7 +23,7 @@ export class SurveyElementSelector {
   public onValueChangedCallback: (val: string) => void;
   public disabledPropertyName: string;
   constructor(
-    public survey: Survey.SurveyModel,
+    public survey: Survey.Model,
     elementType: string = "question",
     showTitle: boolean = false,
     optionsCaptionName: string = ""

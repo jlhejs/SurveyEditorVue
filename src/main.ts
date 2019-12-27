@@ -20,6 +20,7 @@ import  editorModels from './components/index';
 Object.keys(editorModels).forEach((key:string) => {
   var editorModel:any=editorModels;
   Vue.component(key, editorModel[key]);
+
 })
 
 
