@@ -29,7 +29,6 @@
       }
     },
     updated() {
-      console.log(this.modal)
     },
   }
 </script>

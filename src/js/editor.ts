@@ -721,7 +721,7 @@ export class SurveyEditor extends SurveyCreator {
     };
     this.undoRedo = new SurveyUndoRedo();
     this.surveyLive = new SurveyLiveTester(this);
-   this.surveyVue = Survey.Survey
+    this.surveyVue = Survey.Survey
     this.translationValue = new Translation(  this.createSurvey({}, "translation"));
     this.toolboxValue = new QuestionToolbox(this.options && this.options.questionTypes  ? this.options.questionTypes  : null);
     this.selectedObjectEditorValue = new SurveyObjectEditor(this);

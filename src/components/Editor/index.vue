@@ -49,7 +49,6 @@
     created() {
       var editorModel = new SurveyEditor("app", options)
       this.$set(this, 'editor', editorModel)
-      console.log(editorModel.tabs)
     },
   
     watch: {

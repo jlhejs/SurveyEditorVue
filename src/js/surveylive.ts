@@ -1,4 +1,5 @@
 import * as ko from "knockout";
+import Vue from "vue";
 import { SurveyHelper, ObjType } from "./surveyHelper";
 import { editorLocalization } from "./editorLocalization";
 import * as Survey from "survey-vue";
@@ -6,38 +7,38 @@ import * as Survey from "survey-vue";
 
 export class SurveyLiveTester {
   private json: any;
-  koIsRunning = ko.observable(true);
+  koIsRunning = Vue.observable(true);
   selectTestClick: any;
   selectPageClick: any;
-  koResultText = ko.observable("");
-  koResultData = ko.observableArray();
-  koResultViewType = ko.observable("table");
+  koResultText = Vue.observable("");
+  koResultData = Vue.observable([]);
+  koResultViewType = Vue.observable("table");
   survey: Survey.SurveyModel;
   koSurvey: any;
-  koPages = ko.observableArray([]);
-  koActivePage = ko.observable(null);
+  pages = Vue.observable([]);
+  koActivePage = Vue.observable(null);
   setPageDisable: any;
   koLanguages: any;
   koActiveLanguage: any;
-  koShowInvisibleElements = ko.observable(false);
+  koShowInvisibleElements = Vue.observable(false);
   public onGetObjectDisplayName: (obj: Survey.Base) => string = null;
-  koShowPagesInTestSurveyTab = ko.observable(true);
-  koShowDefaultLanguageInTestSurveyTab = ko.observable(true);
-  koShowInvisibleElementsInTestSurveyTab = ko.observable(true);
+  koShowPagesInTestSurveyTab = Vue.observable(true);
+  koShowDefaultLanguageInTestSurveyTab = Vue.observable(true);
+  koShowInvisibleElementsInTestSurveyTab = Vue.observable(true);
 
-  private _simulatorEnabled = ko.observable<boolean>(true);
+  private _simulatorEnabled = Vue.observable<boolean>(true);
   public get simulatorEnabled() {
-    return this._simulatorEnabled();
+    return this._simulatorEnabled;
   }
   public set simulatorEnabled(value: boolean) {
-    this._simulatorEnabled(value);
+    this._simulatorEnabled=value;
   }
-  private _simulatorScaleEnabled = ko.observable<boolean>(true);
+  private _simulatorScaleEnabled = Vue.observable<boolean>(true);
   public get simulatorScaleEnabled() {
-    return this._simulatorScaleEnabled();
+    return this._simulatorScaleEnabled;
   }
   public set simulatorScaleEnabled(value: boolean) {
-    this._simulatorScaleEnabled(value);
+    this._simulatorScaleEnabled=value;
   }
   private simulator;
   public simulatorOptions = {
@@ -46,8 +47,8 @@ export class SurveyLiveTester {
     // scale: 1,
     considerDPI: true
   };
-  koActiveDevice = ko.observable("desktop");
-  koDevices = ko.observableArray(
+  koActiveDevice = Vue.observable("desktop");
+  koDevices = Vue.observable(
     Object.keys(simulatorDevices)
       .filter(key => !!simulatorDevices[key].title)
       .map(key => {
@@ -57,7 +58,7 @@ export class SurveyLiveTester {
         };
       })
   );
-  koLandscapeOrientation = ko.observable(true);
+  koLandscapeOrientation = Vue.observable(true);
 
   onSurveyCreatedCallback: (survey: Survey.SurveyModel) => any;
   constructor(private surveyProvider: any) {
@@ -74,37 +75,37 @@ export class SurveyLiveTester {
         self.survey.currentPage = pageItem.page;
       }
     };
-    this.koActivePage.subscribe(function(newValue) {
-      if (!!newValue) {
-        self.survey.currentPage = newValue;
-      }
-    });
-    this.koShowInvisibleElements.subscribe(function(newValue) {
-      self.survey.showInvisibleElements = newValue;
-    });
-    this.setPageDisable = function(option, item) {
-      ko.applyBindingsToNode(option, { disable: item.koDisabled }, item);
-    };
-    this.koLanguages = ko.observable(this.getLanguages());
-    this.koActiveLanguage = ko.observable("");
-    this.koActiveLanguage.subscribe(function(newValue) {
-      if (self.survey.locale == newValue) return;
-      self.survey.locale = newValue;
-      self.koSurvey(self.survey);
-    });
-    this.koSurvey = ko.observable(this.survey);
-    this.koActiveDevice.subscribe(newValue => {
-      if (!!this.simulator) {
-        this.simulatorOptions.device = newValue || "desktop";
-        this.simulator.options(this.simulatorOptions);
-      }
-    });
-    this.koLandscapeOrientation.subscribe(newValue => {
-      if (!!this.simulator) {
-        this.simulatorOptions.orientation = newValue ? "l" : "p";
-        this.simulator.options(this.simulatorOptions);
-      }
-    });
+    // this.koActivePage.subscribe(function(newValue) {
+    //   if (!!newValue) {
+    //     self.survey.currentPage = newValue;
+    //   }
+    // });
+    // this.koShowInvisibleElements.subscribe(function(newValue) {
+    //   self.survey.showInvisibleElements = newValue;
+    // });
+    // this.setPageDisable = function(option, item) {
+    //   Vue.applyBindingsToNode(option, { disable: item.koDisabled }, item);
+    // };
+    this.koLanguages = Vue.observable(this.getLanguages());
+    this.koActiveLanguage = Vue.observable("");
+    // this.koActiveLanguage.subscribe(function(newValue) {
+    //   if (self.survey.locale == newValue) return;
+    //   self.survey.locale = newValue;
+    //   self.koSurvey(self.survey);
+    // });
+    this.koSurvey = Vue.observable(this.survey);
+    // this.koActiveDevice.subscribe(newValue => {
+    //   if (!!this.simulator) {
+    //     this.simulatorOptions.device = newValue || "desktop";
+    //     this.simulator.options(this.simulatorOptions);
+    //   }
+    // });
+    // this.koLandscapeOrientation.subscribe(newValue => {
+    //   if (!!this.simulator) {
+    //     this.simulatorOptions.orientation = newValue ? "l" : "p";
+    //     this.simulator.options(this.simulatorOptions);
+    //   }
+    // });
   }
   public setJSON(json: any) {
     this.json = json;
@@ -119,12 +120,12 @@ export class SurveyLiveTester {
     if (this.onSurveyCreatedCallback) this.onSurveyCreatedCallback(this.survey);
     var self = this;
     this.survey.onComplete.add((sender: Survey.SurveyModel) => {
-      self.koIsRunning(false);
-      self.koResultText(JSON.stringify(self.survey.data, null, 4));
+      self.koIsRunning=false;
+      self.koResultText=JSON.stringify(self.survey.data, null, 4);
       var addCollapsed = (items: any[]) => {
         items.forEach((item: any) => {
           if (!!item && item.isNode) {
-            item.collapsed = ko.observable(true);
+            item.collapsed = Vue.observable(true);
             item.data = addCollapsed(item.data || []);
           }
         });
@@ -132,7 +133,7 @@ export class SurveyLiveTester {
       };
       var plainData = self.survey.getPlainData({ includeEmpty: false });
       plainData = addCollapsed(plainData);
-      self.koResultData(plainData);
+      self.koResultData=plainData;
     });
     this.survey.onStarted.add((sender: Survey.SurveyModel) => {
       self.setActivePageItem(<Survey.PageModel>self.survey.currentPage, true);
@@ -162,15 +163,15 @@ export class SurveyLiveTester {
         title: this.onGetObjectDisplayName
           ? this.onGetObjectDisplayName(page)
           : page.name,
-        koVisible: ko.observable(page.isVisible),
-        koDisabled: ko.observable(!page.isVisible),
-        koActive: ko.observable(
+        koVisible: Vue.observable(page.isVisible),
+        koDisabled: Vue.observable(!page.isVisible),
+        koActive: Vue.observable(
           this.survey.state == "running" && page === this.survey.currentPage
         )
       });
     }
     if (!!options && options.showPagesInTestSurveyTab != undefined) {
-      this.koShowPagesInTestSurveyTab(options.showPagesInTestSurveyTab);
+      this.koShowPagesInTestSurveyTab=options.showPagesInTestSurveyTab;
     }
     if (!!options && options.showDefaultLanguageInTestSurveyTab != undefined) {
       this.setDefaultLanguageOption(options.showDefaultLanguageInTestSurveyTab);
@@ -179,16 +180,14 @@ export class SurveyLiveTester {
       !!options &&
       options.showInvisibleElementsInTestSurveyTab != undefined
     ) {
-      this.koShowInvisibleElementsInTestSurveyTab(
-        options.showInvisibleElementsInTestSurveyTab
-      );
+      this.koShowInvisibleElementsInTestSurveyTab= options.showInvisibleElementsInTestSurveyTab;
     }
-    this.koShowInvisibleElements(false);
-    this.koPages(pages);
-    this.koSurvey(this.survey);
-    this.koActivePage(this.survey.currentPage);
-    this.koActiveLanguage(this.survey.locale);
-    this.koIsRunning(true);
+    this.koShowInvisibleElements=false;
+    this.pages=pages;
+    this.koSurvey=this.survey;
+    this.koActivePage=this.survey.currentPage;
+    this.koActiveLanguage=this.survey.locale;
+    this.koIsRunning=true;
   }
   public get testSurveyAgainText() {
     return editorLocalization.getString("ed.testSurveyAgain");
@@ -215,10 +214,10 @@ export class SurveyLiveTester {
     return editorLocalization.getString("ts.showInvisibleElements");
   }
   public selectTableClick(model: SurveyLiveTester) {
-    model.koResultViewType("table");
+    model.koResultViewType="table";
   }
   public selectJsonClick(model: SurveyLiveTester) {
-    model.koResultViewType("text");
+    model.koResultViewType="text";
   }
   public get localeText() {
     return editorLocalization.getString("pe.locale");
@@ -238,11 +237,9 @@ export class SurveyLiveTester {
       opt === true ||
       opt === "all" ||
       (opt === "auto" && this.survey.getUsedLocales().length > 1);
-    this.koShowDefaultLanguageInTestSurveyTab(vis);
+    this.koShowDefaultLanguageInTestSurveyTab=vis;
     if (vis) {
-      this.koLanguages(
-        this.getLanguages(opt !== "all" ? this.survey.getUsedLocales() : null)
-      );
+      this.koLanguages=this.getLanguages(opt !== "all" ? this.survey.getUsedLocales() : null);
     }
   }
   private setActivePageItem(page: Survey.PageModel, val: boolean) {
@@ -252,7 +249,7 @@ export class SurveyLiveTester {
     }
   }
   private getPageItemByPage(page: Survey.PageModel): any {
-    var items = this.koPages();
+    var items = this.pages;
     for (var i = 0; i < items.length; i++) {
       if (items[i].page === page) return items[i];
     }
@@ -275,27 +272,27 @@ export class SurveyLiveTester {
     survey["afterRenderSurvey"](element);
   }
 
-  public koHasFrame = ko.computed(() => {
-    var device = simulatorDevices[this.koActiveDevice()];
+  public koHasFrame = () => {
+    var device = simulatorDevices[this.koActiveDevice];
     return this.simulatorEnabled && device.deviceType !== "desktop";
-  });
+  };
 
-  public koSimulatorFrame = ko.computed(() => {
+  public koSimulatorFrame = () => {
     if (!this.koHasFrame) {
       return undefined;
     }
-    var device = simulatorDevices[this.koActiveDevice()];
+    var device = simulatorDevices[this.koActiveDevice];
     var scale = DEFAULT_MONITOR_DPI / (device.ppi / device.cssPixelRatio);
     var width =
-      ((this.koLandscapeOrientation() ? device.height : device.width) /
+      ((this.koLandscapeOrientation ? device.height : device.width) /
         device.cssPixelRatio) *
       scale;
     var height =
-      ((this.koLandscapeOrientation() ? device.width : device.height) /
+      ((this.koLandscapeOrientation ? device.width : device.height) /
         device.cssPixelRatio) *
       scale;
-    var offsetRatioX = this.koLandscapeOrientation() ? 0.15 : 0.165;
-    var offsetRatioY = this.koLandscapeOrientation() ? 0.17 : 0.155;
+    var offsetRatioX = this.koLandscapeOrientation ? 0.15 : 0.165;
+    var offsetRatioY = this.koLandscapeOrientation ? 0.17 : 0.155;
     return {
       scale: this.simulatorScaleEnabled ? scale * 2 : 1,
       width: width,
@@ -305,7 +302,7 @@ export class SurveyLiveTester {
       frameX: width * offsetRatioX,
       frameY: height * offsetRatioY
     };
-  });
+  };
 }
 
 export var DEFAULT_MONITOR_DPI = 102.69;
