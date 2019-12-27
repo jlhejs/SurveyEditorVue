@@ -206,7 +206,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     delete json["enable"];
     delete json["enableIf"];
   }
-  private createValueSurvey(qjson: any, questionName: string): Survey.Survey {
+  private createValueSurvey(qjson: any, questionName: string): Survey.SurveyModel {
     qjson.name = "question";
     qjson.title = editorLocalization.editorLocalization.getString(
       "pe.conditionValueQuestionTitle"
@@ -225,7 +225,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     json.questions.push(qjson);
     var survey = !!this.options
       ? this.options.createSurvey(json, "conditionEditor")
-      : new Survey.Survey(json);
+      : new Survey.SurveyModel(json);
     var self = this;
     survey.onValueChanged.add(function(survey, options) {
       if (!self.isValueChanging) {

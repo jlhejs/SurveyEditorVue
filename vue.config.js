@@ -3,6 +3,11 @@ module.exports = {
     devtool: 'source-map'
   },
 
+  pluginOptions: {
+    survey: {
+      param: '用来监听survey-vue生成打包文件'
+    }
+  },
   // lintOnSave:false,
   // devServer: {
   //   proxy: {

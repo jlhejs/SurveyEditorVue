@@ -129,31 +129,31 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
     this.koIsDefault = self.property
     ? self.property.isDefaultValue(self.value)
     : false ;
-    this.koHasError = ko.observable(false);
-    this.koErrorText = ko.observable("");
-    this.koDisplayError = ko.computed(function() {
-      return self.koHasError() && !!self.koErrorText();
-    });
-    this.koMaxLength = ko.computed(function() {
-      return !!self.property &&
-        !!self.property["maxLength"] &&
-        self.property["maxLength"] > 0
-        ? self.property["maxLength"]
-        : 524288;
-    });
-    this.koMaxValue = ko.computed(function() {
-      return !!self.property && !!self.property["maxValue"]
-        ? self.property["maxValue"]
-        : "";
-    });
-    this.koMinValue = ko.computed(function() {
-      return !!self.property && !!self.property["minValue"]
-        ? self.property["minValue"]
-        : "";
-    });
+    this.koHasError = Vue.observable(false);
+    this.koErrorText = Vue.observable("");
+    // this.koDisplayError = ko.computed(function() {
+    //   return self.koHasError() && !!self.koErrorText();
+    // });
+    // this.koMaxLength = ko.computed(function() {
+    //   return !!self.property &&
+    //     !!self.property["maxLength"] &&
+    //     self.property["maxLength"] > 0
+    //     ? self.property["maxLength"]
+    //     : 524288;
+    // });
+    // this.koMaxValue = ko.computed(function() {
+    //   return !!self.property && !!self.property["maxValue"]
+    //     ? self.property["maxValue"]
+    //     : "";
+    // });
+    // this.koMinValue = ko.computed(function() {
+    //   return !!self.property && !!self.property["minValue"]
+    //     ? self.property["minValue"]
+    //     : "";
+    // });
     this.setIsRequired();
     this.setTitleAndDisplayName();
-    this.readOnly = ko.observable(this.getReadOnly());
+    this.readOnly = Vue.observable(this.getReadOnly());
   }
   public get editorType(): string {
     throw "editorType is not defined";
@@ -240,7 +240,7 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
         this.object,
         this
       );
-      this.readOnly(this.getReadOnly());
+      this.readOnly=this.getReadOnly();
     }
   }
 
@@ -253,11 +253,11 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
   public set editingValue(value: any) {
     value = this.getCorrectedValue(value);
     this.setValueCore(value);
-    this.onValueChanged();
+    this.onValueChanged(value);
   }
   public hasError(): boolean {
-    this.koHasError(this.checkForErrors());
-    return this.koHasError();
+    this.koHasError=this.checkForErrors();
+    return this.koHasError;
   }
   public getLocString(name: string) {
     return editorLocalization.getString(name);
@@ -288,7 +288,7 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
         this.editingValue
       );
     }
-    this.koErrorText(errorText);
+    this.koErrorText=errorText;
     return errorText !== "";
   }
   private checkForItemValue() {

@@ -8,7 +8,7 @@ if (!!ko.options) {
 
 export class DragDropTargetElement {
   constructor(
-    public page: Survey.Page,
+    public page: Survey.PageModel,
     public target: any,
     public source: any,
     nestedPanelDepth: number = -1
@@ -51,7 +51,7 @@ export class DragDropHelper {
   static counter: number = 1;
   private id: number = DragDropHelper.counter++;
   constructor(
-    public data: Survey.ISurvey,
+    public data: Survey.SurveyModel,
     onModifiedCallback: (options?: any) => any,
     parent: HTMLElement = null
   ) {
@@ -184,8 +184,8 @@ export class DragDropHelper {
       surveyElement.dragDropHelper().end();
     };
   }
-  public get survey(): Survey.Survey {
-    return <Survey.Survey>this.data;
+  public get survey(): Survey.SurveyModel {
+    return <Survey.SurveyModel>this.data;
   }
   public startDragQuestion(event: DragEvent, element: any) {
     var json = new Survey.JsonObject().toJsonObject(element);
@@ -425,7 +425,7 @@ export class DragDropHelper {
     this.setData(event, str);
     var targetElement = this.createTargetElement(elementName, json);
     this.ddTarget = new DragDropTargetElement(
-      <Survey.Page>this.survey.currentPage,
+      <Survey.PageModel>this.survey.currentPage,
       targetElement,
       source,
       DragDropHelper.nestedPanelDepth

@@ -7,7 +7,6 @@
   <template v-for="(item,key) in editor.tabs">
     <el-menu-item :index="item.name" :key="key" class="tabs-item">{{item.title}}</el-menu-item>
   </template>
- 
   <!-- <el-menu-item index="3" disabled>disabled</el-menu-item> -->
 </el-menu>
 </template>

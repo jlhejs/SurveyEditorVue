@@ -22,7 +22,7 @@ class SurveyForTextWorker extends  Survey.SurveyModel  {
 export class SurveyTextWorker {
   public static newLineChar: string;
   public errors: Array<any>;
-  private surveyValue: Survey.Survey;
+  private surveyValue: Survey.SurveyModel;
   private jsonValue: any;
   private surveyObjects: Array<any>;
   private isSurveyAsPage: boolean;
@@ -34,7 +34,7 @@ export class SurveyTextWorker {
     this.errors = [];
     this.process();
   }
-  public get survey(): Survey.Survey {
+  public get survey(): Survey.SurveyModel {
     return this.surveyValue;
   }
   public get isJsonCorrect(): boolean {

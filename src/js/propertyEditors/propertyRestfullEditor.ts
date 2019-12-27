@@ -7,8 +7,8 @@ import { SurveyPropertyEditorFactory } from "./propertyEditorFactory";
 
 export class SurveyPropertyResultfullEditor extends SurveyPropertyModalEditor {
   koItems: any;
-  public survey: Survey.Survey;
-  public question: Survey.QuestionDropdown;
+  public survey: Survey.SurveyModel;
+  public question: Survey.QuestionDropdownModel;
   private items: Array<SurveyPropertyResultfullEditorItem> = [];
 
   constructor(property: Survey.JsonObjectProperty) {
@@ -82,7 +82,7 @@ export class SurveyPropertyResultfullEditor extends SurveyPropertyModalEditor {
     this.survey.showNavigationButtons = false;
     this.survey.showQuestionNumbers = "off";
     var page = this.survey.addNewPage("page1");
-    this.question = <Survey.QuestionDropdown>page.addNewQuestion(
+    this.question = <Survey.QuestionDropdownModel>page.addNewQuestion(
       "dropdown",
       "q1"
     );

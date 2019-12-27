@@ -13,7 +13,7 @@ var templateHtml = require("html-loader?interpolate!val-loader!./rating-item-edi
 class RatingItemEditor extends TitleInplaceEditor {
   constructor(
     name: string,
-    private question: Survey.QuestionRating,
+    private question: Survey.QuestionRatingModel,
     private item,
     rootElement,
     private editor: SurveyCreator
@@ -56,7 +56,7 @@ ko.components.register("rating-item-editor", {
         componentInfo.element,
         params.editor
       );
-      var question: Survey.QuestionRating = params.question;
+      var question: Survey.QuestionRatingModel = params.question;
 
       var property = Survey.Serializer.findProperty(
         params.target.getType(),
@@ -80,7 +80,7 @@ ko.components.register("rating-item-editor", {
 });
 
 var createAddItemHandler = (
-  question: Survey.QuestionRating,
+  question: Survey.QuestionRatingModel,
   onItemAdded: (itemValue: Survey.ItemValue) => void,
   onItemAdding: (itemValue: Survey.ItemValue) => void = null
 ) => () => {
@@ -120,7 +120,7 @@ export var ratingItemAdorner = {
   getElementName: model => "itemText",
   afterRender: (
     elements: HTMLElement[],
-    model: Survey.QuestionRating,
+    model: Survey.QuestionRatingModel,
     editor
   ) => {
     for (var i = 0; i < elements.length; i++) {

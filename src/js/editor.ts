@@ -21,6 +21,10 @@ import {
   ISurveyObjectEditorOptions,
   SurveyPropertyEditorBase
 } from "./propertyEditors/propertyEditorBase";
+var s=Survey
+console.log(s)
+
+
 /*
  *@description: export interface 只是对一个东西的声明（不能具体的操作）
  *@author: sunny
@@ -355,7 +359,7 @@ export class SurveyEditor extends SurveyCreator {
     any
   > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
   /**
-   * The event is fired when the survey creator creates a survey object (Survey.Survey).
+   * The event is fired when the survey creator creates a survey object (Survey.SurveyModel).
    * <br/> sender the survey creator object that fires the event
    * <br/> options.survey the survey object showing in the creator.
    * <br/> options.reason indicates what component of the creator requests the survey.
@@ -365,7 +369,7 @@ export class SurveyEditor extends SurveyCreator {
     any
   > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
   /**
-   * The event is fired when the survey creator is initialized and a survey object (Survey.Survey) is created.
+   * The event is fired when the survey creator is initialized and a survey object (Survey.SurveyModel) is created.
    * <br/> sender the survey creator object that fires the event
    * <br/> options.survey  the survey object showing in the creator.
    */
@@ -626,7 +630,9 @@ export class SurveyEditor extends SurveyCreator {
   public saveSurveyFuncValue: any;
   public selectPage: Function;
   public toolboxCollapseValue:boolean = Vue.observable(false);
-  public toolbarItems = Vue.observable<IToolbarItem>([]);
+  public toolbarItems = Vue.observable([]);
+  
+  hideAdvancedSettingsValue = Vue.observable(false);
 
   saveButtonClick :any;
   tabs = Vue.observable([]);
@@ -664,6 +670,7 @@ export class SurveyEditor extends SurveyCreator {
   allowModifyPages = Vue.observable(true);
   processHtml: any;
   surveyLive: any;
+  surveyVue: any;
   translationValue: any;
   clickToolboxItem: (item: any) => void;
   isShowDesigner: any;
@@ -714,6 +721,7 @@ export class SurveyEditor extends SurveyCreator {
     };
     this.undoRedo = new SurveyUndoRedo();
     this.surveyLive = new SurveyLiveTester(this);
+   this.surveyVue = Survey.Survey
     this.translationValue = new Translation(  this.createSurvey({}, "translation"));
     this.toolboxValue = new QuestionToolbox(this.options && this.options.questionTypes  ? this.options.questionTypes  : null);
     this.selectedObjectEditorValue = new SurveyObjectEditor(this);
@@ -986,7 +994,7 @@ export class SurveyEditor extends SurveyCreator {
   this.selectedObjectEditorValue.selectedObject = obj;
   var objType = SurveyHelper.getObjectType(obj);
   if (objType == ObjType.Page) {
-    this.survey.currentPage = <Survey.Page>obj;
+    this.survey.currentPage = <Survey.PageModel>obj;
     canDeleteObject = this.pages().length > 1;
   }
   if (objType == ObjType.Question || objType == ObjType.Panel) {
@@ -1003,17 +1011,22 @@ export class SurveyEditor extends SurveyCreator {
   }
   this.canDeleteObject=canDeleteObject;
   //Select2 work-around
-  if (this.renderedElement && this.select2) {
-    var el = <HTMLElement>(
-      this.renderedElement.querySelector("#select2-objectSelector-container")
-    ); //TODO
-    if (el) {
-      var item = this.surveyObjects.koSelected();
-      if (item && item.text) {
-        el.innerText = item.text();
-      }
-    }
-  }
+  /*
+   *@description:select2渲染
+   *@author: sunny
+   *@date: 2019-12-26 13:54:52
+  */
+  // if (this.renderedElement && this.select2) {
+  //   var el = <HTMLElement>(
+  //     this.renderedElement.querySelector("#select2-objectSelector-container")
+  //   ); //TODO
+  //   if (el) {
+  //     var item = this.surveyObjects.koSelected();
+  //     if (item && item.text) {
+  //       el.innerText = item.text();
+  //     }
+  //   }
+  // }
   this.onSelectedElementChanged.fire(this, options);
 }  public get saveSurveyFunc() {
     return this.saveSurveyFuncValue;
@@ -1047,7 +1060,7 @@ export class SurveyEditor extends SurveyCreator {
   }
   showLiveSurvey() {
     var self = this;
-    this.surveyLive.onSurveyCreatedCallback = function(survey: Survey.Survey) {
+    this.surveyLive.onSurveyCreatedCallback = function(survey: Survey.SurveyModel) {
       self.onTestSurveyCreated.fire(self, { survey: survey });
     };
     this.surveyLive.setJSON(this.getSurveyJSON());
@@ -1108,7 +1121,19 @@ export class SurveyEditor extends SurveyCreator {
   public set toolboxCollapse(value: boolean) {
     this.toolboxCollapseValue=value;
   }
-   /**
+  /**
+   * Set it to false to temporary hide the Property Grid on the right side of the creator. User will be able to show the Property Grid again via the click on the 'Advanced' label. It allows to edit the properties of the selected object (question/panel/page/survey).
+   */
+  public get hideAdvancedSettings() {
+    return this.hideAdvancedSettingsValue;
+  }
+  public set hideAdvancedSettings(value: boolean) {
+    this.hideAdvancedSettingsValue=value;
+  }
+  changeHideAdvancedSettings(value:boolean) {
+    this.hideAdvancedSettingsValue=(!this.hideAdvancedSettingsValue)
+  }
+  /**
    * Toolbox object. Contains information about Question toolbox items.
    * @see QuestionToolbox
    */
@@ -1411,22 +1436,22 @@ export class SurveyEditor extends SurveyCreator {
     this.surveyObjects.survey = this.survey;
     this.pages=this.survey.pages;
     this.surveyValue.onSelectedElementChanged.add(
-      (sender: Survey.Survey, options) => {
+      (sender: Survey.SurveyModel, options) => {
         self.surveyObjects.selectObject(sender["selectedElement"]);
       }
     );
-    this.surveyValue.onEditButtonClick.add((sender: Survey.Survey) => {
+    this.surveyValue.onEditButtonClick.add((sender: Survey.SurveyModel) => {
       // self.showQuestionEditor(self.koSelectedObject().value);
     });
     this.surveyValue.onElementDoubleClick.add(
-      (sender: Survey.Survey, options) => {
+      (sender: Survey.SurveyModel, options) => {
         self.onElementDoubleClick.fire(self, options);
       }
     );
-    this.surveyValue.onProcessHtml.add((sender: Survey.Survey, options) => {
+    this.surveyValue.onProcessHtml.add((sender: Survey.SurveyModel, options) => {
       options.html = self.processHtml(options.html);
     });
-    this.surveyValue.onQuestionAdded.add((sender: Survey.Survey, options) => {
+    this.surveyValue.onQuestionAdded.add((sender: Survey.SurveyModel, options) => {
       self.doOnQuestionAdded(options.question, options.parentPanel);
     });
     this.surveyValue.onQuestionRemoved.add(
@@ -1543,9 +1568,9 @@ export class SurveyEditor extends SurveyCreator {
       this.surveyObjects.addElement(question, parentPanel);
     }
   }
-  private getPageByElement(obj: Survey.Base): Survey.Page {
+  private getPageByElement(obj: Survey.Base): Survey.PageModel {
     var page = this.survey.getPageByElement(<Survey.IElement>(<any>obj));
-    if (page) return <Survey.Page>page;
+    if (page) return <Survey.PageModel>page;
     return this.surveyObjects.getSelectedObjectPage(obj);
   }
   private setUndoRedoCurrentState(clearState: boolean = false) {

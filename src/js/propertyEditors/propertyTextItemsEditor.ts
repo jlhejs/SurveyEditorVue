@@ -26,7 +26,7 @@ export class SurveyPropertyTextItemsEditor extends SurveyNestedPropertyEditor {
     return this.koEditItem().text;
   }
   protected createNewEditorItem(): any {
-    var newItem = new Survey.MultipleTextItem(this.getNewName());
+    var newItem = new Survey.MultipleTextItemModel(this.getNewName());
     newItem["object"] = this.object;
     //newColumn.colOwner = TODO set colOwner.
     return new SurveyPropertyTextItemsItem(
@@ -43,7 +43,7 @@ export class SurveyPropertyTextItemsEditor extends SurveyNestedPropertyEditor {
     );
   }
   protected createItemFromEditorItem(editorItem: any) {
-    var newItem = new Survey.MultipleTextItem();
+    var newItem = new Survey.MultipleTextItemModel();
     var json = new Survey.JsonObject().toJsonObject(editorItem.item);
     new Survey.JsonObject().toObject(json, newItem);
     return newItem;
@@ -74,7 +74,7 @@ export class SurveyPropertyTextItemsEditor extends SurveyNestedPropertyEditor {
 
 export class SurveyPropertyTextItemsItem extends SurveyNestedPropertyEditorItem {
   constructor(
-    public item: Survey.MultipleTextItem,
+    public item: Survey.MultipleTextItemModel,
     getColumns: () => Array<SurveyNestedPropertyEditorColumn>,
     options: ISurveyObjectEditorOptions
   ) {

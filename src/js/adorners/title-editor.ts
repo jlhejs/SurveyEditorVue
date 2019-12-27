@@ -166,7 +166,7 @@ export var itemTitleAdorner = {
   getElementName: model => "itemTitle",
   afterRender: (
     elements: HTMLElement[],
-    model: Survey.QuestionMultipleText,
+    model: Survey.QuestionMultipleTextModel,
     editor
   ) => {
     for (var i = 0; i < elements.length; i++) {

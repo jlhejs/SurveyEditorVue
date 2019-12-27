@@ -69,6 +69,9 @@ export class SurveyObjectProperty {
   public get value(): any {
     return this.editor.value;
   }
+  public set value(value:any) {
+    this.editor.value=value;
+  }
   public get text(): any {
     return this.editor.text;
   }

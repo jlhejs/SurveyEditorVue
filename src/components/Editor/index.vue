@@ -3,17 +3,11 @@
     <el-header style="height: 40px;padding:0">
       <Tabs :editor="editor"></Tabs>
     </el-header>
-    <el-container class="editor-container">
-      <el-aside style="width:auto;max-width: 200px;overflow: initial;border-right: solid 1px #e6e6e6;" class="nav left">
-        <Toolbox v-if="editor.showToolbox" :editor="editor"></Toolbox>
-      </el-aside>
-      <el-main>
-        <Designer :editor="editor"></Designer>
-      </el-main>
-      <el-aside style="width: 320px;overflow: hidden;border-left: solid 1px #e6e6e6;" class="nav right">
-        <Advanced :editor="editor"></Advanced>
-      </el-aside>
-    </el-container>
+
+
+    <TemplateDesigner :editor="editor" v-show="editor.viewType=='designer'"></TemplateDesigner>
+    <TemplateLive :editor="editor" v-show="editor.viewType=='test'"></TemplateLive>
+
   </el-container>
 </template>
 <script>
@@ -55,6 +49,7 @@
     created() {
       var editorModel = new SurveyEditor("app", options)
       this.$set(this, 'editor', editorModel)
+      console.log(editorModel.tabs)
     },
   
     watch: {
@@ -66,8 +61,5 @@
   }
 </script>
 <style scoped>
-  .editor-container{
-    height: calc(100vh - 40px);
-  }
   
 </style>

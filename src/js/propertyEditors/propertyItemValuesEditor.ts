@@ -184,7 +184,7 @@ export class SurveyPropertyItemValuesEditor extends SurveyNestedPropertyEditor {
   private isTextLocalized(item) {
     return Object.keys(item.locText.values).length > 1;
   }
-  protected onValueChanged() {
+  public onValueChanged() {
     super.onValueChanged();
     if (this.isShowingModal) {
       if (this.koActiveView() !== "form") {

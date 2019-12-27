@@ -25,7 +25,7 @@ export class SurveyPropertyCellsEditor extends SurveyPropertyModalEditor {
   }
   protected onBeforeApply() {
     if (!this.canEdit) return;
-    var matrix = new Survey.QuestionMatrix("");
+    var matrix = new Survey.QuestionMatrixModel("");
     matrix.setSurveyImpl(this.object.survey);
     matrix.rows = this.rows;
     matrix.columns = this.columns;

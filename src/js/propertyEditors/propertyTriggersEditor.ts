@@ -320,7 +320,7 @@ export class SurveyPropertySetValueTrigger extends SurveyPropertyTrigger {
   koisVariable: any;
   koSurvey: any;
   koHasSurvey: any;
-  valueSurvey: Survey.Survey;
+  valueSurvey: Survey.SurveyModel;
   constructor(
     public survey: Survey.SurveyModel,
     public trigger: Survey.SurveyTriggerSetValue,
@@ -391,6 +391,7 @@ export class SurveyPropertySetValueTrigger extends SurveyPropertyTrigger {
     this.koHasSurvey(true);
   }
 }
+
 export class SurveyPropertyCopyValueTrigger extends SurveyPropertyTrigger {
   setToNameSelector: SurveyElementSelector;
   fromNameSelector: SurveyElementSelector;

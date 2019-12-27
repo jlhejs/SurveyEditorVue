@@ -10,7 +10,7 @@
 <script>
 
   export default {
-    name: "Designer",
+    name: "DesignerMain",
     props: {
       editor: {
         type: Object,

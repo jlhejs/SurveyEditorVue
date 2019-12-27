@@ -82,7 +82,7 @@ export class SurveyObjectEditor {
         property.property.isRequired &&
         Survey.Helpers.isValueEmpty(newValue)
       ) {
-        property.koValue(property.object[property.name]);
+        property.value=property.object[property.name];
         return;
       }
       var options = {
@@ -93,7 +93,7 @@ export class SurveyObjectEditor {
       };
       self.onPropertyValueChanged.fire(this, options);
       if (!!options.updatedValue && options.updatedValue != options.newValue) {
-        property.koValue(options.updatedValue);
+        property.value=options.updatedValue;
       }
     };
     var visibleProperties = [];

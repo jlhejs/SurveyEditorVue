@@ -42,7 +42,7 @@ export class QuestionConverter {
     var jsonObj = new Survey.JsonObject();
     var json = jsonObj.toJsonObject(obj);
     jsonObj.toObject(json, newQuestion);
-    var panel = <Survey.PanelModelBase>obj.parent;
+    var panel = obj.parent;
     var index = panel.elements.indexOf(obj);
     panel.removeElement(obj);
     panel.addElement(newQuestion, index);

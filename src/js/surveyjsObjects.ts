@@ -38,10 +38,10 @@ export class SurveyForDesigner extends Survey.SurveyModel {
     renderedElement: any = null,
     css: any = null
   ) {
-    super(jsonObj, renderedElement, css);
+    super(jsonObj);
     var self = this;
     this.setDesignMode(true);
-    this.onAfterRenderPage.add((sender: Survey.Survey, options) => {
+    this.onAfterRenderPage.add((sender: Survey.SurveyModel, options) => {
       options.page["onAfterRenderPage"](options.htmlElement);
     });
     this.editQuestionClick = function() {

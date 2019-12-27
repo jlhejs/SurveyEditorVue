@@ -41,7 +41,7 @@ export class SurveyPropertyDefaultValueEditor extends SurveyPropertyModalEditor 
   public static createSurveyFromJsonQuestion(
     questionJson: any,
     options: ISurveyObjectEditorOptions
-  ): Survey.Survey {
+  ): Survey.SurveyModel {
     var json = {
       questions: [],
       showNavigationButtons: false,
@@ -50,9 +50,9 @@ export class SurveyPropertyDefaultValueEditor extends SurveyPropertyModalEditor 
     json.questions.push(questionJson);
     return !!options
       ? options.createSurvey(json, "defaultValueEditor")
-      : new Survey.Survey(json);
+      : new Survey.SurveyModel(json);
   }
-  public survey: Survey.Survey;
+  public survey: Survey.SurveyModel;
   koSurvey: any;
 
   constructor(property: Survey.JsonObjectProperty) {
@@ -187,7 +187,7 @@ export class SurveyPropertySetEditor extends SurveyPropertyDefaultValueEditor {
     return res;
   }
   protected buildQuestionJson(): any {
-    var question = new Survey.QuestionCheckbox("q1");
+    var question = new Survey.QuestionCheckboxModel("q1");
     var hasTagbox = !!Survey.Serializer.findClass("tagbox");
     question.hasSelectAll = !hasTagbox;
     if (!!this.property) {

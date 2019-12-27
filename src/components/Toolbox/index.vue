@@ -1,19 +1,19 @@
 <template>
-   <div class="toolbox">
-    <el-menu default-active="1-4-1" class="toolbox-menu"  :collapse="isCollapse">
-      <template v-if="!editor.toolbox.koHasCategories()">
-        <template v-for="(item,key) in editor.toolbox.koItems()">
-          <el-menu-item :index="item.name" @click.native="editor.clickToolboxItem(item)" :key="item.name" class="toolbox-menu-item">
-            <i :class="[item.iconName,'iconfont']"></i>
-            <span slot="title">{{item.iconName}}</span>
-          </el-menu-item>
+  <div  class="toolbox">
+    <el-scrollbar>
+      <el-menu  class="toolbox-menu"  :collapse="isCollapse">
+        <template v-if="!editor.toolbox.koHasCategories()">
+          <template v-for="(item,key) in editor.toolbox.koItems()">
+            <el-menu-item :index="item.name" @click.native="editor.clickToolboxItem(item)" :key="item.name" class="toolbox-menu-item">
+              <i :class="[item.iconName,'iconfont']"></i>
+              <span slot="title">{{item.title}}</span>
+            </el-menu-item>
+          </template>
         </template>
-      </template>
-    </el-menu>
-    <Hamburger :editor="editor" id="hamburger-toolbox"></Hamburger>
-
+      </el-menu>
+      </el-scrollbar>
+      <ToolboxHamburger :editor="editor" id="toolbox-hamburger"></ToolboxHamburger>
   </div>
-  
 </template>
 <script>
   import { Component, Vue } from 'vue-property-decorator';
@@ -74,7 +74,7 @@
       } */
 
   }
-  #hamburger-toolbox{
+  #toolbox-hamburger{
     display: inline-block;
     position: absolute;
     transform:translate(36px, 4px);
@@ -86,7 +86,6 @@
     }
     .toolbox-menu{
       max-height: calc(100vh - 40px);
-    overflow: auto;
     }
     .toolbox-menu-item{
     }

@@ -12,7 +12,7 @@ export class SurveyLiveTester {
   koResultText = ko.observable("");
   koResultData = ko.observableArray();
   koResultViewType = ko.observable("table");
-  survey: Survey.Survey;
+  survey: Survey.SurveyModel;
   koSurvey: any;
   koPages = ko.observableArray([]);
   koActivePage = ko.observable(null);
@@ -59,7 +59,7 @@ export class SurveyLiveTester {
   );
   koLandscapeOrientation = ko.observable(true);
 
-  onSurveyCreatedCallback: (survey: Survey.Survey) => any;
+  onSurveyCreatedCallback: (survey: Survey.SurveyModel) => any;
   constructor(private surveyProvider: any) {
     var self = this;
     this.survey = this.surveyProvider.createSurvey({}, "test");
@@ -118,7 +118,7 @@ export class SurveyLiveTester {
       : this.surveyProvider.createSurvey({}, "test");
     if (this.onSurveyCreatedCallback) this.onSurveyCreatedCallback(this.survey);
     var self = this;
-    this.survey.onComplete.add((sender: Survey.Survey) => {
+    this.survey.onComplete.add((sender: Survey.SurveyModel) => {
       self.koIsRunning(false);
       self.koResultText(JSON.stringify(self.survey.data, null, 4));
       var addCollapsed = (items: any[]) => {
@@ -134,19 +134,19 @@ export class SurveyLiveTester {
       plainData = addCollapsed(plainData);
       self.koResultData(plainData);
     });
-    this.survey.onStarted.add((sender: Survey.Survey) => {
-      self.setActivePageItem(<Survey.Page>self.survey.currentPage, true);
+    this.survey.onStarted.add((sender: Survey.SurveyModel) => {
+      self.setActivePageItem(<Survey.PageModel>self.survey.currentPage, true);
     });
-    this.survey.onCurrentPageChanged.add((sender: Survey.Survey, options) => {
+    this.survey.onCurrentPageChanged.add((sender: Survey.SurveyModel, options) => {
       self.koActivePage(options.newCurrentPage);
       self.setActivePageItem(options.oldCurrentPage, false);
       self.setActivePageItem(options.newCurrentPage, true);
     });
-    this.survey.onPageVisibleChanged.add((sender: Survey.Survey, options) => {
+    this.survey.onPageVisibleChanged.add((sender: Survey.SurveyModel, options) => {
       self.updatePageItem(options.page);
     });
   }
-  private updatePageItem(page: Survey.Page) {
+  private updatePageItem(page: Survey.PageModel) {
     var item = this.getPageItemByPage(page);
     if (item) {
       item.koVisible(page.isVisible);
@@ -245,13 +245,13 @@ export class SurveyLiveTester {
       );
     }
   }
-  private setActivePageItem(page: Survey.Page, val: boolean) {
+  private setActivePageItem(page: Survey.PageModel, val: boolean) {
     var item = this.getPageItemByPage(page);
     if (item) {
       item.koActive(val);
     }
   }
-  private getPageItemByPage(page: Survey.Page): any {
+  private getPageItemByPage(page: Survey.PageModel): any {
     var items = this.koPages();
     for (var i = 0; i < items.length; i++) {
       if (items[i].page === page) return items[i];
