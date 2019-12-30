@@ -1,6 +1,5 @@
 import Vue from "vue";
 import * as Survey from "survey-vue";
-import * as SurveyKo from "survey-knockout";
 import { editorLocalization } from "./editorLocalization";
 import { StylesManager } from "./stylesmanager";
 import { SurveyObjects } from "./surveyObjects";
@@ -51,9 +50,7 @@ export class SurveyCreator {
   onPropertyValueChanged(property: Survey.JsonObjectProperty, target: any, newValue: any) {
     throw new Error("Method not implemented.");
   }
-  onValueChangingCallback(options: { propertyName: string; obj: any; value: any; newValue: any; doValidation: boolean; }) {
-    throw new Error("Method not implemented.");
-  }
+
  
   onItemValueAddedCallback:any;
   canShowObjectProperty:any;
@@ -79,7 +76,6 @@ export class SurveyCreator {
   isAutoSave: boolean;
   constructor(renderedElement: any = null, options: any = null) {}
 }
-
 export class SurveyEditor extends SurveyCreator {
 /**
    * The event is called before undo happens.
@@ -1723,7 +1719,13 @@ export class SurveyEditor extends SurveyCreator {
     this.setState("modified");
     this.isAutoSave && this.doSave();
   }
-
+  private findObjByName(name: string): Survey.Base {
+    var page = this.survey.getPageByName(name);
+    if (page) return page;
+    var question = <Survey.Question>this.survey.getQuestionByName(name);
+    if (question) return question;
+    return null;
+  }
 
   private doClickQuestionCore(
     element: Survey.IElement,
@@ -1823,14 +1825,14 @@ export class SurveyEditor extends SurveyCreator {
           id: "svd-valid-json",
           visible: true,
           css: () => (this.generateValidJSON ? "active" : ""),
-          action: this.generateValidJSONClick,
+          action: "this.generateValidJSONClick这里应该是方法",
           title: this.getLocString("ed.generateValidJSON")
         },
         {
           id: "svd-readable-json",
           visible: true,
           css: () => (!this.generateValidJSON? "active" : ""),
-          action: this.generateReadableJSONClick,
+          action: "this.generateReadableJSONClick这里应该是方法",
           title: this.getLocString("ed.generateReadableJSON")
         }
       ])
@@ -1945,8 +1947,118 @@ export class SurveyEditor extends SurveyCreator {
   private editCurrentObject() {
     this.showQuestionEditor(this.selectedObject.value);
   }
+  onValueChangingCallback(options: any) {
+    this.onPropertyValueChanging.fire(this, options);
+  }
+  public onPropertyValueChanged(
+    property: Survey.JsonObjectProperty,
+    obj: any,
+    newValue: any
+  ) {
+    var oldValue = obj[property.name];
+    if (property.name === "page" && typeof newValue === "string") {
+      obj[property.name] = obj.survey.getPageByName(newValue);
+    } else {
+      obj[property.name] = newValue;
+    }
 
-
+    if (property.name === "name") {
+      var newName = this.generateUniqueName(obj, newValue);
+      this.updateConditions(oldValue, newName);
+      this.onElementNameChanged.fire(this, {
+        obj: obj,
+        oldName: oldValue,
+        newName: newName
+      });
+      if (newName != newValue) {
+        return newName;
+      }
+    }
+    if (property.name == "name" || property.name == "title") {
+      this.surveyObjects.nameChanged(obj);
+    }
+    if (property.name === "name") {
+      this.dirtyPageUpdate(); //TODO why this is need ? (ko problem)
+    } else if (property.name === "page") {
+      this.selectPage(newValue);
+      this.surveyObjects.selectObject(obj);
+    }
+    this.setModified({
+      type: "PROPERTY_CHANGED",
+      name: property.name,
+      target: obj,
+      oldValue: oldValue,
+      newValue: newValue
+    });
+    //TODO add a flag to a property, may change other properties
+    if (
+      property.name == "hasComment" ||
+      property.name == "hasNone" ||
+      property.name == "hasOther" ||
+      property.name == "hasSelectAll" ||
+      property.name == "locale"
+    ) {
+      this.selectedObjectEditorValue.objectChanged();
+    }
+    return null;
+  }
+  
+  //TODO why this is need ? (ko problem)
+  private dirtyPageUpdate = () => {
+    var selectedObject = this.selectedObject.value;
+    if (SurveyHelper.getObjectType(selectedObject) !== ObjType.Page) {
+      if (
+        SurveyHelper.getObjectType(selectedObject) === ObjType.Question &&
+        !!selectedObject["koElementType"]
+      ) {
+        selectedObject["koElementType"].notifySubscribers();
+      }
+      return;
+    }
+    this.pages.notifySubscribers();
+    this.surveyObjects.selectObject(selectedObject);
+  };
+  private generateUniqueName(el: Survey.Base, newName: string): string {
+    while (!this.isNameUnique(el, newName)) {
+      newName = SurveyHelper.generateNewName(newName);
+    }
+    return newName;
+  }
+  private isNameUnique(el: Survey.Base, newName: string): boolean {
+    if (!this.isNameUniqueInArray(this.survey.pages, el, newName)) return false;
+    if (!this.isNameUniqueInArray(this.survey.getAllPanels(), el, newName))
+      return false;
+    return this.isNameUniqueInArray(this.survey.getAllQuestions(), el, newName);
+  }
+  private updateConditions(oldName: string, newName: string) {
+    new SurveyLogic(this.survey).renameQuestion(oldName, newName);
+  }
+  private isNameUniqueInArray(
+    elements: Array<any>,
+    el: Survey.Base,
+    newName: string
+  ): boolean {
+    newName = newName.toLowerCase();
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i] != el && elements[i].name.toLowerCase() == newName)
+        return false;
+    }
+    return true;
+  }
+  onConditionQuestionsGetListCallback(
+    propertyName: string,
+    obj: Survey.Base,
+    editor: SurveyPropertyEditorBase,
+    list: any[]
+  ) {
+    var options = {
+      propertyName: propertyName,
+      obj: obj,
+      editor: editor,
+      list: list
+    };
+    this.onConditionQuestionsGetList.fire(this, options);
+  }
   
   
 

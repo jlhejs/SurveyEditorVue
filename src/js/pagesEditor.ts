@@ -3,7 +3,7 @@ import Vue from "vue";
 import { SurveyHelper, ObjType } from "./surveyHelper";
 import * as Survey from "survey-vue";
 import { editorLocalization } from "./editorLocalization";
-import { SurveyCreator } from "./editor";
+import { SurveyEditor } from "./editor";
 // import "../vendor/knockout-sortable.js";
 
 export class PagesEditor {
@@ -12,8 +12,7 @@ export class PagesEditor {
   private prevPagesForSelector: any[] = [];
   private _selectedPage = Vue.observable({});
   pagesSelection: any;
-
-  constructor(private editor: SurveyCreator, private element: any) {
+  constructor(private editor: SurveyEditor, private element: any) {
     // this.pagesSelection = ko.computed<Survey.PageModel[]>(() => {
     //   if (!this.isDraggingPage()) {
     //     this.prevPagesForSelector = this.editor.pages;

@@ -115,8 +115,3 @@ export class SurveyPropertyCalculatedValueItem extends SurveyPropertyOneSelected
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("calculatedvalues", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyCalculatedValueEditor(property);
-});

@@ -281,10 +281,3 @@ export class SurveyPropertyItemValuesEditorItem extends SurveyNestedPropertyEdit
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor(
-  "itemvalue[]",
-  function(property: Survey.JsonObjectProperty): SurveyPropertyEditorBase {
-    return new SurveyPropertyItemValuesEditor(property);
-  },
-  "itemvalue"
-);

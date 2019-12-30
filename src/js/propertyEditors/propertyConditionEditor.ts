@@ -40,7 +40,6 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     public syntaxCheckMethodName: string = "createCondition"
   ) {
     super(property);
-    debugger
     if (!this.emptySurvey) {
       this.emptySurvey =
         !!this.options && this.options.createSurvey({}, "conditionEditor");
@@ -347,24 +346,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("condition", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyConditionEditor(
-    property,
-    "condition",
-    "createCondition"
-  );
-});
-SurveyPropertyEditorFactory.registerEditor("expression", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyConditionEditor(
-    property,
-    "expression",
-    "parseExpression"
-  );
-});
+
 
 var operations = [
   {

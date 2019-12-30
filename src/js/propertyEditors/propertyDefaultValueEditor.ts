@@ -203,27 +203,3 @@ export class SurveyPropertySetEditor extends SurveyPropertyDefaultValueEditor {
     return json;
   }
 }
-
-SurveyPropertyEditorFactory.registerEditor("value", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyDefaultValueEditor(property);
-});
-
-SurveyPropertyEditorFactory.registerEditor("rowvalue", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyDefaultRowValueEditor(property);
-});
-
-SurveyPropertyEditorFactory.registerEditor("panelvalue", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyDefaultPanelValueEditor(property);
-});
-
-SurveyPropertyEditorFactory.registerEditor("set", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertySetEditor(property);
-});

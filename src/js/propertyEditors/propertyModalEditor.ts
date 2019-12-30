@@ -6,7 +6,7 @@ import { SurveyPropertyConditionEditor } from "./propertyConditionEditor";
 import * as ss from "./propertyConditionEditor";
 import { editorLocalization } from "../editorLocalization";
 import { focusFirstControl } from "../utils/utils";
-import RModal from "rmodal";
+// import RModal from "rmodal";
 
 export class SurveyPropertyModalEditorCustomWidget {
   private static customWidgetId = 1;
@@ -100,29 +100,29 @@ export class SurveyPropertyModalEditor extends SurveyPropertyEditorBase {
     };
     self.onShowModal = function() {
       self.beforeShow();
-      var modal = new RModal(document.querySelector(self.modalNameTarget), {
-        bodyClass: "",
-        closeTimeout: 100,
-        dialogOpenClass: "animated fadeInDown",
-        focus: false
-      });
-      modal.open();
+      // var modal = new RModal(document.querySelector(self.modalNameTarget), {
+      //   bodyClass: "",
+      //   closeTimeout: 100,
+      //   dialogOpenClass: "animated fadeInDown",
+      //   focus: false
+      // });
+      // modal.open();
 
-      document.addEventListener(
-        "keydown",
-        function(ev) {
-          modal.keydown(ev);
-        },
-        false
-      );
+      // document.addEventListener(
+      //   "keydown",
+      //   function(ev) {
+      //     modal.keydown(ev);
+      //   },
+      //   false
+      // );
 
-      self.onHideModal = function() {
-        self.beforeCloseModal();
-        modal.close();
-      };
-      if (!!this.elements) {
-        focusFirstControl(this.elements);
-      }
+      // self.onHideModal = function() {
+      //   self.beforeCloseModal();
+      //   modal.close();
+      // };
+      // if (!!this.elements) {
+      //   focusFirstControl(this.elements);
+      // }
     };
     self.koAfterRender = function(el, con) {
       return self.afterRender(el, con);
@@ -235,13 +235,3 @@ export class SurveyPropertyHtmlEditor extends SurveyPropertyTextEditor {
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("text", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyTextEditor(property);
-});
-SurveyPropertyEditorFactory.registerEditor("html", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyHtmlEditor(property);
-});

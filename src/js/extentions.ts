@@ -1,5 +1,5 @@
 import * as Survey from "survey-vue";
-import { SurveyPropertyEditorFactory } from "./propertyEditors/propertyEditorFactory";
+import { SurveyPropertyEditorFactory } from "./propertyEditors/propertyRegisterEditor";
 import { SurveyPropertyEditorBase } from "./propertyEditors/propertyEditorBase";
 
 export class Extentions {

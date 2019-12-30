@@ -89,7 +89,7 @@ export class SurveyObjects {
   public nameChanged(obj: Survey.Base) {
     var index = this.getItemIndex(obj);
     if (index < 0) return;
-    this.objects[index].text(this.getText(this.objects[index]));
+    this.objects[index].text=this.getText(this.objects[index]);
   }
   public selectNextQuestion(isUp: boolean) {
     var question = this.getSelectedQuestion();

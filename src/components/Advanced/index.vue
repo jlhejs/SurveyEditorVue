@@ -2,7 +2,7 @@
   <div :class="['editor-advanced',editor.hideAdvancedSettings ? 'hide-advanced' : '']" >
     <el-row class="editor-advanced-selector">
       <el-col :span="20">
-        <el-select v-model="value" size="mini" placeholder="编辑" id="object-elector">
+        <el-select v-model="editor.selectedObject.id" size="mini" placeholder="编辑" id="object-elector" @change="changeSelectedObject">
           <el-option
             v-for="(item,key) in option"
             :key="key"
@@ -19,63 +19,7 @@
     <el-scrollbar  class="seditor-advanced-editor">
       <el-row class="seditor-advanced-editor-box">
         <template v-for="(item,key) in editor.selectedObjectEditor.koProperties">
-          <el-col :span="24" class="propertys" :key="key">
-            <el-col :span="14" :title="item.displayName" class="displayname" >{{item.displayName}}</el-col>
-            <el-col :span="10" class="displayname-edit">
-              
-              <el-switch
-              size="mini"
-                v-if="item.editorTypeTemplate=='boolean'"
-                v-model="item.value"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
-              </el-switch>
-
-              <el-input v-else-if="item.editorTypeTemplate=='number'" v-model="item.value" size="mini" type="number" :placeholder="item.defaultValue"></el-input>
-
-              <span v-else-if="item.editorTypeTemplate=='html'">
-                <el-input
-                size="mini"
-                :placeholder="item.defaultValue"
-                :value="item.value">
-                <i slot="suffix" class="el-input__icon el-icon-edit"   @click="item.editor.onShowModal">
-                </i>
-              </el-input>
-              <PropertyEditorModal :modal="item.editor"></PropertyEditorModal>
-              </span>
-              
-
-              
-              <el-input
-                v-else-if="item.editorTypeTemplate=='text'"
-                size="mini"
-                :placeholder="item.defaultValue"
-                v-model="item.value">
-                
-              </el-input>
-              <el-input v-else-if="item.editorTypeTemplate=='html'" v-model="item.value" size="mini"  placeholder="item.defaultValue"></el-input>
-              
-          
-              <el-badge :value="1" class="item"  v-else-if="item.editorTypeTemplate=='triggers'"  size="mini" >
-                <el-button size="mini">数量<span>{{1}}</span></el-button>
-              </el-badge>
-              <el-select size="mini" v-model="item.value" :placeholder="item.defaultValue" v-else-if="item.editorTypeTemplate=='dropdown'">
-                <el-option
-                  v-for="(item,key) in item.editor.koChoices"
-                  :key="key"
-                  :label="item.text"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-
-              <div v-else>
-                {{item.editorTypeTemplate}}
-              </div>
-              
-            
-            </el-col>
-          </el-col>
-
+          <ObjectEditorProperty :property="item" :key="key"></ObjectEditorProperty>
         </template>
       </el-row>
     </el-scrollbar>
@@ -93,7 +37,18 @@
     },
     data() {
       return {
-        value:""
+       
+      }
+    },
+    methods: {
+      changeSelectedObject:function(){
+        var newValue=null;
+        for(var i=0;i<this.option;i++){
+          if(this.editor.selectedObject.id==this.option[i].id){
+            newValue=this.option[i]
+          }
+        }
+        this.editor.selectedObjectChanged(newValue ? newValue : null);
       }
     },
     updated() {
@@ -104,7 +59,8 @@
           this.editor.objects[i].id=Math.random().toString(36).substr(2);
         }
         return this.editor.objects
-      }
+      },
+     
     },
   }
 </script>
@@ -128,17 +84,8 @@
   .seditor-advanced-editor-box{
     padding: 15px;
   }
-  .propertys{
-    padding: 5px 0;
-  }
-  .displayname{
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 14px;
-    line-height: 28px;
-    text-overflow: ellipsis;
+  
 
-  }
   .displayname-edit{
     font-size: 14px;
   }

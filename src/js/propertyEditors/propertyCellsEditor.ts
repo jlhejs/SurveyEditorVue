@@ -102,8 +102,4 @@ export class SurveyPropertyCellsEditor extends SurveyPropertyModalEditor {
     return row;
   }
 }
-SurveyPropertyEditorFactory.registerEditor("cells", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyCellsEditor(property);
-});
+

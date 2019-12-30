@@ -63,7 +63,7 @@ export interface ISurveyObjectEditorOptions {
     propertyName: string,
     obj: Survey.Base,
     editor: SurveyPropertyEditorBase,
-    survey: Survey.Survey
+    survey: Survey.Model
   );
   onConditionQuestionsGetListCallback(
     propertyName: string,
@@ -74,7 +74,7 @@ export interface ISurveyObjectEditorOptions {
   createSurvey(
     json: any,
     reason: string,
-    surveyType?: new (json: any) => Survey.Survey
+    surveyType?: new (json: any) => Survey.Model
   );
 }
 
@@ -112,7 +112,7 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
   public readOnly: any;
   public koMaxLength: any;
   public koMaxValue: any;
-  public koMinValue: any;
+  public minValue: any;
   public onChanged: (newValue: any) => any;
   public onGetLocale: () => string;
   public onValueUpdated: (newValue: any) => any;
@@ -146,11 +146,11 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
     //     ? self.property["maxValue"]
     //     : "";
     // });
-    // this.koMinValue = ko.computed(function() {
-    //   return !!self.property && !!self.property["minValue"]
-    //     ? self.property["minValue"]
-    //     : "";
-    // });
+    this.minValue = ko.computed(function() {
+      return !!self.property && !!self.property["minValue"]
+        ? self.property["minValue"]
+        : "";
+    });
     this.setIsRequired();
     this.setTitleAndDisplayName();
     this.readOnly = Vue.observable(this.getReadOnly());

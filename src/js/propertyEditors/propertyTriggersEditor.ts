@@ -511,5 +511,3 @@ export class SurveyPropertyTriggerObjects {
     addTo.sort();
   }
 }
-console.log(SurveyPropertyEditorFactory)
-

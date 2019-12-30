@@ -78,7 +78,7 @@ export class SurveyPropertyResultfullEditor extends SurveyPropertyModalEditor {
     this.question.choicesByUrl.run();
   }
   private createSurvey() {
-    this.survey = !!this.options ? this.options.createSurvey({}, "restfulEditor") : new Survey.Survey();
+    this.survey = !!this.options ? this.options.createSurvey({}, "restfulEditor") : new Survey.Model();
     this.survey.showNavigationButtons = false;
     this.survey.showQuestionNumbers = "off";
     var page = this.survey.addNewPage("page1");
@@ -113,9 +113,3 @@ export class SurveyPropertyResultfullEditorItem {
     this.isSetttingValue = false;
   }
 }
-
-SurveyPropertyEditorFactory.registerEditor("restfull", function (
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyResultfullEditor(property);
-});

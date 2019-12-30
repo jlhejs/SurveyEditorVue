@@ -1,6 +1,6 @@
 import * as ko from "knockout";
 import * as Survey from "survey-vue";
-import Sortable from "sortablejs";
+// import Sortable from "sortablejs";
 import { SurveyPropertyModalEditor } from "./propertyModalEditor";
 import { editorLocalization } from "../editorLocalization";
 

@@ -90,8 +90,3 @@ export class SurveyPropertyTextItemsItem extends SurveyNestedPropertyEditorItem 
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("textitems", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyTextItemsEditor(property);
-});

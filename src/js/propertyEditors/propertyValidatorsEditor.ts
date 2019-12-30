@@ -41,8 +41,3 @@ export class SurveyPropertyValidatorItem extends SurveyPropertyOneSelectedItem {
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("validators", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyValidatorsEditor(property);
-});

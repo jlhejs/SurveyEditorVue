@@ -16,6 +16,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 
+
 import  editorModels from './components/index';
 Object.keys(editorModels).forEach((key:string) => {
   var editorModel:any=editorModels;

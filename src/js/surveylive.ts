@@ -22,6 +22,7 @@ export class SurveyLiveTester {
   activeLanguage: any;
   showInvisibleElements = Vue.observable(false);
   public onGetObjectDisplayName: (obj: Survey.Base) => string = null;
+  public imgurl:string = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MzAiIGhlaWdodD0iNzUxIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGRlZnM+PHJlY3QgaWQ9ImIiIHdpZHRoPSIzMzAiIGhlaWdodD0iNjUxIiB4PSIxMjAiIHk9IjQ1OCIgcng9IjIwIi8+PGZpbHRlciBpZD0iYSIgd2lkdGg9IjE0NS41JSIgaGVpZ2h0PSIxMjMlIiB4PSItMjIuNyUiIHk9Ii0xMS41JSIgZmlsdGVyVW5pdHM9Im9iamVjdEJvdW5kaW5nQm94Ij48ZmVPZmZzZXQgaW49IlNvdXJjZUFscGhhIiByZXN1bHQ9InNoYWRvd09mZnNldE91dGVyMSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjI1IiBpbj0ic2hhZG93T2Zmc2V0T3V0ZXIxIiByZXN1bHQ9InNoYWRvd0JsdXJPdXRlcjEiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAuMSAwIiBpbj0ic2hhZG93Qmx1ck91dGVyMSIvPjwvZmlsdGVyPjwvZGVmcz48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC03MCAtNDA4KSI+PHVzZSBmaWxsPSIjMDAwIiBmaWx0ZXI9InVybCgjYSkiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjRkZGIiB4bGluazpocmVmPSIjYiIvPjxyZWN0IHdpZHRoPSI3MCIgaGVpZ2h0PSI4IiB4PSIyNDIiIHk9IjQ3MCIgZmlsbD0iI0Y0RjRGNCIgZmlsbC1ydWxlPSJub256ZXJvIiByeD0iNCIvPjxjaXJjbGUgY3g9IjMyNCIgY3k9IjQ3NCIgcj0iNCIgZmlsbD0iI0Y0RjRGNCIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZmlsbD0iI0U3RTdFNyIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNMTI0IDQ5MGgzMjJ2NTcwSDEyNFY0OTB6bTEgMXY1NjhoMzIwVjQ5MUgxMjV6Ii8+PHBhdGggZmlsbD0iI0Y0RjRGNCIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNMTI1IDQ5MWgzMjB2NTY4SDEyNXoiLz48Y2lyY2xlIGN4PSIyODUiIGN5PSIxMDg0IiByPSIxNSIgZmlsbD0iI0Y0RjRGNCIvPjwvZz48L3N2Zz4=";
   showPagesInTestSurveyTab = Vue.observable(true);
   showDefaultLanguageInTestSurveyTab = Vue.observable(true);
   showInvisibleElementsInTestSurveyTab = Vue.observable(true);
@@ -58,7 +59,7 @@ export class SurveyLiveTester {
         };
       })
   );
-  landscapeOrientation = Vue.observable(true);
+  landscapeOrientation = Vue.observable(false);
 
   onSurveyCreatedCallback: (survey: Survey.Model) => any;
   constructor(private surveyProvider: any) {
@@ -245,7 +246,7 @@ export class SurveyLiveTester {
   private setActivePageItem(page: Survey.PageModel, val: boolean) {
     var item = this.getPageItemByPage(page);
     if (item) {
-      item.active(val);
+      item.active = val;
     }
   }
   private getPageItemByPage(page: Survey.PageModel): any {

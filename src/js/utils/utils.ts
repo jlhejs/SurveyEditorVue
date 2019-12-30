@@ -1,4 +1,4 @@
-import * as ko from "knockout";
+import Vue from "vue";
 
 function getNumericFromString(str: string): string {
   if (!str) return "";
@@ -84,33 +84,33 @@ export function focusFirstControl(renderedElements: HTMLElement[]) {
   }
 }
 
-ko.bindingHandlers["trueclick"] = {
-  init: function(element, valueAccessor, allBindingsAccessor) {
-    element.onclick = () => true;
-  }
-};
+// ko.bindingHandlers["trueclick"] = {
+//   init: function(element, valueAccessor, allBindingsAccessor) {
+//     element.onclick = () => true;
+//   }
+// };
 
-ko.bindingHandlers["key2click"] = {
-  init: function(element, valueAccessor, allBindingsAccessor) {
-    element.onkeyup = ev => {
-      var char = ev.which || ev.keyCode;
-      if (char === 13 || char === 32) {
-        element.click();
-      } else if (char === 27) {
-        element.blur();
-      }
-    };
-  }
-};
+// ko.bindingHandlers["key2click"] = {
+//   init: function(element, valueAccessor, allBindingsAccessor) {
+//     element.onkeyup = ev => {
+//       var char = ev.which || ev.keyCode;
+//       if (char === 13 || char === 32) {
+//         element.click();
+//       } else if (char === 27) {
+//         element.blur();
+//       }
+//     };
+//   }
+// };
 
-ko.bindingHandlers["clickNoFocus"] = {
-  init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-    element.onclick = ev => {
-      valueAccessor().call(viewModel, viewModel, ev);
-      setTimeout(() => {
-        element.blur();
-      }, 1);
-      return true;
-    };
-  }
-};
+// ko.bindingHandlers["clickNoFocus"] = {
+//   init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+//     element.onclick = ev => {
+//       valueAccessor().call(viewModel, viewModel, ev);
+//       setTimeout(() => {
+//         element.blur();
+//       }, 1);
+//       return true;
+//     };
+//   }
+// };

@@ -2,16 +2,11 @@ import * as ko from "knockout";
 import Vue from "vue";
 import * as Survey from "survey-vue";
 
-import {
-  SurveyPropertyEditorBase,
-  ISurveyObjectEditorOptions
-} from "./propertyEditors/propertyEditorBase";
-import { SurveyPropertyEditorFactory } from "./propertyEditors/propertyEditorFactory";
-
-export declare type SurveyOnPropertyChangedCallback = (
-  property: SurveyObjectProperty,
-  newValue: any
-) => void;
+import {  SurveyPropertyEditorBase,  ISurveyObjectEditorOptions} from "./propertyEditors/propertyEditorBase";
+// import { SurveyPropertyEditorFactory } from "./propertyEditors/propertyEditorFactory";
+import { SurveyPropertyCalculatedValueEditor } from "./propertyEditors/propertyCalculatedValues"
+import { SurveyPropertyEditorFactory} from "./propertyEditors/propertyRegisterEditor";
+export declare type SurveyOnPropertyChangedCallback = (  property: SurveyObjectProperty,  newValue: any) => void;
 
 export class SurveyObjectProperty {
   private objectValue: any;

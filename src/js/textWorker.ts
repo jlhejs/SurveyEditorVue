@@ -9,7 +9,6 @@ class TextParserPropery {
   valueStart: number;
   valueEnd: number;
 }
-
 class SurveyForTextWorker extends  Survey.Model  {
   constructor(jsonObj: any) {
     super(jsonObj);

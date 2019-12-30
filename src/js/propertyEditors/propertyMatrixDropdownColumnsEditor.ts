@@ -11,9 +11,7 @@ import {
   SurveyNestedPropertyEditorItem,
   SurveyNestedPropertyEditorColumn
 } from "./propertyNestedPropertyEditor";
-import { SurveyPropertyEditorFactory } from "./propertyEditorFactory";
 import { getNextValue } from "../utils/utils";
-console.log(1)
 export class SurveyPropertyDropdownColumnsEditor extends SurveyNestedPropertyEditor {
   constructor(property: Survey.JsonObjectProperty) {
     super(property);
@@ -121,8 +119,3 @@ export class SurveyPropertyMatrixDropdownColumnsItem extends SurveyNestedPropert
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("matrixdropdowncolumns", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyDropdownColumnsEditor(property);
-});

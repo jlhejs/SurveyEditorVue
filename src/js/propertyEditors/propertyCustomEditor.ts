@@ -22,7 +22,7 @@ export class SurveyPropertyCustomEditor extends SurveyPropertyEditorBase {
   public onValueChanged() {
     if (this.isValueChanging) return;
     this.isValueChanging = true;
-    super.onValueChanged();
+    super.onValueChanged(this.editingValue);
     if (this.onValueChangedCallback)
       this.onValueChangedCallback(this.editingValue);
     this.isValueChanging = false;

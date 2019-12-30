@@ -55,10 +55,10 @@
       }
     },
     created() {
-      console.log("created",this.editor.questionEditorWindow)
+      // console.log("created",this.editor.questionEditorWindow)
     },
     updated() {
-      console.log(this.editor.questionEditorWindow)
+      // console.log(this.editor.questionEditorWindow)
     },
   }
 </script>

@@ -124,8 +124,3 @@ export class SurveyPropertyMultipleValuesEditor extends SurveyPropertyModalEdito
     return res;
   }
 }
-SurveyPropertyEditorFactory.registerEditor("multiplevalues", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyMultipleValuesEditor(property);
-});

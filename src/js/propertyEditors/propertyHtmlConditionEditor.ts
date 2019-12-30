@@ -43,8 +43,3 @@ export class SurveyPropertyHtmlConditionItem extends SurveyPropertyOneSelectedIt
   }
 }
 
-SurveyPropertyEditorFactory.registerEditor("htmlconditions", function(
-  property: Survey.JsonObjectProperty
-): SurveyPropertyEditorBase {
-  return new SurveyPropertyHtmlConditionEditor(property);
-});

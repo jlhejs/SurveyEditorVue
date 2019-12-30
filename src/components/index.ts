@@ -1,6 +1,3 @@
-import Editor from './Editor/index.vue';
-import EditorJson from './EditorJson/index.vue';
-import Toolbox from './Toolbox/index.vue';
 const requireComponent = require.context('./',true,/\.vue$/)
 const components={}
 requireComponent.keys().forEach(filename => {

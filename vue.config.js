@@ -1,3 +1,8 @@
+const path = require('path'); //引入path模块
+function resolve(dir) {
+  return path.join(__dirname, dir) //path.join(__dirname)设置绝对路径
+}
+
 module.exports = {
   configureWebpack: {
     devtool: 'source-map'
@@ -7,6 +12,13 @@ module.exports = {
     survey: {
       param: '用来监听survey-vue生成打包文件'
     }
+  },
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@', resolve('./src'))
+      .set('survey-vue', resolve('./survey-vue/src/entries/vue.ts'))
+    //set第一个参数：设置的别名，第二个参数：设置的路径
+
   },
   // lintOnSave:false,
   // devServer: {
