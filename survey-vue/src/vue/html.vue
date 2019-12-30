@@ -9,8 +9,8 @@ import { QuestionHtmlModel } from "../question_html";
 
 @Component
 export class Html extends Vue {
-  @Prop question: QuestionHtmlModel;
-  @Prop css: any;
+  @Prop({ required: false }) question: QuestionHtmlModel;
+  @Prop({ required: false }) css: any;
 }
 Vue.component("survey-html", Html);
 export default Html;

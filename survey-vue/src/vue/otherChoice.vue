@@ -1,16 +1,15 @@
 <template>
   <div class="form-group">
-    <textarea
-      :readonly="question.isReadOnly"
-      :disabled="question.isReadOnly"  
-      :class="question.cssClasses.other || commentClass"
-      :value="question.comment"
-      :maxlength="question.getOthersMaxLength()"
-      :placeholder="question.otherPlaceHolder"
-      v-bind:aria-label="question.locTitle.renderedHtml"
-      @change="change"
-      @keyup="keyup"
-    />
+    <el-input  :readonly="question.isReadOnly"
+    :disabled="question.isReadOnly"  
+    :class="question.cssClasses.other || commentClass"
+    :value="question.comment"
+    :maxlength="question.getOthersMaxLength()"
+    :placeholder="question.otherPlaceHolder"
+    v-bind:aria-label="question.locTitle.renderedHtml"
+    @change="change"
+    style="width: 250px;"
+    @keyup="keyup"></el-input>
    </div>
 </template>
 
@@ -22,8 +21,8 @@ import { Question } from "../question";
 
 @Component
 export class OtherChoice extends Vue {
-  @Prop question: Question;
-  @Prop commentClass: any;
+  @Prop({ required: false }) question: Question;
+  @Prop({ required: false }) commentClass: any;
   change(event: any) {
     this.question.comment = event.target.value;
   }

@@ -1,19 +1,28 @@
 <template>
   <div :class="question.cssClasses.root">
     <div v-if="!question.isReadOnly" :class="question.cssClasses.selectWrapper">
-      <select
-        :id="question.inputId"
-        v-model="question.renderedValue"
-        :class="question.cssClasses.control"
-        v-bind:aria-label="question.locTitle.renderedHtml"
-      >
-        <option v-if="question.showOptionsCaption" :value="undefined">{{question.optionsCaption}}</option>
-        <option
-          v-for="item in question.visibleChoices"
-          :value="item.value"
-          :disabled="!item.isEnabled"
-        >{{item.text}}</option>
-      </select>
+      <el-select 
+      v-model="question.renderedValue" 
+      :id="question.inputId" 
+      placeholder="请选择"  
+      :class="question.cssClasses.control" 
+      v-bind:aria-label="question.locTitle.renderedHtml"
+      :filterable="showFilterable()"
+      :size="showInputSize()"
+      :allowCreate="showAllowCreate()"
+      :multiple="showMultiple()"
+      :style="{ width: (question.inputWidth)+'px'}"
+      :clearable="showClearable()">
+        <el-option
+        v-if="question.showOptionsCaption" :value="undefined" :label="question.optionsCaption">
+        </el-option>
+        <el-option
+        v-for="item in question.visibleChoices"
+        :value="item.value"
+        :label="item.text"
+        :disabled="!item.isEnabled">
+        </el-option>
+      </el-select>
     </div>
     <div
       disabled
@@ -32,7 +41,23 @@ import { QuestionDropdownModel } from "../question_dropdown";
 
 @Component
 export class Dropdown extends QuestionVue<QuestionDropdownModel> {
+  showFilterable(){
+    return this.question.filterable
+  }
+  showClearable(){
+    return this.question.clearable
+  }
+  showInputSize(){
+    return this.question.inputSize
+  }
+  showAllowCreate(){
+    return this.question.filterable&&this.question.allowCreate
+  }
+  showMultiple(){
+    return this.question.multiple
+  }
   get isOtherSelected() {
+    
     const question = this.question;
     return question.hasOther && question.isOtherSelected;
   }

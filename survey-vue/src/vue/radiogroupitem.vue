@@ -36,9 +36,9 @@ import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export class RadiogroupItem extends Vue {
-  @Prop question: any;
-  @Prop item: any;
-  @Prop index: any;
+  @Prop({ required: false }) question: any;
+  @Prop({ required: false }) item: any;
+  @Prop({ required: false }) index: any;
   getLabelClass(item: any) {
     return this.question.getLabelClass(item.value === this.question.value);
   }

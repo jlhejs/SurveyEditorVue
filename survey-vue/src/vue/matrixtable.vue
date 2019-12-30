@@ -47,7 +47,7 @@ import {
 
 @Component
 export class MatrixTable extends Vue {
-  @Prop question: QuestionMatrixDropdownModelBase;
+  @Prop({ required: false }) question: QuestionMatrixDropdownModelBase;
   get table(): QuestionMatrixDropdownRenderedTable {
     return this.question.renderedTable;
   }

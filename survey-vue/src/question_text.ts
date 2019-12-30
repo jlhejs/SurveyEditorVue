@@ -61,7 +61,7 @@ export class QuestionTextModel extends Question {
     );
   }
   /**
-   * The text input size
+   * The text input size输入框宽度
    */
   public get size(): number {
     return this.getPropertyValue("size");
@@ -69,6 +69,52 @@ export class QuestionTextModel extends Question {
   public set size(val: number) {
     this.setPropertyValue("size", val);
   }
+  /**
+   * The text input size 输入框大小
+   */
+  public get inputSize(): string {
+    return this.getPropertyValue("inputSize","small");
+  }
+  public set inputSize(val: string) {
+    this.setPropertyValue("inputSize", val);
+  }
+   /**
+   * The text input width
+   */
+  public get inputWidth(): number {
+    return this.getPropertyValue("inputWidth");
+  }
+  public set inputWidth(val: number) {
+    this.setPropertyValue("inputWidth", val);
+  }
+   /**
+   * The text input clearable
+   */
+  public get clearable(): boolean {
+    return this.getPropertyValue("clearable",false);
+  }
+  public set clearable(val: boolean) {
+    this.setPropertyValue("clearable", val);
+  }
+  /**
+   * 输入框头部图标
+   */
+  public get prefixIcon(): string {
+    return this.getPropertyValue("prefixIcon","none");
+  }
+  public set prefixIcon(val: string) {
+    this.setPropertyValue("prefixIcon", val);
+  }
+  /**
+   * 输入框尾部图标
+   */
+  public get suffixIcon(): string {
+    return this.getPropertyValue("suffixIcon","none");
+  }
+  public set suffixIcon(val: string) {
+    this.setPropertyValue("suffixIcon", val);
+  }
+
   isEmpty(): boolean {
     return super.isEmpty() || this.value === "";
   }
@@ -103,7 +149,38 @@ export class QuestionTextModel extends Question {
     supportedValidators.push("numeric", "text", "regex", "email");
   }
 }
-
+var icon=[
+  "none",
+  "el-icon-platform-eleme",
+"el-icon-eleme",
+"el-icon-delete-solid",
+"el-icon-delete",
+"el-icon-s-tools",
+"el-icon-setting",
+"el-icon-user-solid",
+"el-icon-user",
+"el-icon-phone",
+"el-icon-phone-outline",
+"el-icon-more",
+"el-icon-more-outline",
+"el-icon-star-on",
+"el-icon-star-off",
+"el-icon-s-goods",
+"el-icon-goods",
+"el-icon-warning",
+"el-icon-warning-outline",
+"el-icon-question",
+"el-icon-info",
+"el-icon-remove",
+"el-icon-circle-plus",
+"el-icon-success",
+"el-icon-error",
+"el-icon-zoom-in",
+"el-icon-zoom-out",
+"el-icon-remove-outline",
+"el-icon-circle-plus-outline",
+"el-icon-circle-check",
+"el-icon-circle-close"]
 Serializer.addClass(
   "text",
   [
@@ -113,8 +190,6 @@ Serializer.addClass(
       choices: [
         "color",
         "date",
-        "datetime",
-        "datetime-local",
         "email",
         "month",
         "number",
@@ -123,12 +198,31 @@ Serializer.addClass(
         "tel",
         "text",
         "time",
-        "url",
-        "week"
+        "textarea"
       ]
     },
     { name: "size:number", default: 25 },
+    { name: "clearable:boolean", default: false },
+    { name: "inputSize:string", 
+      default: "small" ,
+      choices: [
+      "medium",
+      "small",
+      "mini",
+      
+    ]},
+    { name: "inputWidth:number", default: 250 },
     { name: "maxLength:number", default: -1 },
+    {
+      name: "prefixIcon",
+      default: "none",
+      choices: icon
+    },
+    {
+      name: "suffixIcon",
+      default: "none",
+      choices: icon
+    },
     { name: "placeHolder", serializationProperty: "locPlaceHolder" }
   ],
   function() {

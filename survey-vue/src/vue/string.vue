@@ -12,7 +12,7 @@
 
     @Component
     export class SurveyString extends Vue {
-        @Prop
+        @Prop({ required: false })
         locString: LocalizableString
     }
 

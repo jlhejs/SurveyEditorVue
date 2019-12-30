@@ -1,7 +1,18 @@
 <template>
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
-    <survey-checkbox-item
+    
+    <el-row :gutter="0"  >
+      <el-checkbox-group v-model="question.renderedValue">
+          <template  v-for="(item, index) in question.visibleChoices">
+            <el-col :span="getSpan(item)" :key="item.value" :class="getItemClass(item)" v-if="question.hasColumns">
+              <el-checkbox :label="item.value" >{{item.text}}</el-checkbox>
+            </el-col>
+            <el-checkbox :label="item.value" v-else>{{item.text}}</el-checkbox>
+          </template>
+      </el-checkbox-group>
+    </el-row>
+    <!-- <survey-checkbox-item
       v-if="!question.hasColumns"
       v-for="(item, index) in question.visibleChoices"
       :key="item.value"
@@ -23,7 +34,7 @@
         :item="item"
         :index="'' + colIndex + index"
       ></survey-checkbox-item>
-    </div>
+    </div> -->
   </fieldset>
 </template>
 
@@ -51,8 +62,18 @@ export class Checkbox extends QuestionVue<QuestionCheckboxModel> {
     if (isDisabled) itemClass += " " + cssClasses.itemDisabled;
     if (isChecked) itemClass += " " + cssClasses.itemChecked;
     if (allowHover) itemClass += " " + cssClasses.itemHover;
+    debugger
     return itemClass;
   }
+  getSpan(item: any){
+    var question = this.question;
+    if (question.hasColumns) {
+      return question.colCount === 0? "":  Math.floor(24/question.colCount)
+    }
+    
+
+  }
+
 }
 Vue.component("survey-checkbox", Checkbox);
 export default Checkbox;

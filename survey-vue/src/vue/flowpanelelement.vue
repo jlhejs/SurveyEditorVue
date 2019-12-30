@@ -33,9 +33,9 @@ import { FlowPanelModel } from "../flowpanel";
 @Component
 export class FlowPanelElement extends Vue {
   static idValue: number;
-  @Prop node: Node;
-  @Prop panel: FlowPanelModel;
-  @Prop css: any;
+  @Prop({ required: false }) node: Node;
+  @Prop({ required: false }) panel: FlowPanelModel;
+  @Prop({ required: false }) css: any;
   private elementIdValue: string;
   public question: Question = null;
   public tagName: string = "span";

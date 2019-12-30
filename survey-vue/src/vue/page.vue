@@ -19,9 +19,9 @@ import { PanelModelBase, PanelModel, QuestionRowModel } from "../panel";
 
 @Component
 export class Page extends Vue {
-  @Prop survey: SurveyModel;
-  @Prop page: PageModel;
-  @Prop css: Object;
+  @Prop({ required: false }) survey: SurveyModel;
+  @Prop({ required: false }) page: PageModel;
+  @Prop({ required: false }) css: Object;
 
   isCurrentPageChanged: boolean = false;
 

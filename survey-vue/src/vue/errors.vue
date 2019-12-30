@@ -20,8 +20,8 @@ import { SurveyError } from "../base";
 
 @Component
 export class Errors extends Vue {
-  @Prop question: Question;
-  @Prop location: String;
+  @Prop({ required: false }) question: Question;
+  @Prop({ required: false }) location: String;
 
   get isShow() {
     return !!this.question.errors && this.question.errors.length > 0

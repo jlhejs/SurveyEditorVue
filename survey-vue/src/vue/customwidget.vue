@@ -15,8 +15,8 @@ import { QuestionCustomWidget } from "../questionCustomWidgets";
 
 @Component
 export class CustomWidget extends Vue {
-  @Prop css: any;
-  @Prop question: Question;
+  @Prop({ required: false }) css: any;
+  @Prop({ required: false }) question: Question;
   get hasDefaultRender(): boolean {
     return this.question.customWidget.isDefaultRender || this.hasVueComponent;
   }

@@ -1,7 +1,7 @@
 <template>
   <div :class="css.root">
     <form onsubmit="return false;">
-      <div class="sv_custom_header"></div>
+      <div class="sv_custom_header">111111111111</div>
       <div :class="css.container">
         <div v-if="hasTitle" :class="css.header">
           <h3 :class="css.title">
@@ -90,28 +90,9 @@
               v-if="survey.isNavigationButtonsShowing === 'bottom' || survey.isNavigationButtonsShowing === 'both'"
               :class="css.footer"
             >
-              <input
-                type="button"
-                :value="survey.pagePrevText"
-                v-show="!survey.isFirstPage && survey.isShowPrevButton"
-                :class="getNavBtnClasses('prev')"
-                @click="prevPage"
-              />
-              <input
-                type="button"
-                :value="survey.pageNextText"
-                v-show="!survey.isLastPage"
-                :class="getNavBtnClasses('next')"
-                @click="nextPage"
-              />
-              <input
-                v-if="survey.isEditMode"
-                type="button"
-                :value="survey.completeText"
-                v-show="survey.isLastPage"
-                :class="getNavBtnClasses('complete')"
-                @click="completeLastPage"
-              />
+            <el-button size="medium" v-show="!survey.isFirstPage && survey.isShowPrevButton"  :class="getNavBtnClasses('prev')"  @click="prevPage">{{survey.pagePrevText}}</el-button>
+            <el-button size="medium" v-show="!survey.isLastPage"  :class="getNavBtnClasses('next')"  @click="nextPage">{{survey.pageNextText}}</el-button>
+            <el-button size="medium" type="primary"  v-if="survey.isEditMode"v-show="survey.isLastPage":class="getNavBtnClasses('complete')"@click="completeLastPage">{{survey.completeText}}</el-button>
             </div>
           </div>
         </template>
@@ -120,13 +101,14 @@
           <div v-if="survey.completedState != ''" :class="css.saveData.root">
             <div :class="getCompletedStateClasses()">
               <span>{{survey.completedStateText}}</span>
-              <input
-                type="button"
-                v-if="survey.completedState == 'error'"
-                :value="survey.getLocString('saveAgainButton')"
-                @click="doTrySaveAgain"
-                :class="css.saveData.saveAgainButton"
-              />
+              <el-button size="medium" 
+              v-if="survey.completedState == 'error'"
+              :value="survey.getLocString('saveAgainButton')"
+              @click="doTrySaveAgain"
+              :class="css.saveData.saveAgainButton"
+              >{{survey.getLocString('saveAgainButton')}}</el-button>
+
+             
             </div>
           </div>
         </div>
@@ -140,7 +122,12 @@
           :class="css.body"
           v-html="survey.processedLoadingHtml"
         ></div>
-        <div v-if="survey.state === 'empty'" :class="css.bodyEmpty">{{survey.emptySurveyText}}</div>
+        <div v-if="survey.state === 'empty'" :class="css.bodyEmpty">
+          <el-alert
+            :title="survey.emptySurveyText"
+            type="error">
+          </el-alert>
+         </div>
       </div>
     </form>
   </div>
@@ -152,11 +139,10 @@ import { Component, Prop } from "vue-property-decorator";
 import { surveyCss } from "../defaultCss/cssstandard";
 import { VueSurveyModel as SurveyModel } from "./surveyModel";
 import { StylesManager } from "../stylesmanager";
-var s=SurveyModel
-debugger
+
 @Component
 export class Survey extends Vue {
-  @Prop survey: SurveyModel;
+  @Prop({ required: false }) survey: SurveyModel
 
   forceUpdate() {
     this.$forceUpdate();
@@ -165,7 +151,9 @@ export class Survey extends Vue {
   constructor() {
     super();
   }
-
+  created() {
+  //  debugger 
+  }
   mounted() {
     var el = this.$el;
     if (el && this.survey) {

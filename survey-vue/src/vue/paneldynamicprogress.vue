@@ -40,7 +40,7 @@ import { QuestionRow } from "../knockout/kopage";
 
 @Component
 export class PanelDynamicProgress extends Vue {
-  @Prop question: QuestionPanelDynamicModel;
+  @Prop({ required: false }) question: QuestionPanelDynamicModel;
 
   get rangeMax() {
     return this.question.panelCount - 1;

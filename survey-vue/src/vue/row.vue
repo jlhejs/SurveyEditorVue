@@ -22,9 +22,9 @@ import { PanelModelBase, PanelModel, QuestionRowModel } from "../panel";
 import { VueSurveyModel } from "./surveyModel";
 @Component
 export class Row extends Vue {
-  @Prop row: any;
-  @Prop css: any;
-  @Prop survey: SurveyModel;
+  @Prop({ required: false }) row: any;
+  @Prop({ required: false }) css: any;
+  @Prop({ required: false }) survey: SurveyModel;
   mounted() {
     if (!!this.row) {
       VueSurveyModel.updatePropertiesHash(this.row);

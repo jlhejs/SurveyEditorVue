@@ -102,6 +102,51 @@ export class QuestionDropdownModel extends QuestionSelectBase {
     this.setPropertyValue("choicesMax", val);
   }
   /**
+   * The text input size 输入框大小
+   */
+  public get inputSize(): string {
+    return this.getPropertyValue("inputSize","small");
+  }
+  public set inputSize(val: string) {
+    this.setPropertyValue("inputSize", val);
+  }
+   /**
+   * The text input width
+   */
+  public get inputWidth(): number {
+    return this.getPropertyValue("inputWidth");
+  }
+  public set inputWidth(val: number) {
+    this.setPropertyValue("inputWidth", val);
+  }
+   /**
+   * The text input clearable
+   */
+  public get clearable(): boolean {
+    return this.getPropertyValue("clearable",false);
+  }
+  public set clearable(val: boolean) {
+    this.setPropertyValue("clearable", val);
+  }
+  /**
+   * 创建条目https://element.eleme.cn/2.13/#/zh-CN/component/select
+   */
+  public get multiple (): boolean {
+    return this.getPropertyValue("multiple",false);
+  }
+  public set multiple (val: boolean) {
+    this.setPropertyValue("multiple", val);
+  }
+  /**
+   * 输入框尾部图标
+   */
+  public get suffixIcon(): string {
+    return this.getPropertyValue("suffixIcon","none");
+  }
+  public set suffixIcon(val: string) {
+    this.setPropertyValue("suffixIcon", val);
+  }
+  /**
    * The default value is 1. It tells the value of the iterator between choicesMin and choicesMax properties.
    * If choicesMin = 10, choicesMax = 30 and choicesStep = 10 then you will have only three additional choices: [10, 20, 30].
    * @see choicesMin
@@ -122,7 +167,19 @@ Serializer.addClass(
     { name: "showOptionsCaption:boolean", default: true },
     { name: "choicesMin:number", default: 0 },
     { name: "choicesMax:number", default: 0 },
-    { name: "choicesStep:number", default: 1, minValue: 1 }
+    { name: "choicesStep:number", default: 1, minValue: 1 },
+    { name: "inputSize:string", 
+      default: "small" ,
+      choices: [
+      "medium",
+      "small",
+      "mini",
+      
+    ]},
+    { name: "inputWidth:number", default: 250 },
+    { name: "filterable:boolean", default: false },
+    { name: "clearable:boolean", default: false },
+    { name: "multiple:boolean", default: false },
   ],
   function() {
     return new QuestionDropdownModel("");

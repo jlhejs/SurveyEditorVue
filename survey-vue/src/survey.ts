@@ -2311,6 +2311,7 @@ export class SurveyModel extends Base
     this.clearUnusedValues();
     this.setCookie();
     var self = this;
+    debugger
     var onCompleteOptions = {
       showDataSaving: function(text: string) {
         self.setCompletedState("saving", text);

@@ -28,9 +28,9 @@ import { IElement, IQuestion } from "../base";
 import { Question } from "../question";
 @Component
 export class SurveyElementVue extends Vue {
-  @Prop css: any;
-  @Prop survey: SurveyModel;
-  @Prop element: IElement;
+  @Prop({ required: false }) css: any;
+  @Prop({ required: false }) survey: SurveyModel;
+  @Prop({ required: false }) element: IElement;
   getWidgetComponentName(element: Question) {
     if (element.customWidget) {
       return "survey-customwidget";

@@ -33,9 +33,9 @@ import { ISurvey } from "../base";
 
 @Component
 export class Panel extends Vue {
-  @Prop question: PanelModel;
-  @Prop isEditMode: Boolean;
-  @Prop css: any;
+  @Prop({ required: false }) question: PanelModel;
+  @Prop({ required: false }) isEditMode: Boolean;
+  @Prop({ required: false }) css: any;
   private isCollapsedValue: boolean = false;
 
   mounted() {

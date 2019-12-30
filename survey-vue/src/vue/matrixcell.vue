@@ -34,8 +34,8 @@ import {
 
 @Component
 export class MatrixCell extends Vue {
-  @Prop question: Question;
-  @Prop cell: QuestionMatrixDropdownRenderedCell;
+  @Prop({ required: false }) question: Question;
+  @Prop({ required: false }) cell: QuestionMatrixDropdownRenderedCell;
 
   isVisible: boolean = false;
   getWidgetComponentName(element: Question) {

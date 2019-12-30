@@ -57,6 +57,10 @@
 </template>
 <script>
   import {Survey} from 'survey-vue'
+  // var s=Survey
+  // console.log(s)
+  // debugger
+
   export default {
     name:"TemplateLive",
     props: {

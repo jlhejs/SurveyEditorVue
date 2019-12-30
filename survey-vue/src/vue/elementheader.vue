@@ -28,7 +28,7 @@ import { Question } from "../question";
 
 @Component
 export class ElementHeader extends Vue {
-  @Prop element: IElement;
+  @Prop({ required: false }) element: IElement;
 
   getTitleClass(element: Question) {
     var cssClasses = element.cssClasses;

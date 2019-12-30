@@ -20,8 +20,8 @@ import { SurveyModel } from "../survey";
 
 @Component
 export class Progress extends Vue {
-  @Prop survey: SurveyModel;
-  @Prop css: any;
+  @Prop({ required: false }) survey: SurveyModel;
+  @Prop({ required: false }) css: any;
   get progress() {
     return this.survey.getProgress() + "%";
   }

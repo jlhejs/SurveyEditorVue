@@ -24,9 +24,9 @@ import { FlowPanelModel } from "../flowpanel";
 
 @Component
 export class FlowPanel extends Vue {
-  @Prop question: FlowPanelModel;
-  @Prop isEditMode: Boolean;
-  @Prop css: any;
+  @Prop({ required: false }) question: FlowPanelModel;
+  @Prop({ required: false }) isEditMode: Boolean;
+  @Prop({ required: false }) css: any;
   private isCollapsedValue: boolean = false;
   private rootNodeValue: Node;
 
