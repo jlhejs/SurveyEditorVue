@@ -1,23 +1,20 @@
 <template>
   <div :class="question.cssClasses.root">
     <label :class="itemClass">
-      <input
-        type="checkbox"
-        :name="question.name"
-        :value="question.checkedValue"
-        v-model="question.checkedValue"
-        :class="question.cssClasses.control"
-        :id="question.inputId"
-        :indeterminate.prop="question.isIndeterminate"
-        :disabled="question.isReadOnly"
-        v-bind:aria-required="question.isRequired"
-        :aria-label="question.locTitle.renderedHtml"
-      />
-      <span :class="getLabelClass(false)">{{question.locLabelFalse.renderedHtml}}</span>
-      <div :class="question.cssClasses.switch">
-        <span :class="question.cssClasses.slider" />
-      </div>
+      <span :class="getLabelClass(false)" style="font-size: 14px;padding-right: 10px;">{{question.locLabelFalse.renderedHtml}}</span>
+      <el-checkbox
+      :name="question.name"
+      :id="question.inputId"
+      v-model="question.checkedValue"
+      :disabled="question.isReadOnly"
+      v-bind:aria-required="question.isRequired"
+      :aria-label="question.locTitle.renderedHtml"
+      :true-label="question.valueTrue"
+      :false-label="question.valueFalse" 
+      :indeterminate="indeterminate()">
       <span :class="getLabelClass(true)">{{question.locLabelTrue.renderedHtml}}</span>
+      </el-checkbox>
+     
     </label>
   </div>
 </template>
@@ -52,6 +49,9 @@ export class Boolean extends QuestionVue<QuestionBooleanModel> {
         ? question.cssClasses.disabledLabel
         : "")
     );
+  }
+  indeterminate(){
+    return this.question.checkedValue!==this.question.getValueTrue()&&this.question.checkedValue!==this.question.getValueFalse()
   }
 }
 Vue.component("survey-boolean", Boolean);

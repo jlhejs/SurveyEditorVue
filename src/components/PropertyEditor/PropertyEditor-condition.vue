@@ -1,5 +1,5 @@
 <template>
-  <PropertyEditor-modal :property="property"></PropertyEditor-modal>
+  <PropertyEditor-modal v-model="property"></PropertyEditor-modal>
 </template>
 <script>
   export default {

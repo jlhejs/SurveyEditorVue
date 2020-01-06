@@ -9,15 +9,15 @@
       />
       <survey-errors v-if="hasErrorsOnBottom" :question="cell.question" :location="'bottom'" />
     </div>
-    <button
-      v-if="cell.isRemoveRow"
-      type="button"
-      :class="question.cssClasses.button + ' ' + question.cssClasses.buttonRemove"
-      @click="removeRowClick()"
-    >
-      <span>{{question.removeRowText}}</span>
+    <el-button type="primary" size="mini" icon="el-icon-delete"
+    v-if="cell.isRemoveRow"
+ 
+    :class="question.cssClasses.button + ' ' + question.cssClasses.buttonRemove"
+    @click="question.removeRowUI(cell.row)">
+      {{question.removeRowText}}
       <span :class="question.cssClasses.iconRemove"></span>
-    </button>
+    </el-button>
+  
     <survey-string v-if="cell.hasTitle" :locString="cell.locTitle" />
   </td>
 </template>
@@ -71,9 +71,7 @@ export class MatrixCell extends Vue {
 
     return cellClass;
   }
-  removeRowClick() {
-    this.question.removeRowUI(this.cell.row);
-  }
+
   mounted() {
     if (!this.cell.hasQuestion || !this.question || !this.question.survey)
       return;

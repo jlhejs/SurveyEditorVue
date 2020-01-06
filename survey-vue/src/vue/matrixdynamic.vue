@@ -12,14 +12,12 @@
     </div>
       <survey-matrixtable :question="question" />
     <div v-if="question.isAddRowOnBottom" :class="question.cssClasses.footer">
-      <button
-        type="button"
-        :class="question.cssClasses.button + ' ' + question.cssClasses.buttonAdd"
-        @click="addRowClick"
-      >
-        <span>{{question.addRowText}}</span>
+      <el-button type="primary" size="mini" icon="el-icon-plus"   @click="addRowClick"  :class="question.cssClasses.button + ' ' + question.cssClasses.buttonAdd">
+        {{question.addRowText}}
         <span :class="question.cssClasses.iconAdd"></span>
-      </button>
+      </el-button>
+
+      
     </div>
   </div>
 </template>

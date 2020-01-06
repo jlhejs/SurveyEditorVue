@@ -1,8 +1,9 @@
 <template>
   <div :class="question.cssClasses.root">
-    <div v-if="!question.isReadOnly" :class="question.cssClasses.selectWrapper">
-      <el-select 
+    <div  :class="question.cssClasses.selectWrapper">
+      <el-select
       v-model="question.renderedValue" 
+      :disabled="question.isReadOnly"
       :id="question.inputId" 
       placeholder="请选择"  
       :class="question.cssClasses.control" 
@@ -19,17 +20,19 @@
         <el-option
         v-for="item in question.visibleChoices"
         :value="item.value"
+        :key="item.value"
         :label="item.text"
         :disabled="!item.isEnabled">
         </el-option>
       </el-select>
+     
     </div>
-    <div
-      disabled
-      v-else
-      :class="question.cssClasses.control"
-    >{{isOtherSelected ? question.otherText : question.displayValue}}</div>
+    <span  v-if="isOtherSelected"
+    :class="question.cssClasses.control">
+    {{isOtherSelected ? question.otherText : question.displayValue}}
     <survey-other-choice v-show="isOtherSelected" :question="question" />
+    </span>
+    
   </div>
 </template>
 

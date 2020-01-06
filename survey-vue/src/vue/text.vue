@@ -7,7 +7,6 @@
   :size="showInputSize()"
   :prefix-icon="showPrefixIcon()"
   :suffix-icon="showSuffixIcon()"
-
   :class="question.cssClasses.root"
   :type="question.inputType"
   :maxlength="question.getMaxLength()"

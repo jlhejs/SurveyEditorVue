@@ -1,7 +1,7 @@
 <template>
     <div id="editor-main">
 
-      <QuillEditor></QuillEditor>
+      <QuillEditor content="qwer"></QuillEditor>
     </div>
 </template>
 <script>

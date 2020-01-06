@@ -1,8 +1,5 @@
 <template>
-<span>
- 
   <el-input v-model="property.value" @change="valueChanged" placeholder="请输入内容" size="mini" type="number" :disabled="property.disabled" max="100"></el-input>
-</span>
 </template>
 <script>
   export default {

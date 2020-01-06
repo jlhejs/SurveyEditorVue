@@ -83,7 +83,7 @@
       }
     },
     updated() {
-      console.log(this.editor.surveyLive)
+      // console.log(this.editor.surveyLive)
     },
     computed: {
       showDialog:function(){

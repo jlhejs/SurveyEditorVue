@@ -1,6 +1,19 @@
 <template>
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
+    <el-row :gutter="0"  :class="question.css.root">
+      <el-radio-group v-model="question.renderedValue" style="width: 100%;" :disabled="question.isReadOnly">
+          <template  v-for="(item, index) in question.visibleChoices" >
+            <el-col tag="span" :span="getSpan(item)" :key="item.value" :class="getItemClass(item)" v-if="question.hasColumns">
+              <el-radio  :label="item.value" >{{item.text}}</el-radio>
+            </el-col>
+            <span :key="item.value" :class="getItemClass(item)"  v-else>
+              <el-radio  :label="item.value" :class="getItemClass(item)">{{item.text}}</el-radio>
+            </span>
+          </template>
+      </el-radio-group>
+    </el-row>
+<!-- 
     <survey-radiogroup-item
       v-if="!question.hasColumns"
       v-for="(item, index) in question.visibleChoices"
@@ -33,7 +46,7 @@
         v-on:click="function() { question.clearValue(); }"
         :value="question.clearButtonCaption"
       />
-    </div>
+    </div> -->
   </fieldset>
 </template>
 
@@ -63,7 +76,15 @@ export class Radiogroup extends QuestionVue<QuestionRadiogroupModel> {
           ? " " + cssClasses.itemInline
           : " sv-q-col-" + this.question.colCount;
     }
+
     return itemClass;
+  }
+  getSpan(item: any){
+    var question = this.question;
+    console.log(this)
+    if (question.hasColumns) {
+      return question.colCount === 0? "":  Math.floor(24/question.colCount)
+    }
   }
 }
 Vue.component("survey-radiogroup", Radiogroup);

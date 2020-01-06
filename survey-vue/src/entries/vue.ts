@@ -34,6 +34,7 @@ export { OtherChoice } from "../vue/otherChoice.vue";
 export { Rating } from "../vue/rating.vue";
 export { Comment } from "../vue/comment.vue";
 export { Checkbox } from "../vue/checkbox.vue";
+export { Cascader } from "../vue/cascader.vue";
 export { CheckboxItem } from "../vue/checkboxitem.vue";
 export { Text } from "../vue/text.vue";
 export { Boolean } from "../vue/boolean.vue";

@@ -1,0 +1,340 @@
+import { ILocalizableOwner, LocalizableString } from "./localizablestring";
+import { JsonObject, JsonObjectProperty, Serializer } from "./jsonobject";
+import { Helpers } from "./helpers";
+import { ConditionRunner } from "./conditions";
+import { Base } from "./base";
+import { ItemValue } from "./itemvalue";
+import { settings } from "./settings";
+
+/**
+ * Array of ItemValue is used in checkox, dropdown and radiogroup choices, matrix columns and rows.
+ * It has two main properties: value and text. If text is empty, value is used for displaying.
+ * The text property is localizable and support markdown.
+ */
+export class ItemValueCascader extends Base {
+  [index: string]: any;
+  public static get Separator() {
+    return settings.itemValueSeparator;
+  }
+  public static set Separator(val: string) {
+    settings.itemValueSeparator = val;
+  }
+  public static createArray(locOwner: ILocalizableOwner): Array<ItemValueCascader> {
+    var items: Array<ItemValueCascader> = [];
+    ItemValueCascader.setupArray(items, locOwner);
+    return items;
+  }
+  public static setupArray(
+    items: Array<ItemValueCascader>,
+    locOwner: ILocalizableOwner
+  ) {
+    items.push = function(value): number {
+      var result = Array.prototype.push.call(this, value);
+      value.locOwner = locOwner;
+      return result;
+    };
+    items.unshift = function(value): number {
+      var result = Array.prototype.unshift.call(this, value);
+      value.locOwner = locOwner;
+      return result;
+    };
+    items.splice = function(
+      start?: number,
+      deleteCount?: number,
+      ...items: ItemValueCascader[]
+    ): ItemValueCascader[] {
+      var result = Array.prototype.splice.call(
+        this,
+        start,
+        deleteCount,
+        ...items
+      );
+      if (!items) items = [];
+      for (var i = 0; i < items.length; i++) {
+        items[i].locOwner = locOwner;
+      }
+      return result;
+    };
+  }
+  public static setData(items: Array<ItemValueCascader>, values: Array<any>) {
+    items.length = 0;
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+      var item;
+      if (typeof value.getType === "function") {
+        item = Serializer.createClass(value.getType());
+      } else {
+        item = new ItemValueCascader(null);
+      }
+      item.setData(value);
+      items.push(item);
+    }
+  }
+  public static getData(items: Array<ItemValueCascader>): any {
+    var result = new Array();
+    for (var i = 0; i < items.length; i++) {
+      result.push(items[i].getData());
+    }
+    return result;
+  }
+  public static getItemByValue(items: Array<ItemValueCascader>, val: any): ItemValueCascader {
+    for (var i = 0; i < items.length; i++) {
+      if (Helpers.isTwoValueEquals(items[i].value, val)) return items[i];
+    }
+    return null;
+  }
+  public static getTextOrHtmlByValue(
+    items: Array<ItemValueCascader>,
+    val: any
+  ): string {
+    var item = ItemValueCascader.getItemByValue(items, val);
+    return item !== null ? item.locText.textOrHtml : "";
+  }
+  public static locStrsChanged(items: Array<ItemValueCascader>) {
+    for (var i = 0; i < items.length; i++) {
+      items[i].locText.strChanged();
+    }
+  }
+  public static runConditionsForItems(
+    items: Array<ItemValueCascader>,
+    filteredItems: Array<ItemValueCascader>,
+    runner: ConditionRunner,
+    values: any,
+    properties: any,
+    useItemExpression: boolean = true
+  ): boolean {
+    return ItemValueCascader.runConditionsForItemsCore(
+      items,
+      filteredItems,
+      runner,
+      values,
+      properties,
+      true,
+      useItemExpression
+    );
+  }
+  public static runEnabledConditionsForItems(
+    items: Array<ItemValueCascader>,
+    runner: ConditionRunner,
+    values: any,
+    properties: any
+  ): boolean {
+    return ItemValueCascader.runConditionsForItemsCore(
+      items,
+      null,
+      runner,
+      values,
+      properties,
+      false
+    );
+  }
+  private static runConditionsForItemsCore(
+    items: Array<ItemValueCascader>,
+    filteredItems: Array<ItemValueCascader>,
+    runner: ConditionRunner,
+    values: any,
+    properties: any,
+    isVisible: boolean,
+    useItemExpression: boolean = true
+  ): boolean {
+    if (!values) {
+      values = {};
+    }
+    var itemValue = values["item"];
+    var choiceValue = values["choice"];
+    var hasChanded = false;
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      values["item"] = item.value;
+      values["choice"] = item.value;
+      var itemRunner =
+        useItemExpression && !!item.getConditionRunner
+          ? item.getConditionRunner(isVisible)
+          : false;
+      if (!itemRunner) {
+        itemRunner = runner;
+      }
+      var newValue = true;
+      if (itemRunner) {
+        newValue = itemRunner.run(values, properties);
+      }
+      if (!!filteredItems && newValue) {
+        filteredItems.push(item);
+      }
+      var oldValue = isVisible ? item.isVisible : item.isEnabled;
+      if (newValue != oldValue) {
+        hasChanded = true;
+        if (isVisible) {
+          if (!!item.setIsVisible) item.setIsVisible(newValue);
+        } else {
+          if (!!item.setIsEnabled) item.setIsEnabled(newValue);
+        }
+      }
+    }
+    if (itemValue) {
+      values["item"] = itemValue;
+    } else {
+      delete values["item"];
+    }
+    if (choiceValue) {
+      values["choice"] = choiceValue;
+    } else {
+      delete values["choice"];
+    }
+    return hasChanded;
+  }
+  private visibleIfValue: string = "";
+  private itemValue: any;
+  private locTextValue: LocalizableString;
+  private isVisibleValue: boolean = true;
+  private visibleConditionRunner: ConditionRunner;
+  private enableConditionRunner: ConditionRunner;
+
+  constructor(value: any, text: string = null, private typeName = "itemvalue") {
+    super();
+    this.locTextValue = new LocalizableString(null, true);
+    this.locTextValue.onGetTextCallback = txt => {
+      return txt ? txt : !this.isValueItemEmpty ? this.value.toString() : null;
+    };
+    if (text) this.locText.text = text;
+    if (!!value && typeof value === "object") {
+      this.setData(value);
+    } else {
+      this.value = value;
+    }
+    this.onCreating();
+  }
+  public onCreating(): any {}
+  public getType(): string {
+    return !!this.typeName ? this.typeName : "itemvalue";
+  }
+  public get locText(): LocalizableString {
+    return this.locTextValue;
+  }
+  setLocText(locText: LocalizableString) {
+    this.locTextValue = locText;
+  }
+  public get locOwner(): ILocalizableOwner {
+    return this.locText.owner;
+  }
+  public set locOwner(value: ILocalizableOwner) {
+    this.locText.owner = value;
+  }
+  public get value(): any {
+    return this.itemValue;
+  }
+  public set value(newValue: any) {
+    this.itemValue = newValue;
+    if (!this.itemValue) return;
+    var str: string = this.ItemValueCascader.toString();
+    var index = str.indexOf(settings.itemValueSeparator);
+    if (index > -1) {
+      this.itemValue = str.slice(0, index);
+      this.text = str.slice(index + 1);
+    } else if (!this.hasText) {
+      this.locText.onChanged();
+    }
+  }
+  public get hasText(): boolean {
+    return this.locText.pureText ? true : false;
+  }
+  public get text(): string {
+    return this.locText.calculatedText; //TODO: it will be correct to use this.locText.text, however it would require a lot of rewritting in Creator
+  }
+  public set text(newText: string) {
+    this.locText.text = newText;
+  }
+  public get calculatedText() {
+    return this.locText.calculatedText;
+  }
+  public getData(): any {
+    var json = this.toJSON();
+    if (!!json["value"] && !!json["value"]["pos"]) {
+      delete json["value"]["pos"];
+    }
+    if (Object.keys(json).length == 1 && !Helpers.isValueEmpty(json["value"]))
+      return this.value;
+    return json;
+  }
+  public toJSON(): any {
+    var res = {};
+    var properties = Serializer.getProperties(this.getType());
+    if (!properties || properties.length == 0) {
+      properties = Serializer.getProperties("itemvalue");
+    }
+    var jsoObj = new JsonObject();
+    for (var i = 0; i < properties.length; i++) {
+      jsoObj.valueToJson(this, res, properties[i]);
+    }
+    return res;
+  }
+  public setData(value: any) {
+    if (Helpers.isValueEmpty(value)) return;
+    if (typeof value.value !== "undefined") {
+      var json = value;
+      if (typeof value.toJSON === "function") {
+        json = (<Base>value).toJSON();
+      }
+      new JsonObject().toObject(json, this);
+    } else {
+      this.value = value;
+    }
+  }
+  public get visibleIf(): string {
+    return this.visibleIfValue;
+  }
+  public set visibleIf(val: string) {
+    this.visibleIfValue = val;
+  }
+  public get isVisible() {
+    return this.isVisibleValue;
+  }
+  public setIsVisible(val: boolean) {
+    this.isVisibleValue = val;
+  }
+  public get isEnabled() {
+    return this.getPropertyValue("isEnabled", true);
+  }
+  public setIsEnabled(val: boolean) {
+    this.setPropertyValue("isEnabled", val);
+  }
+  public addUsedLocales(locales: Array<string>) {
+    this.AddLocStringToUsedLocales(this.locTextValue, locales);
+  }
+  protected getConditionRunner(isVisible: boolean) {
+    if (isVisible) return this.getVisibleConditionRunner();
+    return this.getEnableConditionRunner();
+  }
+  private getVisibleConditionRunner(): ConditionRunner {
+    if (!this.visibleIf) return null;
+    if (!this.visibleConditionRunner)
+      this.visibleConditionRunner = new ConditionRunner(this.visibleIf);
+    this.visibleConditionRunner.expression = this.visibleIf;
+    return this.visibleConditionRunner;
+  }
+  private getEnableConditionRunner(): ConditionRunner {
+    if (!this.enableIf) return null;
+    if (!this.enableConditionRunner)
+      this.enableConditionRunner = new ConditionRunner(this.enableIf);
+    this.enableConditionRunner.expression = this.enableIf;
+    return this.enableConditionRunner;
+  }
+  private get isValueItemEmpty() {
+    return !this.itemValue && this.itemValue !== 0 && this.itemValue !== false;
+  }
+}
+
+
+Serializer.addClass(
+  "itemvalue_cascader",
+  [
+    "value",
+    {
+      name: "text",
+      serializationProperty: "locText"
+    },
+    { name: "visibleIf:condition", visible: false },
+    { name: "enableIf:condition", visible: false }
+  ],
+  (value: any) => new ItemValueCascader(value)
+);

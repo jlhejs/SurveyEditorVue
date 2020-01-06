@@ -96,6 +96,10 @@ export var defaultBootstrapCss = {
     other: "sv_q_dd_other form-control"
   },
   html: { root: "" },
+  cascader: {
+    root: "sv-cascader",
+    popper: "sv-cascader-popper"
+  },
   matrix: {
     root: "table sv_q_matrix",
     label: "sv_q_m_label",

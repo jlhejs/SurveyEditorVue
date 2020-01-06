@@ -138,6 +138,10 @@ export var modernCss = {
     small: "sv-row__question--small",
     onError: "sv-text--error"
   },
+  cascader: {
+    root: "sv-cascader",
+    popper: "sv-cascader-popper"
+  },
   multipletext: {
     root: "sv-multipletext",
     item: "sv-multipletext__item",

@@ -1,40 +1,18 @@
 <template>
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
-    
     <el-row :gutter="0"  >
-      <el-checkbox-group v-model="question.renderedValue">
+      <el-checkbox-group v-model="question.renderedValue" :disabled="question.isReadOnly">
           <template  v-for="(item, index) in question.visibleChoices">
-            <el-col :span="getSpan(item)" :key="item.value" :class="getItemClass(item)" v-if="question.hasColumns">
+            <el-col tag="span" :span="getSpan(item)" :key="item.value" :class="getItemClass(item)" v-if="question.hasColumns">
               <el-checkbox :label="item.value" >{{item.text}}</el-checkbox>
             </el-col>
-            <el-checkbox :label="item.value" v-else>{{item.text}}</el-checkbox>
+            <span :key="item.value" :class="getItemClass(item)"  v-else>
+              <el-checkbox :label="item.value" :class="getItemClass(item)">{{item.text}}</el-checkbox>
+            </span>
           </template>
       </el-checkbox-group>
     </el-row>
-    <!-- <survey-checkbox-item
-      v-if="!question.hasColumns"
-      v-for="(item, index) in question.visibleChoices"
-      :key="item.value"
-      :class="getItemClass(item)"
-      :question="question"
-      :item="item"
-      :index="index"
-    ></survey-checkbox-item>
-    <div
-      v-if="question.hasColumns"
-      v-for="(column, colIndex) in question.columns"
-      :class="question.getColumnClass()"
-    >
-      <survey-checkbox-item
-        v-for="(item, index) in column"
-        :key="item.value"
-        :class="getItemClass(item)"
-        :question="question"
-        :item="item"
-        :index="'' + colIndex + index"
-      ></survey-checkbox-item>
-    </div> -->
   </fieldset>
 </template>
 
@@ -67,11 +45,10 @@ export class Checkbox extends QuestionVue<QuestionCheckboxModel> {
   }
   getSpan(item: any){
     var question = this.question;
+    console.log(this)
     if (question.hasColumns) {
       return question.colCount === 0? "":  Math.floor(24/question.colCount)
     }
-    
-
   }
 
 }

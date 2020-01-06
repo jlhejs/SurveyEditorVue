@@ -1,7 +1,7 @@
 <template>
   <div class="editor-quill-editor">
     <quillEditor 
-    v-model="content"
+    v-model="text"
     :ref="refRandom"
     :options="editorOption"
     @change="onEditorChange($event)" 
@@ -23,12 +23,17 @@ import { quillEditor } from 'vue-quill-editor'
       options:{
         type: Object,
         required: false
+      },
+      value:{
+        type: String,
+        default:"",
+        required: false
       }
  
     },
     data() {
       return {
-        content:"",
+       text:this.content,
         refRandom:this._.randomStrNum(10)
       }
     },
@@ -60,17 +65,17 @@ import { quillEditor } from 'vue-quill-editor'
     methods:{
       onEditorBlur(value){
         // 失去焦点事件
-        this.$emit('blur', this.content)
+        this.$emit('blur', this.text)
         console.log(value)
       }, 
       onEditorFocus(){
         // 获得焦点事件
-        this.$emit('foucs', this.content)
+        this.$emit('foucs', this.text)
         console.log(this)
       }, 
       onEditorChange(){
         // 内容改变事件
-        this.$emit('change', this.content)
+        this.$emit('input', this.text)
         console.log(this)
       }, 
     }

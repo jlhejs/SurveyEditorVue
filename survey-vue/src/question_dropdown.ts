@@ -138,6 +138,15 @@ export class QuestionDropdownModel extends QuestionSelectBase {
     this.setPropertyValue("multiple", val);
   }
   /**
+   * 创建条目https://element.eleme.cn/2.13/#/zh-CN/component/select
+   */
+  public get filterable (): boolean {
+    return this.getPropertyValue("filterable",false);
+  }
+  public set filterable (val: boolean) {
+    this.setPropertyValue("filterable", val);
+  }
+  /**
    * 输入框尾部图标
    */
   public get suffixIcon(): string {

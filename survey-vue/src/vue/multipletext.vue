@@ -1,22 +1,22 @@
 <template>
-  <table :class="question.cssClasses.root">
-    <tr
-      v-for="(row, rowindex) in question.getRows()"
-      :key="question.inputId + 'rowkey' + rowindex"
-      :class="question.cssClasses.row"
-    >
-      <template v-for="item in row">
-        <td :key="'label' + item.editor.id" :class="question.cssClasses.itemTitle + ' ' + question.cssClasses.cell">
-          <survey-string :locString="item.locTitle"/>
-        </td>
-        <td :key="item.editor.id" :css="question.cssClasses.cell">
-          <survey-errors v-if="hasErrorsOnTop" :question="item.editor" :location="'top'"/>
-          <component :is="getWidgetComponentName(item.editor)" :question="item.editor"/>
-          <survey-errors v-if="hasErrorsOnBottom" :question="item.editor" :location="'bottom'"/>
-        </td>
-      </template>
-    </tr>
-  </table>
+  <span :class="question.cssClasses.root">
+    <span v-for="(row, rowindex) in question.getRows()"
+    :key="question.inputId + 'rowkey' + rowindex"
+    :class="question.cssClasses.row">
+    <template v-for="item in row">
+      <span :key="'label' + item.editor.id" :class="question.cssClasses.itemTitle + ' ' + question.cssClasses.cell">
+        <survey-string :locString="item.locTitle"/>
+      </span>
+      <span :key="item.editor.id" :css="question.cssClasses.cell">
+        <survey-errors v-if="hasErrorsOnTop" :question="item.editor" :location="'top'"/>
+        <component :is="getWidgetComponentName(item.editor)" :question="item.editor"/>
+        <survey-errors v-if="hasErrorsOnBottom" :question="item.editor" :location="'bottom'"/>
+      </span>
+    </template>
+    </span>
+   
+  </span>
+  
 </template>
 
 <script lang="ts">

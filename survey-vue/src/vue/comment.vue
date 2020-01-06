@@ -1,5 +1,23 @@
 <template>
-  <div>
+  <el-input 
+  type="textarea"
+  :readonly="question.isReadOnly"
+      :disabled="question.isReadOnly"
+      v-model="question.value"
+      :id="question.inputId"
+      :maxlength="question.getMaxLength()"
+      :cols="question.cols"
+      v-bind:aria-label="question.locTitle.renderedHtml"
+      :rows="question.rows"
+      :placeholder="question.placeHolder"
+      :class="question.cssClasses ? question.cssClasses.root : 'panel-comment-root'"
+      @change="change"
+      @keyup="keyup"
+      style="width: auto;"
+  ></el-input>
+  <!-- <div>
+    
+
     <textarea
       type="text"
       :readonly="question.isReadOnly"
@@ -15,7 +33,7 @@
       @change="change"
       @keyup="keyup"
     ></textarea>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">
