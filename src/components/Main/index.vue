@@ -1,10 +1,11 @@
 <template>
     <div id="editor-main">
 
-      <QuillEditor content="qwer"></QuillEditor>
+      <Survey :survey="editor.survey"></Survey>
     </div>
 </template>
 <script>
+  import {Survey} from 'survey-vue'
     export default {
       name:"Main",
       props: {
@@ -12,6 +13,9 @@
           required: true,
           type: Object,
         }
+      },
+      components: {
+        Survey
       },
       data() {
         return {

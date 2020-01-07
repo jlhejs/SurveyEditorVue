@@ -3,8 +3,7 @@
     <Toolbar :editor="editor"></Toolbar>
     <PagesEditor :editor="editor"></PagesEditor>
     <Main :editor="editor" ></Main>
-    <QuestionEditor :editor="editor"></QuestionEditor>
-    {{editor.text}}
+    <QuestionEditor :editor="editor"></QuestionEditor> 
   </div>
 </template>
 <script>
@@ -21,8 +20,10 @@
       return {
       }
     },
+    created() {
+    },
     updated() {
-     
+    //  debugger
     },
   }
 </script>

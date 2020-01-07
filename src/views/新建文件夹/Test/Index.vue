@@ -17,10 +17,10 @@
         method: 'get',
         url: 'http://pv.sohu.com/cityjson',
       }).then(function (response) {
-        debugger
+        // debugger
         THIS.$set(THIS, "simpleWeather", response);
       }).catch(function(response){
-        debugger
+        // debugger
       })
       this.$axios({
         method: 'get',
@@ -30,11 +30,9 @@
           city:"北京"
         }
       }).then(function (response) {
-        debugger
         THIS.$set(THIS, "simpleWeather", response.data);
 
       }).catch(function(){
-        debugger
       })
     }
     data() {

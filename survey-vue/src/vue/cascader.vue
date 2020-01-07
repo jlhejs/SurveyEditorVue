@@ -69,11 +69,9 @@ export class Cascader extends QuestionVue<QuestionCascaderModel> {
     if (isDisabled) itemClass += " " + cssClasses.itemDisabled;
     if (isChecked) itemClass += " " + cssClasses.itemChecked;
     if (allowHover) itemClass += " " + cssClasses.itemHover;
-    debugger
     return itemClass;
   }
   getSpan(item: any){
-    debugger
     var question = this.question;
     console.log(this)
     if (question.hasColumns) {
@@ -81,7 +79,6 @@ export class Cascader extends QuestionVue<QuestionCascaderModel> {
     }
   }
   changeCascader(){
-    debugger
   }
   options(){
     var options=[]

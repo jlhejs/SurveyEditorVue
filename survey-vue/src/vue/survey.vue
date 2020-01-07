@@ -1,7 +1,7 @@
 <template>
   <div :class="css.root">
     <form onsubmit="return false;">
-      <div class="sv_custom_header">111111111111</div>
+      <div class="sv_custom_header"></div>
       <div :class="css.container">
         <div v-if="hasTitle" :class="css.header">
           <h3 :class="css.title">

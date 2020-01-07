@@ -45,7 +45,7 @@
       },
       created () {
         console.log("properties/index")
-        debugger
+        // debugger
       } 
     })
     export default class properties extends Vue {
@@ -57,7 +57,7 @@
         return koObjects;
       }
       get koSelectedObject() {
-        debugger
+        // debugger
         return "sunyinyu";
       }
       set koSelectedObject(value){

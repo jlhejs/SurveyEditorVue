@@ -387,6 +387,5 @@ Serializer.addClass(
 QuestionFactory.Instance.registerQuestion("cascader", name => {
   var q = new QuestionCascaderModel(name);
   q.choices = QuestionFactory.DefaultChoices;
-  debugger
   return q;
 });

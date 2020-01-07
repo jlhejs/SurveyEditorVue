@@ -287,7 +287,6 @@ export class QuestionMatrixDynamicModel extends QuestionMatrixDropdownModelBase
       if (index < 0) return;
       value = index;
     }
-    debugger
     if (
       !this.isRequireConfirmOnRowDelete(value) ||
       confirm(this.confirmDeleteText)

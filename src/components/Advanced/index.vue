@@ -1,22 +1,20 @@
 <template>
-  <div :class="['editor-advanced',editor.hideAdvancedSettings ? 'hide-advanced' : '']" >
+  <div :class="['editor-advanced',editor.hideAdvancedSettings ? 'hide-advanced' : '']">
     <el-row class="editor-advanced-selector">
       <el-col :span="20">
-        <el-select v-model="editor.selectedObject.id" size="mini" placeholder="ç¼–è¾‘" id="object-elector" @change="changeSelectedObject">
-          <el-option
-            v-for="(item,key) in option"
-            :key="key"
-            :label="item.text"
-            :value="item.id">
+        <el-select v-model="editor.selectedObject" size="mini" placeholder="editor.selectedObject.text" id="object-elector">
+          <el-option v-for="(item,key) in editor.objects" :key="key" :label="item.text" :value="item">
             <span style="float: left">{{ item.text }}</span>
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id}}</span>
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="4"> <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editor.editCurrentObject">ç¼–è¾‘</el-button></el-col>
-    </el-row> 
+      <el-col :span="4">
+        <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editor.editCurrentObject">编辑</el-button>
+      </el-col>
+    </el-row>
     <el-divider class="editor-advanced-divider"></el-divider>
-    <el-scrollbar  class="seditor-advanced-editor">
+    <el-scrollbar class="seditor-advanced-editor">
       <el-row class="seditor-advanced-editor-box">
         <template v-for="(item,key) in editor.selectedObjectEditor.koProperties">
           <ObjectEditorProperty :property="item" :key="key"></ObjectEditorProperty>
@@ -28,7 +26,7 @@
 </template>
 <script>
   export default {
-    name:"Advanced",
+    name: "Advanced",
     props: {
       editor: {
         type: Object,
@@ -37,22 +35,13 @@
     },
     data() {
       return {
-       
+
       }
     },
     methods: {
-      changeSelectedObject:function(){
-        var newValue=null;
-        for(var i=0;i<this.option;i++){
-          if(this.editor.selectedObject.id==this.option[i].id){
-            newValue=this.option[i]
-          }
-        }
-        this.editor.selectedObjectChanged(newValue ? newValue : null);
-      }
+
     },
-    updated() {
-    },
+    updated() {},
     computed: {
 
 
@@ -60,34 +49,43 @@
   }
 </script>
 <style scoped>
-  .editor-advanced{
+  .editor-advanced {
     height: 100%;
     transition: width 1s linear 2s;
     position: relative;
   }
-  .hide-advanced{width: 0;transition: width 1s linear 2s;}
-  #object-elector{}
-  .editor-advanced-selector{
+
+  .hide-advanced {
+    width: 0;
+    transition: width 1s linear 2s;
+  }
+
+  .editor-advanced-selector {
     padding: 10px 15px;
   }
-  .editor-advanced-divider{
+
+  .editor-advanced-divider {
     margin: 0;
   }
-  .seditor-advanced-editor{
+
+  .seditor-advanced-editor {
     height: calc(100% - 50px);
   }
-  .seditor-advanced-editor-box{
+
+  .seditor-advanced-editor-box {
     padding: 15px;
   }
-  
 
-  .displayname-edit{
+
+  .displayname-edit {
     font-size: 14px;
   }
-  .displayname-edit>div{
+
+  .displayname-edit>div {
     float: left;
   }
-  #advanced-hamburger{
+
+  #advanced-hamburger {
     position: absolute;
     top: 0;
     left: -40px;

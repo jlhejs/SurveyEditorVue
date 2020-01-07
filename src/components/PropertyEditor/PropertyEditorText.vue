@@ -20,7 +20,7 @@
     },
     methods: {
       valueChanged:function(){
-        debugger
+        // debugger
         this.property.editor.onValueChanged(this.property.value)
       }
     },

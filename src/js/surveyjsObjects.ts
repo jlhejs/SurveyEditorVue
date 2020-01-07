@@ -42,7 +42,8 @@ export class SurveyForDesigner extends Survey.Model {
     var self = this;
     this.setDesignMode(true);
     this.onAfterRenderPage.add((sender: Survey.Model, options) => {
-      options.page["onAfterRenderPage"](options.htmlElement);
+      // options.page["onAfterRenderPage"](options.htmlElement);
+      // sender["onAfterRenderPage"](options.htmlElement);
     });
     this.editQuestionClick = function() {
       self.onEditButtonClick.fire(self, null);

@@ -16,7 +16,7 @@
       }
     },
     updated() {
-      debugger
+      // debugger
       console.log(this.value)
     },
     methods: {

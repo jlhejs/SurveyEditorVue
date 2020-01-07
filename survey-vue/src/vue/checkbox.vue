@@ -40,7 +40,6 @@ export class Checkbox extends QuestionVue<QuestionCheckboxModel> {
     if (isDisabled) itemClass += " " + cssClasses.itemDisabled;
     if (isChecked) itemClass += " " + cssClasses.itemChecked;
     if (allowHover) itemClass += " " + cssClasses.itemHover;
-    debugger
     return itemClass;
   }
   getSpan(item: any){

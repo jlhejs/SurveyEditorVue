@@ -72,7 +72,6 @@ export class Rating extends QuestionVue<QuestionRatingModel> {
       texts.push(this.question.visibleRateValues[i].text)
     }
     return texts
-    debugger
 
   }
   getCss(question: QuestionRatingModel, item: any) {
@@ -83,7 +82,6 @@ export class Rating extends QuestionVue<QuestionRatingModel> {
     return css;
   }
   change(e: any) {
-    debugger
     if (!this.question.isInputTextUpdate) return;
     if(e.target){
       this.question.value = e.target.value;

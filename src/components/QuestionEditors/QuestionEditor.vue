@@ -5,8 +5,7 @@
   :visible.sync="editor.questionEditorWindow.visible"
   width="30%"
   >
-
-  {{1111}}
+1111111111111111
   <!-- <div id="surveyquestioneditorwindow" class="modal" data-bind="with:koEditor">
     <div class="modal-dialog">
         <div class="modal-content">
