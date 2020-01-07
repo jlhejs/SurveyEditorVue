@@ -2,7 +2,7 @@
   <div :class="['editor-advanced',editor.hideAdvancedSettings ? 'hide-advanced' : '']" >
     <el-row class="editor-advanced-selector">
       <el-col :span="20">
-        <el-select v-model="editor.selectedObject.id" size="mini" placeholder="编辑" id="object-elector" @change="changeSelectedObject">
+        <el-select v-model="editor.selectedObject.id" size="mini" placeholder="ç¼–è¾‘" id="object-elector" @change="changeSelectedObject">
           <el-option
             v-for="(item,key) in option"
             :key="key"
@@ -13,7 +13,7 @@
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="4"> <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editor.editCurrentObject">编辑</el-button></el-col>
+      <el-col :span="4"> <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editor.editCurrentObject">ç¼–è¾‘</el-button></el-col>
     </el-row> 
     <el-divider class="editor-advanced-divider"></el-divider>
     <el-scrollbar  class="seditor-advanced-editor">
@@ -54,13 +54,8 @@
     updated() {
     },
     computed: {
-      "option":function(){
-        for(var i=0;i<this.editor.objects.length;i++){
-          this.editor.objects[i].id=Math.random().toString(36).substr(2);
-        }
-        return this.editor.objects
-      },
-     
+
+
     },
   }
 </script>
