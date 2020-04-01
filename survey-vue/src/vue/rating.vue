@@ -2,7 +2,7 @@
   <div>
     <div :class="getRootClass(question)">
       <el-radio-group v-model="question.value"
-      v-if="!question.multiSelect"
+      v-if="!question.multiple"
       :disabled="question.isReadOnly"
       :size="question.inputSize" 
       >
@@ -47,7 +47,7 @@
         </template>
       </el-radio-group>
       <el-checkbox-group v-model="question.value"
-      v-else-if="question.multiSelect"
+      v-else-if="question.multiple"
       :size="question.inputSize" 
       :disabled="question.isReadOnly">
         

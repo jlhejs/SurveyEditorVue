@@ -76,8 +76,7 @@ export class Radiogroup extends QuestionVue<QuestionRadiogroupModel> {
           ? " " + cssClasses.itemInline
           : " svrvey-q-col-" + this.question.colCount;
     }
-     console.log(this)
-    console.log(this)
+    // console.log(this)
     return itemClass;
   }
   getSpan(item: any){

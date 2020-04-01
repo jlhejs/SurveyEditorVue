@@ -280,15 +280,14 @@ export class QuestionSliderModel extends Question {
     if(!this.showLabel) return {}
     var label:any={}
     for(var i=0;i<this.visibleRateValues.length;i++){
-      if (this.minRateDescription) { label[this.visibleRateValues[i].value] = this.minRateDescription; break}
-      if (this.maxRateDescription) { label[this.visibleRateValues[i].value] = this.maxRateDescription; break}
       if(this.visibleRateValues[i].text){
         label[this.visibleRateValues[i].value]=this.visibleRateValues[i].text
-        break
+      }else{
+        label[this.visibleRateValues[i].value]=this.visibleRateValues[i].value
       }
     }
+
     return label
-    return this.getPropertyValue("marks","{{value}}");
    }
    public set marks(val: any) {
      this.setPropertyValue("marks", val);

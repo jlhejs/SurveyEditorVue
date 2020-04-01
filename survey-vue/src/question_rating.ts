@@ -48,7 +48,7 @@ export class QuestionRatingModel extends Question {
     };
   }
   public clearIncorrectValues() {
-    if (this.multiSelect) {
+    if (this.multiple) {
       var val = this.value;
       if (!val) return;
       if (!Array.isArray(val) || val.length == 0) {
@@ -76,7 +76,7 @@ export class QuestionRatingModel extends Question {
     if(value !== undefined) {
       return value;
     }
-    if(this.multiSelect) {
+    if(this.multiple) {
       return [];
     }
     return  value;
@@ -199,11 +199,11 @@ export class QuestionRatingModel extends Question {
     /**
    * d多选
    */
-   public get multiSelect	(): boolean {
-     return this.getPropertyValue("multiSelect",false);
+   public get multiple	(): boolean {
+     return this.getPropertyValue("multiple",false);
    }
-   public set multiSelect(val: boolean) {
-     this.setPropertyValue("multiSelect", val);
+   public set multiple(val: boolean) {
+     this.setPropertyValue("multiple", val);
    }    
    /**
    * d多选
@@ -231,7 +231,7 @@ Serializer.addClass(
     { name: "rateMin:number", default: 1 },
     { name: "rateMax:number", default: 5 },
     { name: "rateStep:number", default: 1, minValue: 1 },
-    { name: "multiSelect:boolean", default: false },
+    { name: "multiple:boolean", default: false },
     { name: "inputSize:string", 
       default: "small" ,
       choices: [

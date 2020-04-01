@@ -1,6 +1,7 @@
 <template>
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
+    {{question.marks}}
     <el-row :gutter="0"  style="padding-right: 3px;">
        <el-slider 
         v-model="question.value" 
