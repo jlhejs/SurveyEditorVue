@@ -3,7 +3,7 @@
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
     <el-row :gutter="0"  :class="question.cssClasses.root">
         <el-rate
-        @click.native="clearableValue"
+        @click.native="question.clearableValue"
         @change="changeValue"
         v-model="question.value" 
         :max="question.max"
@@ -30,20 +30,12 @@
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { default as QuestionVue } from "./question";
-import { QuestionRateModel } from "../question_rate";
+import { QuestionRatetimeModel } from "../question_rate";
 
 @Component
-export class Rate extends QuestionVue<QuestionRateModel> {
+export class Rate extends QuestionVue<QuestionRatetimeModel> {
   oldValue=0
-  clearableValue(value) {
-    var THIS=this
-    if(!this.question.clearable)return
-    if(this.question.value===this.oldValue){
-      this.question.value=0
-      this.question.isChange=0
-    }
-    this.oldValue=this.question.value
-  }
+
   changeValue(){
     this.question.elIsChange()
   }

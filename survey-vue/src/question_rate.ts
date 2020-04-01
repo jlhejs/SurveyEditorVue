@@ -22,6 +22,15 @@ export class QuestionRatetimeModel extends Question {
   public elIsChange(){
     this.isChange=true
   }
+  public clearableValue(){
+    var THIS=this
+    if(!this.question.clearable)return
+    if(this.question.value===this.oldValue){
+      this.question.value=0
+      this.question.isChange=false
+    }
+    this.oldValue=this.question.value
+  }
   /**
    * The text input size 输入框大小
    */

@@ -21,9 +21,6 @@
     "paths": {
       "@/*": [
         "src/*"
-      ],
-      "survey-vue": [
-        "survey-vue/src/entries/vue"
       ]
     },
     "lib": [ 

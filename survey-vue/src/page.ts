@@ -19,11 +19,13 @@ export class PageModel extends PanelModelBase implements IPage {
   constructor(public name: string = "") {
     super(name);
     var self = this;
+    this.onCreating();
     this.locTitle.onGetTextCallback = function(text) {
       if (self.num > 0) return self.num + ". " + text;
       return text;
     };
   }
+  protected onCreating() {}
   public getType(): string {
     return "page";
   }

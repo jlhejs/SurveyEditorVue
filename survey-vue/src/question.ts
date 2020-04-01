@@ -827,7 +827,6 @@ export class Question extends SurveyElement
     var startIndex = 1;
     var isNumeric = true;
     var str = "";
-    debugger
     if (this.survey && this.survey.questionStartIndex) {
       str = this.survey.questionStartIndex;
       if (parseInt(str)) startIndex = parseInt(str);

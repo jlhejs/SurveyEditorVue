@@ -34,7 +34,7 @@ export class DragDropTargetElement {
   }
   private clearCore() {
     if (!!this.target) {
-      this.target["koIsDragging"](false);
+      this.target["vueIsDragging"].value=false;
     }
   }
 }
@@ -68,7 +68,7 @@ export class DragDropHelper {
       surveyElement.getChildrenLayoutType() === "flow";
     var isFlowPanelInChrome = isFlowPanel && !!window["chrome"];
 
-    domElement.style.opacity = surveyElement.koIsDragging() ? 0.4 : 1;
+    domElement.style.opacity = surveyElement.vueIsDragging.value ? 0.4 : 1;
     domElement.draggable =
       surveyElement.allowingOptions.allowDragging && !isFlowPanel;
     if (isFlowPanelInChrome) {
@@ -305,6 +305,8 @@ export class DragDropHelper {
     }
     targetElement.renderWidth = "100%";
     targetElement["koIsDragging"](true);
+    targetElement["koIsDragging"].value=true;
+    targetElement["vueIsDragging"].value=true;
     return targetElement;
   }
   private isBottom(event: DragEvent): any {

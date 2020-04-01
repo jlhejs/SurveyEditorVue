@@ -1,4 +1,8 @@
 import * as ko from "knockout";
+
+import Vue from "vue";
+import vueBus from "./vue-bus";
+
 import { editorLocalization } from "./editorLocalization";
 import * as Survey from "survey-vue";
 import { findParentNode } from "./utils/utils";
@@ -103,6 +107,7 @@ function getSurvey(el: any): any {
 function panelBaseOnCreating(self: any) {
   self.dragEnterCounter = 0;
   self.emptyElement = null;
+  var vuebusbat= vueBus({value:false});
   self.rowCount = ko.computed(function() {
     var rows = !!self["koRow"] ? self["koRows"]() : self.rows;
     return rows.length;
@@ -135,15 +140,14 @@ function elementOnCreating(surveyElement: any) {
     return surveyElement.dragDropHelperValue;
   };
   surveyElement.renderedElement = null;
-  surveyElement.koIsDragging = ko.observable(false);
-  surveyElement.koIsSelected = ko.observable(false);
-  surveyElement.koIsDragging.subscribe(function(newValue) {
+  surveyElement.vueIsSelected =  vueBus({value:false});
+  surveyElement.vueIsDragging =  vueBus({value:false});
+  surveyElement.vueIsDragging.$watch("value",function(newValue){
     if (surveyElement.renderedElement) {
       surveyElement.renderedElement.style.opacity = newValue ? 0.4 : 1;
     }
-  });
-  surveyElement.koIsSelected.subscribe(function(newValue) {
-    debugger
+ })
+  surveyElement.vueIsSelected.$watch("value",function(newValue){
     if (surveyElement.renderedElement) {
       if (newValue) {
         surveyElement.renderedElement.classList.add(
@@ -157,7 +161,7 @@ function elementOnCreating(surveyElement: any) {
         );
       }
     }
-  });
+ })
 }
 
 function createQuestionDesignItem(obj: any, item: any): HTMLLIElement {
@@ -186,7 +190,6 @@ export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner
       surveyElement.renderedElement.classList.add("svd-dark-bg-color");
     }
     surveyElement.renderedElement.classList.add("svd_q_design_border");
-    debugger
     var isRowLayout =
       !surveyElement.getLayoutType || surveyElement.getLayoutType() == "row";
     var opt = surveyElement.allowingOptions;
@@ -197,13 +200,12 @@ export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner
     opt.allowChangeRequired = opt.allowChangeRequired && isRowLayout;
   
     getSurvey(surveyElement).updateElementAllowingOptions(surveyElement);
-    if (surveyElement.koIsSelected()) {
+    if (surveyElement.vueIsSelected.value) {
       surveyElement.renderedElement.classList.add(
         "svd_q_selected",
         "svd-main-border-color"
       );
     }
-
     domElement.onclick = function(e) {
       if (!e["markEvent"]) {
         e["markEvent"] = true;
@@ -354,11 +356,16 @@ function addAdorner(node, model) {
   });
 }
 
-Survey.Page.prototype["onCreating"] = function() {
+Survey.PageModel.prototype["onCreating"] = function() {
+  console.log("onCreating")
   panelBaseOnCreating(this);
 };
+var s=Survey
+console.log(s)
 
-Survey.Page.prototype["onAfterRenderPage"] = function(el) {
+
+Survey.PageModel.prototype["onAfterRenderPage"] = function(el) {
+  console.log("onAfterRenderPage")
   if (!getSurvey(this).isDesignMode) return;
   var self = this;
   var dragDropHelper = getSurvey(this)["dragDropHelper"];
@@ -379,26 +386,25 @@ Survey.Page.prototype["onAfterRenderPage"] = function(el) {
   };
 };
 
-Survey.Panel.prototype["onCreating"] = function() {
-  debugger
+Survey.PanelModel.prototype["onCreating"] = function() {
   panelBaseOnCreating(this);
   elementOnCreating(this);
 };
 
-Survey.Panel.prototype["onSelectedElementChanged"] = function() {
+Survey.PanelModel.prototype["onSelectedElementChanged"] = function() {
   if (getSurvey(this) == null) return;
-  this.koIsSelected(getSurvey(this)["selectedElementValue"] == this);
+  this.vueIsSelected.value=getSurvey(this)["selectedElementValue"] == this;
 };
 
-if (!!Survey["FlowPanel"]) {
-  Survey["FlowPanel"].prototype["onCreating"] = function() {
+if (!!Survey["FlowPanelModel"]) {
+  Survey["FlowPanelModel"].prototype["onCreating"] = function() {
     //TODO
     this.placeHolder = "Enter here text or drop a question";
     elementOnCreating(this);
   };
-  Survey["FlowPanel"].prototype["onSelectedElementChanged"] = function() {
+  Survey["FlowPanelModel"].prototype["onSelectedElementChanged"] = function() {
     if (getSurvey(this) == null) return;
-    this.koIsSelected(getSurvey(this)["selectedElementValue"] == this);
+    this.vueIsSelected.value=getSurvey(this)["selectedElementValue"] == this;
   };
 }
 
@@ -412,25 +418,25 @@ questionPrototype["onCreating"] = function() {
 
 questionPrototype["onSelectedElementChanged"] = function() {
   if (getSurvey(this) == null) return;
-  this.koIsSelected(getSurvey(this)["selectedElementValue"] == this);
+  this.vueIsSelected.value=getSurvey(this)["selectedElementValue"] == this
 };
 
-// Survey.QuestionSelectBaseImplementor.prototype["onCreated"] = function() {
-//       var q: any = this.question;
-//      var updateTriggerFunction = function() {
-//         setTimeout(() => q["koElementType"].notifySubscribers(), 0);
-//    };
-//     [
-//         "choices",
+//  Survey.QuestionSelectBaseImplementor.prototype["onCreated"] = function() {
+//        var q: any = this.question;
+//       var updateTriggerFunction = function() {
+//          setTimeout(() => q["koElementType"].notifySubscribers(), 0);
+//     };
+//      [
+//       "choices",
 //       "hasOther",
 //       "hasComment",
 //       "hasNone",
 //       "hasSelectAll",
 //       "colCount"
-//    ].forEach(propertyName =>
-//        this.question.registerFunctionOnPropertyValueChanged(
-//           propertyName,
-//          updateTriggerFunction
-//        )
-//     );
-//  };
+//     ].forEach(propertyName =>
+//         this.question.registerFunctionOnPropertyValueChanged(
+//            propertyName,
+//           updateTriggerFunction
+//         )
+//      );
+//   };
