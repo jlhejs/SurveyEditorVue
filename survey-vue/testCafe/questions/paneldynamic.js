@@ -175,7 +175,7 @@ frameworks.forEach(framework => {
       .expect(ageSelect.value)
       .eql("72");
 
-    await t.click(".sv-paneldynamic__next-btn");
+    await t.click(".svrvey-paneldynamic__next-btn");
     await t.click(`input[value="Yes"]`);
     await t
       .click(ageSelect)
@@ -197,8 +197,8 @@ frameworks.forEach(framework => {
       .eql("42");
     await t.click(`div[name='causeofdeathknown'] input[value="No"]`);
 
-    await t.click(".sv-paneldynamic__prev-btn");
-    await t.click(".sv-paneldynamic__prev-btn");
+    await t.click(".svrvey-paneldynamic__prev-btn");
+    await t.click(".svrvey-paneldynamic__prev-btn");
 
     var addRowSelector = Selector(`button`);
     if (framework !== "react" && framework != "vue") {
@@ -220,7 +220,7 @@ frameworks.forEach(framework => {
       "Type 2"
     );
 
-    await t.click(".sv-paneldynamic__next-btn");
+    await t.click(".svrvey-paneldynamic__next-btn");
     await t.click(`input[value="Remove the relative"]`);
 
     await t.click(`input[value=Complete]`);

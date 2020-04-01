@@ -80,7 +80,7 @@ export class Survey extends SurveyElementBase implements ISurveyCreator {
     return (
       <div ref="root" className={this.css.root}>
         <form onSubmit={onSubmit}>
-          <div className="sv_custom_header" />
+          <div className="survey-custom_header" />
           <div className={this.css.container}>
             {title}
             {renderResult}

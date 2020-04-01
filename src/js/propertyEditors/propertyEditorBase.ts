@@ -95,24 +95,20 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
   private set displayNameValue(val) {
     this._displayNameValue=val;
   };
-  public koValue: any;
+  // public koValue: any;
   public value: any;
 
-  public koText: any;
+  // public koText: any;
   public text: any;
 
-  public koIsDefault: any;
+  // public koIsDefault: any;
   public isDefault: any;
 
-  public koHasError: any;
-  public koErrorText: any;
-  public koDisplayError: any;
+  public errorText: string;
+  public displayError: any;
   public isTabProperty: boolean = false;
   public isInplaceProperty: boolean = false;
   public readOnly: any;
-  public koMaxLength: any;
-  public koMaxValue: any;
-  public minValue: any;
   public onChanged: (newValue: any) => any;
   public onGetLocale: () => string;
   public onValueUpdated: (newValue: any) => any;
@@ -125,15 +121,14 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
     // this.value.subscribe(function(newValue) {
     //   self.onkoValueChanged(newValue);
     // });
-    this.koText = self.getValueText(self.value);
-    this.koIsDefault = self.property
+    this.text = self.getValueText(self.value);
+    this.isDefault = self.property
     ? self.property.isDefaultValue(self.value)
     : false ;
-    this.koHasError = Vue.observable(false);
-    this.koErrorText = Vue.observable("");
-    // this.koDisplayError = ko.computed(function() {
-    //   return self.koHasError() && !!self.koErrorText();
-    // });
+    this.errorText = Vue.observable("");
+    this.displayError = function() {
+      return self.hasError && !!self.errorText;
+    };
     // this.koMaxLength = ko.computed(function() {
     //   return !!self.property &&
     //     !!self.property["maxLength"] &&
@@ -146,17 +141,37 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
     //     ? self.property["maxValue"]
     //     : "";
     // });
-    this.minValue = ko.computed(function() {
-      return !!self.property && !!self.property["minValue"]
-        ? self.property["minValue"]
-        : "";
-    });
+    // this.minValue = ko.computed(function() {
+    //   return !!self.property && !!self.property["minValue"]
+    //     ? self.property["minValue"]
+    //     : "";
+    // });
     this.setIsRequired();
     this.setTitleAndDisplayName();
     this.readOnly = Vue.observable(this.getReadOnly());
   }
   public get editorType(): string {
     throw "editorType is not defined";
+  }
+  public get maxLength():any{
+    var self=this
+    return !!self.property &&
+    !!self.property["maxLength"] &&
+    self.property["maxLength"] > 0
+    ? self.property["maxLength"]
+    : 524288;
+  }
+  public get maxValue():any{
+    var self=this
+    return !!self.property && !!self.property["maxValue"]
+     ? self.property["maxValue"]
+     : "";
+  }
+  public get minValue():any{
+    var self=this
+    return !!self.property && !!self.property["minValue"]
+    ? self.property["minValue"]
+    : "";
   }
   public get editorTypeTemplate(): string {
     return this.editorType;
@@ -204,9 +219,9 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
     return true;
   }
   public get contentTemplateName(): string {
-    var res = "propertyeditor";
+    var res = "PropertyEditor";
     if (this.isModal) {
-      res += "-modalcontent";
+      res += "-modalContent";
     } else {
       res += "-" + this.editorTypeTemplate;
     }
@@ -256,8 +271,15 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
     this.onValueChanged(value);
   }
   public hasError(): boolean {
-    this.koHasError=this.checkForErrors();
-    return this.koHasError;
+    try {
+      return this.checkForErrors();
+    }
+    catch(err) {
+      return false;
+    }
+    
+    // this.koHasError=this.checkForErrors();
+    // return this.koHasError;
   }
   public getLocString(name: string) {
     return editorLocalization.getString(name);
@@ -288,7 +310,7 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
         this.editingValue
       );
     }
-    this.koErrorText=errorText;
+    this.errorText=errorText;
     return errorText !== "";
   }
   private checkForItemValue() {
@@ -320,7 +342,7 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
   protected onBeforeApply() {}
   public apply(): boolean {
     this.onBeforeApply();
-    if (this.hasError()) return false;
+    if (this.hasError) return false;
     this.isApplyinNewValue = true;
     this.value=this.editingValue;
     this.isApplyinNewValue = false;
@@ -386,7 +408,7 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
   protected updateValue() {
     this.beginValueUpdating();
     this.value=this.getValue();
-    // this.editingValue = this.value.peek();
+    this.editingValue = this.value;
     if (this.onValueUpdated) this.onValueUpdated(this.editingValue);
     this.endValueUpdating();
   }
@@ -395,10 +417,10 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
       ? this.property.getPropertyValue(this.object)
       : null;
   }
-  private iskoValueChanging: boolean = false;
+  public isValueChanging: boolean = false;
   public onValueChanged(newValue: any) {
-    if (this.valueUpdatingCounter > 0 || this.iskoValueChanging) return;
-    this.iskoValueChanging = true;
+    if (this.valueUpdatingCounter > 0 || this.isValueChanging) return;
+    this.isValueChanging = true;
     newValue = this.getCorrectedValue(newValue);
     if (this.options && this.property && this.object) {
       var options = {
@@ -415,14 +437,14 @@ export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {
         this.value=newValue;
       }
       if (options.doValidation) {
-        this.hasError();
+        this.hasError;
       }
     }
     this.updateEditingProperties(newValue);
     if (!this.isApplyinNewValue) {
       this.editingValue = newValue;
     }
-    this.iskoValueChanging = false;
+    this.isValueChanging = false;
 
     if (this.property && this.object && this.getValue() == newValue) return;
     if (this.onChanged != null) this.onChanged(newValue);

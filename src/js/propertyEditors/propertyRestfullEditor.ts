@@ -1,4 +1,5 @@
 import * as ko from "knockout";
+import Vue from "vue";
 import * as Survey from "survey-vue";
 import { SurveyPropertyModalEditor } from "./propertyModalEditor";
 import { SurveyPropertyEditorBase } from "./propertyEditorBase";
@@ -13,7 +14,7 @@ export class SurveyPropertyResultfullEditor extends SurveyPropertyModalEditor {
 
   constructor(property: Survey.JsonObjectProperty) {
     super(property);
-    this.koItems = ko.observableArray();
+    this.koItems = Vue.observable([]);
     this.createSurvey();
   }
   public get editorType(): string {
@@ -63,7 +64,7 @@ export class SurveyPropertyResultfullEditor extends SurveyPropertyModalEditor {
         this.addItem(propName, val);
       }
     }
-    this.koItems(this.items);
+    this.koItems=this.items;
   }
   protected onBeforeApply() {
     var val = new Survey.ChoicesRestfull();
@@ -99,17 +100,17 @@ export class SurveyPropertyResultfullEditorItem {
     val: string,
     public onValueChanged: (item: SurveyPropertyResultfullEditorItem) => any
   ) {
-    this.koValue = ko.observable(val ? val : "");
+    this.koValue = Vue.observable(val ? val : "");
     var self = this;
-    this.koValue.subscribe(function (newValue) {
-      if (!self.isSetttingValue) {
-        self.onValueChanged(self);
-      }
-    });
+    // this.koValue.subscribe(function (newValue) {
+    //   if (!self.isSetttingValue) {
+    //     self.onValueChanged(self);
+    //   }
+    // });
   }
   public setValue(val: string) {
     this.isSetttingValue = true;
-    this.koValue(val);
+    this.koValue=val;
     this.isSetttingValue = false;
   }
 }

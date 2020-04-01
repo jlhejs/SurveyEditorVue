@@ -1,7 +1,7 @@
 import * as ko from "knockout";
+import Vue from "vue";
 import * as Survey from "survey-vue";
 import { SurveyPropertyTextEditor } from "./propertyModalEditor";
-import * as ss from "./propertyModalEditor";
 import { SurveyPropertyEditorBase } from "./propertyEditorBase";
 import { SurveyPropertyEditorFactory } from "./propertyEditorFactory";
 import { EditableObject } from "./editableObject";
@@ -31,7 +31,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
   koHasValueSurvey: any;
   onConditionAddClick: any;
   koValueSurvey: any;
-  private isValueChanging: boolean = false;
+  public isValueChanging: boolean = false;
   private addConditionQuestionsHash = {};
   private emptySurvey = "";
   constructor(
@@ -45,58 +45,58 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
         !!this.options && this.options.createSurvey({}, "conditionEditor");
     }
     this.availableOperators = SurveyPropertyEditorFactory.getOperators();
-    this.koIsValid = ko.observable(true);
-    this.koAddConditionQuestions = ko.observableArray();
-    this.koAddConditionQuestion = ko.observable("");
-    this.koAddConditionOperator = ko.observable("");
-    this.koAddConditionValue = ko.observable("");
+    this.koIsValid = Vue.observable(true);
+    this.koAddConditionQuestions = Vue.observable([]);
+    this.koAddConditionQuestion = Vue.observable("");
+    this.koAddConditionOperator = Vue.observable("");
+    this.koAddConditionValue = Vue.observable("");
     this.koAddConditionType = ko.observable("and");
     this.koHasValueSurvey = ko.observable(false);
     this.koValueSurvey = ko.observable(
       this.emptySurvey
     );
     var self = this;
-    this.koAddConditionQuestion.subscribe(function(newValue) {
-      self.koAddConditionValue("");
-      self.onValueSurveyChanged(newValue, self.koAddConditionOperator());
-    });
-    this.koAddConditionOperator.subscribe(function(newValue) {
-      self.onValueSurveyChanged(self.koAddConditionQuestion(), newValue);
-    });
-    this.koAddConditionValue.subscribe(function(newValue) {
-      if (self.koHasValueSurvey()) {
-        var newParsedValue = !newValue ? {} : JSON.parse(newValue);
-        self.isValueChanging = true;
-        self.koValueSurvey().setValue("question", newParsedValue);
-        self.isValueChanging = false;
-      }
-    });
-    this.koCanAddCondition = ko.computed(function() {
-      return (
-        this.koAddConditionQuestion() != "" &&
-        this.koAddConditionQuestion() != undefined &&
-        this.koAddConditionOperator() != "" &&
-        (!this.koCanAddConditionValue() || this.koAddConditionValue() != "")
-      );
-    }, this);
-    this.koShowAddConditionType = ko.computed(function() {
-      if (!this.koIsValid()) return false;
-      var text = this.koTextValue();
+    // this.koAddConditionQuestion.subscribe(function(newValue) {
+    //   self.koAddConditionValue("");
+    //   self.onValueSurveyChanged(newValue, self.koAddConditionOperator());
+    // });
+    // this.koAddConditionOperator.subscribe(function(newValue) {
+    //   self.onValueSurveyChanged(self.koAddConditionQuestion(), newValue);
+    // });
+    // this.koAddConditionValue.subscribe(function(newValue) {
+    //   if (self.koHasValueSurvey()) {
+    //     var newParsedValue = !newValue ? {} : JSON.parse(newValue);
+    //     self.isValueChanging = true;
+    //     self.koValueSurvey().setValue("question", newParsedValue);
+    //     self.isValueChanging = false;
+    //   }
+    // });
+     this.koCanAddCondition = function() {
+       return (
+         this.koAddConditionQuestion != "" &&
+         this.koAddConditionQuestion != undefined &&
+         this.koAddConditionOperator != "" &&
+         (!this.koCanAddConditionValue || this.koAddConditionValue != "")
+       );
+     };
+     this.koShowAddConditionType = function() {
+      if (!this.koIsValid) return false;
+      var text = this.textValue;
       if (text) text = text.trim();
       return text;
-    }, this);
-    this.koAddConditionButtonText = ko.computed(function() {
-      var name = this.koIsValid()
-        ? "conditionButtonAdd"
-        : "conditionButtonReplace";
-      return editorLocalization.editorLocalization.getPropertyInEditor(name);
-    }, this);
-    this.koCanAddConditionValue = ko.computed(function() {
-      return self.canShowValueByOperator(self.koAddConditionOperator());
-    }, this);
-    this.koAddContionValueEnabled = ko.computed(function() {
-      return self.koCanAddConditionValue() && !self.koHasValueSurvey();
-    }, this);
+    };
+     this.koAddConditionButtonText = function() {
+       var name = this.koIsValid
+         ? "conditionButtonAdd"
+         : "conditionButtonReplace";
+       return editorLocalization.editorLocalization.getPropertyInEditor(name);
+     };
+    // this.koCanAddConditionValue = ko.computed(function() {
+    //   return self.canShowValueByOperator(self.koAddConditionOperator());
+    // }, this);
+    // this.koAddContionValueEnabled = ko.computed(function() {
+    //   return self.koCanAddConditionValue() && !self.koHasValueSurvey();
+    // }, this);
     this.onConditionAddClick = function() {
       self.addCondition();
     };
@@ -104,9 +104,9 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
   }
   public beforeShow() {
     super.beforeShow();
-    this.koAddConditionQuestion("");
+    this.koAddConditionQuestion="";
     this.addConditionQuestionsHash = {};
-    this.koAddConditionQuestions(this.allConditionQuestions);
+    this.koAddConditionQuestions=this.allConditionQuestions;
   }
   public get editorType(): string {
     return this._type;
@@ -139,7 +139,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     return res;
   }
   public get isExpressionValid(): boolean {
-    var text = this.koTextValue();
+    var text = this.textValue;
     if (!text) return false;
     var runner = new Survey.ConditionRunner(text);
     return runner.canRun();
@@ -195,7 +195,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
       this.koValueSurvey(this.createValueSurvey(json, questionName));
       var question = this.koValueSurvey().getQuestionByName("question");
       if (!!question && !question.isEmpty()) {
-        this.koAddConditionValue(JSON.stringify(question.value));
+        this.koAddConditionValue=JSON.stringify(question.value);
       }
     }
   }
@@ -228,7 +228,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     var self = this;
     survey.onValueChanged.add(function(survey, options) {
       if (!self.isValueChanging) {
-        self.koAddConditionValue(JSON.stringify(options.value));
+        self.koAddConditionValue=JSON.stringify(options.value);
       }
     });
     if (this.options) {
@@ -288,27 +288,27 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     if (!this.koCanAddCondition()) return;
     var text = "";
     if (this.koShowAddConditionType()) {
-      text = this.koTextValue() + " " + this.koAddConditionType() + " ";
+      text = this.textValue + " " + this.koAddConditionType() + " ";
     }
     text +=
       "{" +
-      this.getQuestionValueByName(this.koAddConditionQuestion()) +
+      this.getQuestionValueByName(this.koAddConditionQuestion) +
       "} " +
       this.getAddConditionOperator();
-    if (this.koCanAddConditionValue()) {
+    if (this.koCanAddConditionValue) {
       text += " " + this.getAddConditionValue();
     }
-    this.koTextValue(text);
+    this.textValue=text;
     this.resetAddConditionValues();
   }
   protected onBeforeApply() {
-    if (!this.koTextValue() && this.koCanAddCondition()) {
+    if (!this.textValue&& this.koCanAddCondition()) {
       this.addCondition();
     }
     super.onBeforeApply();
   }
   private getAddConditionOperator(): string {
-    var op = this.koAddConditionOperator();
+    var op = this.koAddConditionOperator;
     if (op == "equal") return "=";
     if (op == "notequal") return "<>";
     if (op == "greater") return ">";
@@ -318,7 +318,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     return op;
   }
   private getAddConditionValue(): string {
-    var val = this.koAddConditionValue();
+    var val = this.koAddConditionValue;
     if (!val) return val;
     if (val == "true" || val == "false") return val;
     if (!isNaN(val)) return val;
@@ -330,19 +330,19 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
   private isQuote(ch: string): boolean {
     return ch == "'" || ch == '"';
   }
-  protected onkoTextValueChanged(newValue) {
+  protected onTextValueChanged(newValue) {
     if (!newValue) {
-      this.koIsValid(true);
+      this.koIsValid=true;
     } else {
       var conditionParser: any = new Survey.ConditionsParser();
       conditionParser[this.syntaxCheckMethodName](newValue);
-      this.koIsValid(!conditionParser.error);
+      this.koIsValid=!conditionParser.error;
     }
   }
   private resetAddConditionValues() {
-    this.koAddConditionQuestion("");
-    this.koAddConditionOperator("equal");
-    this.koAddConditionValue("");
+    this.koAddConditionQuestion="";
+    this.koAddConditionOperator="equal";
+    this.koAddConditionValue="";
   }
 }
 

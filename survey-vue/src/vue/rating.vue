@@ -1,15 +1,94 @@
 <template>
   <div>
     <div :class="getRootClass(question)">
-      <el-rate v-model="question.value"  
-      :allow-half="showWallowHalf()" 
-      @change="change"
-      :show-text="showShowText()"
-      :texts="texts()"
-      disabled-void-icon-class="el-icon-edit"
-      :void-icon-class="showVoidIconClass()"
-      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-      score-template="{question.value}"></el-rate>
+      <el-radio-group v-model="question.value"
+      v-if="!question.multiSelect"
+      :disabled="question.isReadOnly"
+      :size="question.inputSize" 
+      >
+      {{question.visibleRateValues}}
+        <template v-for="(item, index) in question.visibleRateValues" >
+          <el-radio-button 
+          :label="item.value"
+          :class="getCss(question, item)"  
+          :id="question.id + index" 
+          
+          :aria-required="question.isRequired"
+          :aria-label="item.locText.text" 
+          v-if="index === 0" >
+            <survey-string :locString="question.locMinRateDescription" :class="question.cssClasses.minText" v-if="question.minRateDescription"/>
+            <survey-string :locString="item.locText" v-else-if="!question.minRateDescription"/>
+          </el-radio-button>
+
+          <el-radio-button 
+          :label="item.value" 
+          :class="getCss(question, item)"
+          :id="question.id + index" 
+          :aria-required="question.isRequired"
+          :aria-label="item.locText.text" 
+          v-if="index !== 0&&index !== question.visibleRateValues.length-1">
+            <survey-string :locString="item.locText" />
+            <span>{{item.locText.text}}</span>
+          </el-radio-button>
+
+          <el-radio-button 
+          :label="item.value" 
+          :class="getCss(question, item)"
+          :id="question.id + index" 
+          :aria-required="question.isRequired"
+          :aria-label="item.locText.text"  
+          v-if="index === question.visibleRateValues.length-1">
+            <survey-string 
+            :locString="question.locMaxRateDescription"  
+            :class="question.cssClasses.maxText" 
+            v-if="question.maxRateDescription"/>
+            <survey-string :locString="item.locText" v-else-if="!question.maxRateDescription"/>
+          </el-radio-button>
+        </template>
+      </el-radio-group>
+      <el-checkbox-group v-model="question.value"
+      v-else-if="question.multiSelect"
+      :size="question.inputSize" 
+      :disabled="question.isReadOnly">
+        
+      <template v-for="(item, index) in question.visibleRateValues" >
+          <el-checkbox-button 
+          :label="item.value"
+          :class="getCss(question, item)"  
+          :id="question.id + index" 
+          :aria-required="question.isRequired"
+          :aria-label="item.locText.text" 
+          v-if="index === 0" >
+            <survey-string :locString="question.locMinRateDescription" :class="question.cssClasses.minText" v-if="question.minRateDescription"/>
+            <survey-string :locString="item.locText" v-else-if="!question.minRateDescription"/>
+          </el-checkbox-button>
+
+          <el-checkbox-button
+          :label="item.value" 
+          :class="getCss(question, item)"
+          :id="question.id + index" 
+          :aria-required="question.isRequired"
+          :aria-label="item.locText.text" 
+          v-if="index !== 0&&index !== question.visibleRateValues.length-1">
+            <survey-string :locString="item.locText" />
+            <span>{{item.locText.text}}</span>
+          </el-checkbox-button>
+
+          <el-checkbox-button
+          :label="item.value" 
+          :class="getCss(question, item)"
+          :id="question.id + index" 
+          :aria-required="question.isRequired"
+          :aria-label="item.locText.text"  
+          v-if="index === question.visibleRateValues.length-1">
+            <survey-string 
+            :locString="question.locMaxRateDescription"  
+            :class="question.cssClasses.maxText" 
+            v-if="question.maxRateDescription"/>
+            <survey-string :locString="item.locText" v-else-if="!question.maxRateDescription"/>
+          </el-checkbox-button>
+        </template>
+      </el-checkbox-group>
       <!-- <label
         v-for="(item, index) in question.visibleRateValues"
         :key="item.value"
@@ -17,7 +96,7 @@
       >
         <input
           type="radio"
-          class="sv-visuallyhidden"
+          class="svrvey-visuallyhidden"
           :name="question.name"
           :id="question.name + index"
           :value="item.value"
@@ -56,16 +135,6 @@ import { QuestionRatingModel } from "../question_rating";
 
 @Component
 export class Rating extends QuestionVue<QuestionRatingModel> {
-  showWallowHalf(){
-    return this.question.allowHalf
-  }
-  showShowText(){
-    
-    return this.question.showText
-  }
-  showVoidIconClass(){
-    return this.question.voidIconClass
-  }
   texts(){
     var texts=[]
     for(var i=0;i<this.question.visibleRateValues.length;i++){
@@ -81,13 +150,7 @@ export class Rating extends QuestionVue<QuestionRatingModel> {
     }
     return css;
   }
-  change(e: any) {
-    if (!this.question.isInputTextUpdate) return;
-    if(e.target){
-      this.question.value = e.target.value;
-    }
-   
-  }
+  
   getRootClass(question: QuestionRatingModel) {
     const classes = question.cssClasses;
     if (question.isReadOnly) return classes.root + " " + classes.disabled;

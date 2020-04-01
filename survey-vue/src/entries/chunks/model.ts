@@ -102,6 +102,9 @@ export { QuestionExpressionModel } from "../../question_expression";
 export { QuestionTextModel } from "../../question_text";
 export { QuestionBooleanModel } from "../../question_boolean";
 export { QuestionCascaderModel } from "../../question_cascader";
+export { QuestionSliderModel } from "../../question_slider";
+export { QuestionDatetimeModel } from "../../question_datetime";
+export { QuestionRateModel } from "../../question_rate";
 export { QuestionImagePickerModel } from "../../question_imagepicker";
 export {
   QuestionPanelDynamicModel,

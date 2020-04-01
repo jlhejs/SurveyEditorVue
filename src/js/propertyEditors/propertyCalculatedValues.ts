@@ -50,7 +50,7 @@ export class SurveyPropertyCalculatedValueEditor extends SurveyPropertyOneSelect
       propertyName
     );
     if (!propEditor || !propEditor.editor) return;
-    propEditor.editor.koValue(value);
+    propEditor.editor.value=value;
   }
   private isNameCorrect(name: string, obj: Survey.Base): boolean {
     if (!name || !name.replace(" ", "")) return false;

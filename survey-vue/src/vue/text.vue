@@ -10,6 +10,7 @@
   :class="question.cssClasses.root"
   :type="question.inputType"
   :maxlength="question.getMaxLength()"
+
   :style="{ width: (question.inputWidth)+'px'}"
   :id="question.inputId"
   :placeholder="question.placeHolder"

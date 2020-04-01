@@ -3,251 +3,249 @@ export class StylesManager {
   private static SurveyJSStylesSheetId = "surveyjs";
 
   public static Styles: { [key: string]: string } = {
-    // ".sv_bootstrap_css":
+    // ".survey-bootstrap_css":
     //   "position: relative; width: 100%; background-color: #f4f4f4",
-    // ".sv_bootstrap_css .sv_custom_header":
+    // ".survey-bootstrap_css .survey-custom_header":
     //   "position: absolute; width: 100%; height: 275px; background-color: #e7e7e7;",
-    // ".sv_bootstrap_css .sv_container":
+    // ".survey-bootstrap_css .survey-container":
     //   "max-width: 80%; margin: auto; position: relative; color: #6d7072; padding: 0 1em;",
-    // ".sv_bootstrap_css .panel-body":
+    // ".survey-bootstrap_css .panel-body":
     //   "background-color: white; padding: 1em 1em 5em 1em; border-top: 2px solid lightgray;",
 
-    ".sv_main span": "word-break: break-word;",
+    ".survey-main span": "word-break: break-word;",
 
-    ".sv_main legend": "border: none; margin: 0;",
+    ".survey-main legend": "border: none; margin: 0;",
 
-    ".sv_bootstrap_css .sv_qstn": "padding: 0.5em 1em 1.5em 1em;",
-    ".sv_bootstrap_css .sv_qcbc input[type=checkbox], .sv_bootstrap_css .sv_qcbc input[type=radio]":
+    // ".survey-bootstrap_css .survey-qstn": "padding: 0.5em 1em 1.5em 1em;",
+    ".survey-bootstrap_css .survey-qcbc input[type=checkbox], .survey-bootstrap_css .survey-qcbc input[type=radio]":
       "vertical-align: middle; margin-top: -1px",
-    ".sv_bootstrap_css .sv_qstn fieldset": "display: block;",
-    ".sv_bootstrap_css .sv_qstn  .sv_q_checkbox_inline, .sv_bootstrap_css .sv_qstn .sv_q_radiogroup_inline":
+    ".survey-bootstrap_css .survey-qstn fieldset": "display: block;",
+    ".survey-bootstrap_css .survey-qstn  .survey-q_checkbox_inline, .survey-bootstrap_css .survey-qstn .survey-q_radiogroup_inline":
       "display: inline-block;",
 
-    ".sv_bootstrap_css .sv-paneldynamic__progress-container ":
+    ".survey-bootstrap_css .svrvey-paneldynamic__progress-container ":
       "position: relative; margin-right: 250px; margin-left: 40px; margin-top: 10px;",
 
-    ".sv_main.sv_bootstrapmaterial_css .sv_q_radiogroup_control_label":
+    ".survey-main.survey-bootstrapmaterial_css .survey-q_radiogroup_control_label":
       "display: inline; position: static;",
-    ".sv_main.sv_bootstrapmaterial_css .checkbox":
+    ".survey-main.survey-bootstrapmaterial_css .checkbox":
       "margin-top:10px;margin-bottom:10px;",
 
-    ".sv_row": "clear: both;",
-    ".sv_row .sv_qstn": "float: left",
-    ".sv_row .sv_qstn:last-child": "float: none",
-    ".sv_qstn": "display: inline-block; vertical-align: top; overflow: auto;",
-    ".progress": "width: 60%;",
+    ".survey-row": "clear: both;",
+    ".survey-row .survey-qstn": "float: left",
+    ".survey-row .survey-qstn:last-child": "float: none",
+    // ".survey-qstn": "display: inline-block; vertical-align: top; overflow: auto;",
+    // ".progress": "width: 60%;",
     ".progress-bar": "width: auto; margin-left: 2px; margin-right: 2px;",
-    ".sv_p_container": "display: inline-block; vertical-align: top;",
-    ".sv_qbln .checkbox-material": "margin-right: 3px;",
-    ".sv_qcbx .checkbox-material": "margin-right: 5px;",
-    ".sv_qcbx .checkbox label": "justify-content: left; display: inline-block;",
-    ".sv_qstn .radio label": "justify-content: left; display: inline-block;",
-    ".sv_qstn .sv_q_imgsel > label img": "pointer-events: none;",
-    ".sv_qstn .sv_q_imgsel.sv_q_imagepicker_inline": "display: inline-block;",
-    ".sv_qstn label.sv_q_m_label":
+    ".survey-page-container": "display: inline-block; vertical-align: top;",
+    ".survey-qbln .checkbox-material": "margin-right: 3px;",
+    ".survey-qcbx .checkbox-material": "margin-right: 5px;",
+    ".survey-qcbx .checkbox label": "justify-content: left; display: inline-block;",
+    ".survey-qstn .radio label": "justify-content: left; display: inline-block;",
+    ".survey-qstn .question-imagepicker > label img": "pointer-events: none;",
+    // ".survey-qstn .question-imagepicker.survey-q_imagepicker_inline": "display: inline-block;",
+    ".survey-qstn label.survey-q_m_label":
       "position: absolute; margin: 0; display: block; width: 100%;",
-    ".sv_qstn td": "position: relative;",
-    ".sv_q_mt_item_value": "float: left;",
-    "[dir=\"rtl\"] .sv_q_mt_item_value": "float: right;",
-    ".sv_qstn.sv_qstn_left": "margin-top: 0.75em;",
-    ".sv_qstn .title-left": "float: left; margin-right: 1em;",
-    "[dir=\"rtl\"] .sv_qstn .title-left": "float: right; margin-left: 1em;",
-    ".sv_qstn .content-left": "overflow: hidden",
-    ".sv_q_radiogroup_inline .sv_q_radiogroup_other": "display: inline-block;",
-    ".sv_q_checkbox_inline .sv_q_checkbox_other": "display: inline-block;",
-    ".sv_q_checkbox_inline, .sv_q_radiogroup_inline, .sv_q_imagepicker_inline":
-      "line-height: 2.5em;",
-    ".form-inline .sv_q_checkbox_inline:not(:last-child)": "margin-right: 1em;",
-    ".form-inline .sv_q_radiogroup_inline:not(:last-child)":
+    ".survey-qstn td": "position: relative;",
+    ".survey-q_mt_item_value": "float: left;",
+    "[dir=\"rtl\"] .survey-q_mt_item_value": "float: right;",
+    ".survey-qstn.survey-qstn_left": "margin-top: 0.75em;",
+    ".survey-qstn .title-left": "float: left; margin-right: 1em;",
+    "[dir=\"rtl\"] .survey-qstn .title-left": "float: right; margin-left: 1em;",
+    ".survey-qstn .content-left": "overflow: hidden",
+    ".survey-q_radiogroup_inline .survey-q_radiogroup_other": "display: inline-block;",
+    ".survey-q_checkbox_inline .survey-q_checkbox_other": "display: inline-block;",
+    ".form-inline .survey-q_checkbox_inline:not(:last-child)": "margin-right: 1em;",
+    ".form-inline .survey-q_radiogroup_inline:not(:last-child)":
       "margin-right: 1em;",
-    ".sv_imgsel .sv_q_imagepicker_inline:not(:last-child)":
-      "margin-right: 1em;",
-    ".sv_qstn fieldset": "border: none; margin: 0; padding: 0;",
-    ".sv_qstn .sv_q_file_placeholder": "display:none",
+    // ".svrvey-q-imagepicker .survey-q_imagepicker_inline:not(:last-child)":
+    //   "margin-right: 1em;",
+    ".survey-qstn fieldset": "border: none; margin: 0; padding: 0;",
+    ".survey-qstn .survey-q_file_placeholder": "display:none",
 
-    ".sv_p_title": "padding-left: 1em; padding-bottom: 0.3em;",
-    ".sv_p_title_expandable": "cursor: pointer;",
-    ".sv_p_title .sv_panel_icon": "float: right; margin-right: 1em;",
-    ".sv_p_title .sv_panel_icon::before":
+    ".survey-page-title": "padding-left: 1em; padding-bottom: 0.3em;",
+    ".survey-page-title_expandable": "cursor: pointer;",
+    ".survey-page-title .survey-panel_icon": "float: right; margin-right: 1em;",
+    ".survey-page-title .survey-panel_icon::before":
       "content: ''; background-repeat: no-repeat; background-position: center; padding: 0.5em; display: inline-block; background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4wLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAxMCAxMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTAgMTA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiM2RDcwNzI7fQ0KPC9zdHlsZT4NCjxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMiwyIDAsNCA1LDkgMTAsNCA4LDIgNSw1ICIvPg0KPC9zdmc+DQo=);",
-    ".sv_p_title .sv_panel_icon.sv_expanded::before":
+    ".survey-page-title .survey-panel_icon.survey-expanded::before":
       "transform: rotate(180deg);",
 
-    ".sv_q_file > input[type=file], .sv_q_file > button":
+    ".survey-q_file > input[type=file], .survey-q_file > button":
       "display: inline-block;",
-    ".sv_q_file_preview":
+    ".survey-q_file_preview":
       "display: inline-block; vertical-align: top; border: 1px solid lightgray; padding: 5px; margin-top: 10px;",
-    ".sv_q_file_preview > a":
+    ".survey-q_file_preview > a":
       "display: block; overflow: hidden; vertical-align: top; white-space: nowrap; text-overflow: ellipsis;",
-    ".sv_q_file_remove_button": "line-height: normal;",
-    ".sv_q_file_remove": "display: block; cursor: pointer;",
+    ".survey-q_file_remove_button": "line-height: normal;",
+    ".survey-q_file_remove": "display: block; cursor: pointer;",
 
-    ".sv_q_m_cell_text": "cursor: pointer;",
+    ".survey-q_m_cell_text": "cursor: pointer;",
 
-    ".sv_q_dd_other": "margin-top: 1em;",
-    ".sv_q_dd_other input": "width: 100%;",
+    ".survey-q_dd_other": "margin-top: 1em;",
+    ".survey-q_dd_other input": "width: 100%;",
 
-    ".sv_qstn .sv-q-col-1, .sv-question .sv-q-col-1":
+    ".survey-qstn .svrvey-q-col-1, .svrvey-question .svrvey-q-col-1":
       "width: 100%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-col-2, .sv-question .sv-q-col-2":
+    ".survey-qstn .svrvey-q-col-2, .svrvey-question .svrvey-q-col-2":
       "width: 50%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-col-3, .sv-question .sv-q-col-3":
+    ".survey-qstn .svrvey-q-col-3, .svrvey-question .svrvey-q-col-3":
       "width: 33.33333%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-col-4, .sv-question .sv-q-col-4":
+    ".survey-qstn .svrvey-q-col-4, .svrvey-question .svrvey-q-col-4":
       "width: 25%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-col-5, .sv-question .sv-q-col-5":
+    ".survey-qstn .svrvey-q-col-5, .svrvey-question .svrvey-q-col-5":
       "width: 20%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
 
-    ".sv_qstn .sv-q-column-1, .sv-question .sv-q-column-1":
+    ".survey-qstn .svrvey-q-column-1, .svrvey-question .svrvey-q-column-1":
       "width: 100%; max-width: 100%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-column-2, .sv-question .sv-q-column-2":
+    ".survey-qstn .svrvey-q-column-2, .svrvey-question .svrvey-q-column-2":
       "max-width: 50%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-column-3, .sv-question .sv-q-column-3":
+    ".survey-qstn .svrvey-q-column-3, .svrvey-question .svrvey-q-column-3":
       "max-width: 33.33333%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-column-4, .sv-question .sv-q-column-4":
+    ".survey-qstn .svrvey-q-column-4, .svrvey-question .svrvey-q-column-4":
       "max-width: 25%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
-    ".sv_qstn .sv-q-column-5, .sv-question .sv-q-column-5":
+    ".survey-qstn .svrvey-q-column-5, .svrvey-question .svrvey-q-column-5":
       "max-width: 20%; display: inline-block; padding-right: 1em; box-sizing: border-box; word-break: break-word;",
 
-    ".sv_qstn .sv_q_file_input": "color: transparent;",
+    ".survey-qstn .survey-q_file_input": "color: transparent;",
 
-    ".sv_qstn .sv_q_imgsel label > div":
+    ".survey-qstn .question-imagepicker label > div":
       "overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 4px; border: 1px solid lightgray; border-radius: 4px;",
-    ".sv_qstn .sv_q_imgsel label > div > img, .sv_qstn .sv_q_imgsel label > div > embed":
+    ".survey-qstn .question-imagepicker label > div > img, .survey-qstn .question-img label > div > embed":
       "display: block;",
 
-    ".sv_qstn table tr td .sv_q_m_cell_label":
+    ".survey-qstn table tr td .survey-q_m_cell_label":
       "position: absolute; left: 0; right: 0; top: 0; bottom: 0;",
 
     "f-panel": "padding: 0.5em 1em; display: inline-block; line-height: 2em;",
 
-    ".sv_progress_bar > span": "white-space: nowrap;",
+    ".survey-progress_bar > span": "white-space: nowrap;",
 
-    ".sv_qstn .sv_q_select_column":
+    ".survey-qstn .survey-q_select_column":
       "display: inline-block; vertical-align: top; min-width: 10%;",
 
-    ".sv_qstn .sv_q_select_column > *:not(.sv_technical)": "display: block;",
+    ".survey-qstn .survey-q_select_column > *:not(.survey-technical)": "display: block;",
 
-    ".sv_main .sv_container .sv_body .sv_p_root .sv_qstn .sv_q_select_column textarea":
+    ".survey-main .survey-container .survey-body .survey-page-root .survey-qstn .survey-q_select_column textarea":
       "margin-left: 0; padding-left: 0; line-height: initial;",
-    ".sv_main .sv-hidden": "display: none !important;",
-    ".sv_main .sv-visuallyhidden":
+    ".survey-main .svrvey-hidden": "display: none !important;",
+    ".survey-main .svrvey-visuallyhidden":
       "position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px);",
 
     // paneldynamic progress
-    ".sv_main .sv-progress":
+    ".survey-main .svrvey-progress":
       "height: 0.19em; background-color: $header-background-color;",
-    ".sv_main .sv-progress__bar":
+    ".survey-main .svrvey-progress__bar":
       "background-color: $main-color; height: 100%; position: relative;",
     // EO paneldynamic progress
 
     // paneldynamic
-    ".sv_main .sv-paneldynamic__progress-container":
+    ".survey-main .svrvey-paneldynamic__progress-container":
       "position: relative; margin-right: 250px; margin-top: 20px;",
-    ".sv_main .sv-paneldynamic__add-btn": "float: right; margin-top: -18px;",
-    ".sv_main .sv-paneldynamic__add-btn--list-mode":
+    ".survey-main .svrvey-paneldynamic__add-btn": "float: right; margin-top: -18px;",
+    ".survey-main .svrvey-paneldynamic__add-btn--list-mode":
       "  float: none; margin-top: 1em;",
-    ".sv_main .sv-paneldynamic__remove-btn ": "margin-top: 1.25em;",
-    ".sv_main .sv-paneldynamic__prev-btn, .sv_main .sv-paneldynamic__next-btn":
+    ".survey-main .svrvey-paneldynamic__remove-btn ": "margin-top: 1.25em;",
+    ".survey-main .svrvey-paneldynamic__prev-btn, .survey-main .svrvey-paneldynamic__next-btn":
       "box-sizing: border-box; display: inline-block; cursor: pointer; width: 0.7em; top: -0.28em; position: absolute;",
-    ".sv_main .sv-paneldynamic__prev-btn":
+    ".survey-main .svrvey-paneldynamic__prev-btn":
       "left: -1.3em; transform: rotate(90deg);",
-    ".sv_main .sv-paneldynamic__next-btn ":
+    ".survey-main .svrvey-paneldynamic__next-btn ":
       "right: -1.3em; transform: rotate(270deg);",
-    ".sv_main .sv-paneldynamic__prev-btn.sv-paneldynamic__prev-btn--disabled, .sv_main .sv-paneldynamic__next-btn.sv-paneldynamic__next-btn--disabled":
+    ".survey-main .svrvey-paneldynamic__prev-btn.svrvey-paneldynamic__prev-btn--disabled, .survey-main .svrvey-paneldynamic__next-btn.svrvey-paneldynamic__next-btn--disabled":
       "cursor: auto;",
-    ".sv_main .sv-paneldynamic__progress-text":
+    ".survey-main .svrvey-paneldynamic__progress-text":
       "font-weight: bold; font-size: 0.87em; margin-top: 0.69em; margin-left: 4em",
     // EO paneldynamic
     //boolean
-    ".sv_main .sv-boolean__switch":
+    ".survey-main .svrvey-boolean__switch":
       "display: inline-block; box-sizing: border-box; width: 63px; height: 24px; margin-right: 17px; margin-left: 21px; padding: 2px 3px; vertical-align: middle; border-radius: 12px; cursor: pointer;",
-    ".sv_main .sv-boolean__slider":
+    ".survey-main .svrvey-boolean__slider":
       "display: inline-block; width: 20px; height: 20px; transition-duration: .4s; transition-property: margin-left; border: none; border-radius: 100%;",
-    ".sv_main sv-boolean__label": "vertical-align: middle",
-    ".sv_main .sv-boolean--indeterminate  .sv-boolean__slider":
+    ".survey-main svrvey-boolean__label": "vertical-align: middle",
+    ".survey-main .svrvey-boolean--indeterminate  .svrvey-boolean__slider":
       "margin-left: calc(50% - 10px);",
-    ".sv_main .sv-boolean--checked  .sv-boolean__slider":
+    ".survey-main .svrvey-boolean--checked  .svrvey-boolean__slider":
       "margin-left: calc(100% - 20px);"
     // EO boolean
   };
 
   public static Media: { [key: string]: { media: string; style: string } } = {
-    ".sv_qstn fieldset .sv-q-col-1": {
+    ".survey-qstn fieldset .svrvey-q-col-1": {
       style: "width: 100%;",
       media: "@media only screen and (max-width: 480px)"
     },
-    ".sv_qstn fieldset .sv-q-col-2": {
+    ".survey-qstn fieldset .svrvey-q-col-2": {
       style: "width: 100%;",
       media: "@media only screen and (max-width: 480px)"
     },
-    ".sv_qstn fieldset .sv-q-col-3": {
+    ".survey-qstn fieldset .svrvey-q-col-3": {
       style: "width: 100%;",
       media: "@media only screen and (max-width: 480px)"
     },
-    ".sv_qstn fieldset .sv-q-col-4": {
+    ".survey-qstn fieldset .svrvey-q-col-4": {
       style: "width: 100%;",
       media: "@media only screen and (max-width: 480px)"
     },
-    ".sv_qstn fieldset .sv-q-col-5": {
+    ".survey-qstn fieldset .svrvey-q-col-5": {
       style: "width: 100%;",
       media: "@media only screen and (max-width: 480px)"
     },
 
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn": {
       style: "display: block; width: 100% !important;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn .title-left": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn .title-left": {
       style: "float: none;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn .sv_q_radiogroup_inline, .sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn .sv_q_checkbox_inline, .sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn .sv_q_imagepicker_inline": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn .survey-q_radiogroup_inline, .survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn .survey-q_checkbox_inline, .survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn .survey-q_imagepicker_inline": {
       style: "display: block;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.table": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.table": {
       style: "display: block;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.table thead": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.table thead": {
       style: "display: none;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.table tbody, .sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.table tr, .sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.table td": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.table tbody, .survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.table tr, .survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.table td": {
       style: "display: block;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.table:not(.sv_q_matrix) td:before": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.table:not(.question-matrix) td:before": {
       style: "content: attr(headers);",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn table.sv_q_matrix td:after": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn table.question-matrix td:after": {
       style: "content: attr(headers); padding-left: 1em",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn .radio label, .sv_main .sv_container .panel-body.card-block .sv_row .sv_qstn .checkbox label": {
+    ".survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn .radio label, .survey-main .survey-container .panel-body.card-block .survey-row .survey-qstn .checkbox label": {
       style: "line-height: 12px; vertical-align: top;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_qstn label.sv_q_m_label": {
+    ".survey-qstn label.survey-q_m_label": {
       style: "display: inline;",
       media: "@media (max-width: 600px)"
     },
-    ".sv_main .sv_custom_header": {
+    ".survey-main .survey-custom_header": {
       style: "display: none;",
       media: "@media (max-width: 1300px)"
     },
-    ".sv_main .sv_container .sv_header h3": {
+    ".survey-main .survey-container .survey-header h3": {
       style: "font-size: 1.5em;",
       media: "@media (max-width: 1300px)"
     },
-    ".sv_main .sv_container .sv_header h3 span": {
+    ".survey-main .survey-container .survey-header h3 span": {
       style: "font-size: 0.75em;",
       media: "@media (max-width: 700px)"
     },
 
-    ".sv_main.sv_bootstrap_css .sv-progress__text": {
+    ".survey-main.survey-bootstrap_css .svrvey-progress__text": {
       style: "margin-left: 8em;",
       media: "@media (min-width: 768px)"
     }
@@ -444,217 +442,214 @@ export class StylesManager {
     }
   };
   public static ThemeCss: { [key: string]: string } = {
-    ".sv_default_css": "background-color: $body-container-background-color;",
+    ".survey-default_css": "background-color: $body-container-background-color;",
 
-    ".sv_default_css hr": "border-color: $border-color;",
+    ".survey-default_css hr": "border-color: $border-color;",
 
-    ".sv_default_css input[type='button'], .sv_default_css button":
+    ".survey-default_css input[type='button'], .survey-default_css button":
       "color: $body-background-color; background-color: $main-color;",
-    ".sv_default_css input[type='button']:hover, .sv_default_css button:hover":
+    ".survey-default_css input[type='button']:hover, .survey-default_css button:hover":
       "background-color: $main-hover-color;",
 
-    ".sv_default_css .sv_header": "color: $header-color;",
-    ".sv_default_css .sv_custom_header":
+    ".survey-default_css .survey-header": "color: $header-color;",
+    ".survey-default_css .survey-custom_header":
       "background-color: $header-background-color;",
-    ".sv_default_css .sv_container": "color: $text-color;",
-    ".sv_default_css .sv_body":
+    ".survey-default_css .survey-container": "color: $text-color;",
+    ".survey-default_css .survey-body":
       "background-color: $body-background-color; border-color: $main-color;",
-    ".sv_default_css .sv_progress": "background-color: $border-color;",
-    ".sv_default_css .sv_progress_bar": "background-color: $main-color;",
+    ".survey-default_css .survey-progress": "background-color: $border-color;",
+    ".survey-default_css .survey-progress_bar": "background-color: $main-color;",
 
-    ".sv_default_css .sv_p_root > .sv_row": "border-color: $border-color;",
-    ".sv_default_css .sv_p_root > .sv_row:nth-child(odd)":
+    ".survey-default_css .survey-page-root > .survey-row": "border-color: $border-color;",
+    ".survey-default_css .survey-page-root > .survey-row:nth-child(odd)":
       "background-color: $body-background-color;",
-    ".sv_default_css .sv_p_root > .sv_row:nth-child(even)":
+    ".survey-default_css .survey-page-root > .survey-row:nth-child(even)":
       "background-color: $body-container-background-color;",
 
-    ".sv_default_css .sv_q_other input":
+    ".survey-default_css .survey-q_other input":
       "color: $text-color; border-color: $border-color; background-color: $inputs-background-color;",
-    ".sv_default_css .sv_q_text_root":
+    ".survey-default_css .survey-q_text_root":
       "color: $text-color; border-color: $border-color; background-color: $inputs-background-color;",
-    ".sv_default_css .sv_q_dropdown_control":
+    ".survey-default_css .survey-q_dropdown_control":
       "color: $text-color; border-color: $border-color; background-color: $inputs-background-color;",
-    ".sv_default_css input[type='text']":
+    ".survey-default_css input[type='text']":
       "color: $text-color; border-color: $border-color; background-color: $inputs-background-color;",
-    ".sv_default_css select":
+    ".survey-default_css select":
       "color: $text-color; border-color: $border-color; background-color: $inputs-background-color;",
-    ".sv_default_css textarea":
+    ".survey-default_css textarea":
       "color: $text-color; border-color: $border-color; background-color: $inputs-background-color;",
-    ".sv_default_css input:not([type='button']):not([type='reset']):not([type='submit']):not([type='image']):not([type='checkbox']):not([type='radio'])":
+    ".survey-default_css input:not([type='button']):not([type='reset']):not([type='submit']):not([type='image']):not([type='checkbox']):not([type='radio'])":
       "border: 1px solid $border-color; background-color: $inputs-background-color;color: $text-color;",
-    ".sv_default_css input:not([type='button']):not([type='reset']):not([type='submit']):not([type='image']):not([type='checkbox']):not([type='radio']):focus":
+    ".survey-default_css input:not([type='button']):not([type='reset']):not([type='submit']):not([type='image']):not([type='checkbox']):not([type='radio']):focus":
       "border: 1px solid $main-color;",
-    ".sv_default_css .sv_container .sv_body .sv_p_root .sv_q .sv_select_wrapper .sv_q_dropdown_control ":
+    ".survey-default_css .survey-container .survey-body .survey-page-root .survey-q .survey-select_wrapper .survey-q_dropdown_control ":
       "background-color: $inputs-background-color;",
-    ".sv_default_css .sv_q_other input:focus": "border-color: $main-color;",
-    ".sv_default_css .sv_q_text_root:focus": "border-color: $main-color;",
-    ".sv_default_css .sv_q_dropdown_control:focus":
+    ".survey-default_css .survey-q_other input:focus": "border-color: $main-color;",
+    ".survey-default_css .survey-q_text_root:focus": "border-color: $main-color;",
+    ".survey-default_css .survey-q_dropdown_control:focus":
       "border-color: $main-color;",
-    ".sv_default_css input[type='text']:focus": "border-color: $main-color;",
-    '.sv_default_css .sv_container .sv_body .sv_p_root .sv_q input[type="radio"]:focus, .sv_default_css .sv_container .sv_body .sv_p_root .sv_q input[type="checkbox"]:focus':
+    ".survey-default_css input[type='text']:focus": "border-color: $main-color;",
+    '.survey-default_css .survey-container .survey-body .survey-page-root .survey-q input[type="radio"]:focus, .survey-default_css .survey-container .survey-body .survey-page-root .survey-q input[type="checkbox"]:focus':
       "outline: 1px dotted $main-color;",
-    ".sv_default_css select:focus": "border-color: $main-color;",
-    ".sv_default_css textarea:focus": "border-color: $main-color;",
+    ".survey-default_css select:focus": "border-color: $main-color;",
+    ".survey-default_css textarea:focus": "border-color: $main-color;",
 
-    ".sv_default_css .sv_select_wrapper":
+    ".survey-default_css .survey-select_wrapper":
       "background-color: $body-background-color;",
-    ".sv_default_css .sv_select_wrapper::before":
+    ".survey-default_css .survey-select_wrapper::before":
       "background-color: $main-color;",
 
-    ".sv_default_css .sv_q_rating_item.active .sv_q_rating_item_text":
+    ".survey-default_css .survey-q_rating_item.active .survey-q_rating_item_text":
       "background-color: $main-hover-color; border-color: $main-hover-color; color: $body-background-color;",
-    ".sv_default_css .sv_q_rating_item .sv_q_rating_item_text":
+    ".survey-default_css .survey-q_rating_item .survey-q_rating_item_text":
       "border-color: $border-color;",
-    ".sv_default_css .sv_q_rating_item .sv_q_rating_item_text:hover":
+    ".survey-default_css .survey-q_rating_item .survey-q_rating_item_text:hover":
       "border-color: $main-hover-color;",
 
-    ".sv_default_css table.sv_q_matrix tr": "border-color: $border-color;",
-    ".sv_default_css table.sv_q_matrix_dropdown tr":
+    ".survey-default_css table.question-matrix tr": "border-color: $border-color;",
+    ".survey-default_css table.question-matrix-dropdown tr":
       "border-color: $border-color;",
-    ".sv_default_css table.sv_q_matrix_dynamic tr":
+    ".survey-default_css table.question-matrix-dynamic tr":
       "border-color: $border-color;",
 
-    ".sv_default_css .sv_q_m_cell_selected":
+    ".survey-default_css .survey-q_m_cell_selected":
       "color: $body-background-color; background-color: $main-hover-color;",
 
-    ".sv_main .sv_q_file_remove:hover": "color: $main-color;",
-
-    ".sv_main .sv_q_imgsel.checked label>div": "background-color: $main-color",
-
-    ".sv_default_css .sv_p_description": "padding-left: 1.29em;",
+    ".survey-main .survey-q_file_remove:hover": "color: $main-color;",
+    ".survey-default_css .survey-page-description": "padding-left: 1.29em;",
     //progress bar
-    ".sv_main .sv-progress": "background-color: $header-background-color;",
-    ".sv_main .sv-progress__bar": "background-color: $main-color;",
+    ".survey-main .svrvey-progress": "background-color: $header-background-color;",
+    ".survey-main .svrvey-progress__bar": "background-color: $main-color;",
 
     //paneldynamic
-    ".sv_main .sv-paneldynamic__prev-btn.sv-paneldynamic__prev-btn--disabled, .sv_main .sv-paneldynamic__next-btn.sv-paneldynamic__next-btn--disabled":
+    ".survey-main .svrvey-paneldynamic__prev-btn.svrvey-paneldynamic__prev-btn--disabled, .survey-main .svrvey-paneldynamic__next-btn.svrvey-paneldynamic__next-btn--disabled":
       "fill: $disable-color;",
-    ".sv_main .sv-paneldynamic__progress-text": "color: $progress-text-color;",
-    ".sv_main .sv-paneldynamic__prev-btn, .sv_main .sv-paneldynamic__next-btn":
+    ".survey-main .svrvey-paneldynamic__progress-text": "color: $progress-text-color;",
+    ".survey-main .svrvey-paneldynamic__prev-btn, .survey-main .svrvey-paneldynamic__next-btn":
       "fill: $text-color",
 
     //boolean
-    ".sv_main .sv-boolean__switch": "background-color: $main-color;",
-    ".sv_main .sv-boolean__slider": "background-color: $slider-color;",
-    ".sv_main .sv-boolean__label--disabled": "color: $disabled-label-color;",
-    ".sv_main .sv-boolean--disabled .sv-boolean__switch":
+    ".survey-main .svrvey-boolean__switch": "background-color: $main-color;",
+    ".survey-main .svrvey-boolean__slider": "background-color: $slider-color;",
+    ".survey-main .svrvey-boolean__label--disabled": "color: $disabled-label-color;",
+    ".survey-main .svrvey-boolean--disabled .svrvey-boolean__switch":
       "background-color: $disabled-switch-color;",
-    ".sv_main .sv-boolean--disabled .sv-boolean__slider":
+    ".survey-main .svrvey-boolean--disabled .svrvey-boolean__slider":
       "background-color: $disabled-slider-color;"
     //eo boolean
   };
   public static modernThemeCss: { [key: string]: string } = {
-    ".sv-paneldynamic__add-btn": "background-color: $add-button-color;",
-    ".sv-paneldynamic__remove-btn": "background-color: $remove-button-color;",
-    ".sv-boolean__switch": "background-color: $main-color;",
-    ".sv-boolean__slider": "background-color: $slider-color;",
-    ".sv-boolean__label--disabled": "color: $disabled-label-color;",
-    ".sv-boolean--disabled .sv-boolean__switch":
+    ".svrvey-paneldynamic__add-btn": "background-color: $add-button-color;",
+    ".svrvey-paneldynamic__remove-btn": "background-color: $remove-button-color;",
+    ".svrvey-boolean__switch": "background-color: $main-color;",
+    ".svrvey-boolean__slider": "background-color: $slider-color;",
+    ".svrvey-boolean__label--disabled": "color: $disabled-label-color;",
+    ".svrvey-boolean--disabled .svrvey-boolean__switch":
       "background-color: $disabled-switch-color;",
-    ".sv-boolean--disabled .sv-boolean__slider":
+    ".svrvey-boolean--disabled .svrvey-boolean__slider":
       "background-color: $disabled-slider-color;"
   };
   public static bootstrapThemeCss: { [key: string]: string } = {
-    ".sv_main .sv_q_imgsel.checked label>div": "background-color: $main-color",
-    ".sv_main .sv_p_description": "padding-left: 1.66em;",
-    ".sv_main .sv_qstn_error_bottom": "margin-top: 20px; margin-bottom: 0;",
-    ".sv_main .progress": "width: 60%;",
-    ".sv_main .progress-bar":
-      "width: auto; margin-left: 2px; margin-right: 2px;",
-    ".sv_main .table>tbody>tr>td": "min-width: 90px;",
-    ".sv_main f-panel .sv_qstn": "padding: 0; vertical-align: middle;",
+    // ".survey-main .question-imagepicker.checked label>div": "background-color: $main-color",
+    ".survey-main .survey-page-description": "padding-left: 1.66em;",
+    ".survey-main .survey-qstn_error_bottom": "margin-top: 20px; margin-bottom: 0;",
+    // ".survey-main .progress": "width: 60%;",
+    // ".survey-main .progress-bar":
+    //   "width: auto; margin-left: 2px; margin-right: 2px;",
+    ".survey-main .table>tbody>tr>td": "min-width: 90px;",
+    ".survey-main f-panel .survey-qstn": "padding: 0; vertical-align: middle;",
 
     //progress bar
-    ".sv_main .sv-progress": "background-color: $header-background-color;",
-    ".sv_main .sv-progress__bar": "background-color: $main-color;",
+    ".survey-main .svrvey-progress": "background-color: $header-background-color;",
+    ".survey-main .svrvey-progress__bar": "background-color: $main-color;",
 
     //paneldynamic
-    ".sv_main .sv-paneldynamic__prev-btn.sv-paneldynamic__prev-btn--disabled, .sv_main .sv-paneldynamic__next-btn.sv-paneldynamic__next-btn--disabled":
+    ".survey-main .svrvey-paneldynamic__prev-btn.svrvey-paneldynamic__prev-btn--disabled, .survey-main .svrvey-paneldynamic__next-btn.svrvey-paneldynamic__next-btn--disabled":
       "fill: $disable-color;",
-    ".sv_main .sv-paneldynamic__progress-text": "color: $progress-text-color;",
-    ".sv_main .sv-paneldynamic__prev-btn, .sv_main .sv-paneldynamic__next-btn":
+    ".survey-main .svrvey-paneldynamic__progress-text": "color: $progress-text-color;",
+    ".survey-main .svrvey-paneldynamic__prev-btn, .survey-main .svrvey-paneldynamic__next-btn":
       "fill: $text-color",
 
     //boolean
-    ".sv_main .sv-boolean__switch": "background-color: $main-color;",
-    ".sv_main .sv-boolean__slider": "background-color: $slider-color;",
-    ".sv_main .sv-boolean__label--disabled": "color: $disabled-label-color;",
-    ".sv_main .sv-boolean--disabled .sv-boolean__switch":
+    ".survey-main .svrvey-boolean__switch": "background-color: $main-color;",
+    ".survey-main .svrvey-boolean__slider": "background-color: $slider-color;",
+    ".survey-main .svrvey-boolean__label--disabled": "color: $disabled-label-color;",
+    ".survey-main .svrvey-boolean--disabled .svrvey-boolean__switch":
       "background-color: $disabled-switch-color;",
-    ".sv_main .sv-boolean--disabled  .sv-boolean__slider":
+    ".survey-main .svrvey-boolean--disabled  .svrvey-boolean__slider":
       "background-color: $disabled-slider-color;"
     //eo boolean
   };
 
   public static bootstrapmaterialThemeCss: { [key: string]: string } = {
-    ".sv_main.sv_bootstrapmaterial_css .form-group.is-focused .form-control":
+    ".survey-main.survey-bootstrapmaterial_css .form-group.is-focused .form-control":
       "background-image: linear-gradient($main-color, $main-color), linear-gradient(#D2D2D2, #D2D2D2);",
-    ".sv_main.sv_bootstrapmaterial_css .form-group.is-focused label":
+    ".survey-main.survey-bootstrapmaterial_css .form-group.is-focused label":
       "color:$main-color;",
 
-    ".sv_main.sv_bootstrapmaterial_css .sv_qstn label.sv_q_m_label":
+    ".survey-main.survey-bootstrapmaterial_css .survey-qstn label.survey-q_m_label":
       "height: 100%;",
 
-    ".sv_main.sv_bootstrapmaterial_css .checkbox input[type=checkbox]:checked + .checkbox-material .check":
+    ".survey-main.survey-bootstrapmaterial_css .checkbox input[type=checkbox]:checked + .checkbox-material .check":
       "border-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check":
+    ".survey-main.survey-bootstrapmaterial_css label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check":
       "border-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css .checkbox input[type=checkbox]:checked + .checkbox-material .check:before":
+    ".survey-main.survey-bootstrapmaterial_css .checkbox input[type=checkbox]:checked + .checkbox-material .check:before":
       "color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check:before":
+    ".survey-main.survey-bootstrapmaterial_css label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check:before":
       "color: $main-color;",
 
-    ".sv_main.sv_bootstrapmaterial_css .radio input[type=radio]:checked ~ .circle":
+    ".survey-main.survey-bootstrapmaterial_css .radio input[type=radio]:checked ~ .circle":
       "border-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css label.radio-inline input[type=radio]:checked ~ .circle":
+    ".survey-main.survey-bootstrapmaterial_css label.radio-inline input[type=radio]:checked ~ .circle":
       "border-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css .radio input[type=radio]:checked ~ .check":
+    ".survey-main.survey-bootstrapmaterial_css .radio input[type=radio]:checked ~ .check":
       "background-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css label.radio-inline input[type=radio]:checked ~ .check":
+    ".survey-main.survey-bootstrapmaterial_css label.radio-inline input[type=radio]:checked ~ .check":
       "background-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css .btn-default.active":
+    ".survey-main.survey-bootstrapmaterial_css .btn-default.active":
       "background-color: $main-color; color: $body-background-color;",
-    ".sv_main.sv_bootstrapmaterial_css .btn-default:active":
+    ".survey-main.survey-bootstrapmaterial_css .btn-default:active":
       "background-color: $main-color; color: $body-background-color;",
-    ".sv_main.sv_bootstrapmaterial_css .btn-secondary.active":
+    ".survey-main.survey-bootstrapmaterial_css .btn-secondary.active":
       "background-color: $main-color; color: $body-background-color;",
-    ".sv_main.sv_bootstrapmaterial_css .btn-secondary:active":
+    ".survey-main.survey-bootstrapmaterial_css .btn-secondary:active":
       "background-color: $main-color; color: $body-background-color;",
-    ".sv_main.sv_bootstrapmaterial_css .open>.dropdown-toggle.btn-default":
+    ".survey-main.survey-bootstrapmaterial_css .open>.dropdown-toggle.btn-default":
       "background-color: $main-color; color: $body-background-color;",
-    ".sv_main.sv_bootstrapmaterial_css input[type='button'].btn-primary, .sv_main.sv_bootstrapmaterial_css button.btn-primary":
+    ".survey-main.survey-bootstrapmaterial_css input[type='button'].btn-primary, .survey-main.survey-bootstrapmaterial_css button.btn-primary":
       "color: $body-background-color; background-color: $main-color;",
-    ".sv_main.sv_bootstrapmaterial_css input[type='button'].btn-primary:hover, .sv_main.sv_bootstrapmaterial_css button.btn-primary:hover":
+    ".survey-main.survey-bootstrapmaterial_css input[type='button'].btn-primary:hover, .survey-main.survey-bootstrapmaterial_css button.btn-primary:hover":
       "background-color: $main-hover-color;",
-    ".sv_main .sv_q_imgsel.checked label>div": "background-color: $main-color;",
+    // ".survey-main .question-imagepicker.checked label>div": "background-color: $main-color;",
 
-    ".sv_main.sv_bootstrapmaterial_css .sv_q_file_remove:hover":
+    ".survey-main.survey-bootstrapmaterial_css .survey-q_file_remove:hover":
       "color: $main-color;",
 
-    ".sv_main.sv_bootstrapmaterial_css .form-group input[type=file]":
+    ".survey-main.survey-bootstrapmaterial_css .form-group input[type=file]":
       "position: relative; opacity: 1;",
-    ".sv_main.sv_bootstrapmaterial_css .progress": "width: 60%;",
-    ".sv_main.sv_bootstrapmaterial_css .progress-bar":
+    // ".survey-main.survey-bootstrapmaterial_css .progress": "width: 60%;",
+    ".survey-main.survey-bootstrapmaterial_css .progress-bar":
       "width: auto; margin-left: 2px; margin-right: 2px;",
 
     //progress bar
-    ".sv_main .sv-progress": "background-color: $header-background-color;",
-    ".sv_main .sv-progress__bar": "background-color: $main-color;",
+    ".survey-main .svrvey-progress": "background-color: $header-background-color;",
+    ".survey-main .svrvey-progress__bar": "background-color: $main-color;",
 
     //paneldynamic
-    ".sv_main .sv-paneldynamic__prev-btn.sv-paneldynamic__prev-btn--disabled, .sv_main .sv-paneldynamic__next-btn.sv-paneldynamic__next-btn--disabled":
+    ".survey-main .svrvey-paneldynamic__prev-btn.svrvey-paneldynamic__prev-btn--disabled, .survey-main .svrvey-paneldynamic__next-btn.svrvey-paneldynamic__next-btn--disabled":
       "fill: $disable-color;",
-    ".sv_main .sv-paneldynamic__progress-text": "color: $progress-text-color;",
-    ".sv_main .sv-paneldynamic__prev-btn, .sv_main .sv-paneldynamic__next-btn":
+    ".survey-main .svrvey-paneldynamic__progress-text": "color: $progress-text-color;",
+    ".survey-main .svrvey-paneldynamic__prev-btn, .survey-main .svrvey-paneldynamic__next-btn":
       "fill: $text-color",
 
     //boolean
-    ".sv_main .sv-boolean__switch": "background-color: $main-color;",
-    ".sv_main .sv-boolean__slider": "background-color: $slider-color;",
-    ".sv_main .sv-boolean__label--disabled": "color: $disabled-label-color;",
-    ".sv_main .sv-boolean--disabled .sv-boolean__switch":
+    ".survey-main .svrvey-boolean__switch": "background-color: $main-color;",
+    ".survey-main .svrvey-boolean__slider": "background-color: $slider-color;",
+    ".survey-main .svrvey-boolean__label--disabled": "color: $disabled-label-color;",
+    ".survey-main .svrvey-boolean--disabled .svrvey-boolean__switch":
       "background-color: $disabled-switch-color;",
-    ".sv_main .sv-boolean--disabled  .sv-boolean__slider":
+    ".survey-main .svrvey-boolean--disabled  .svrvey-boolean__slider":
       "background-color: $disabled-slider-color;"
     //eo boolean
   };
@@ -686,11 +681,11 @@ export class StylesManager {
 
   public static applyTheme(
     themeName: string = "default",
-    themeSelector: string = ".sv_main"
+    themeSelector: string = ".survey-main"
   ) {
     let ThemeCss: any;
 
-    if (themeName === "modern") themeSelector = ".sv-root-modern ";
+    if (themeName === "modern") themeSelector = ".svrvey-root-modern ";
 
     if (
       ["bootstrap", "bootstrapmaterial", "modern"].indexOf(themeName) !== -1

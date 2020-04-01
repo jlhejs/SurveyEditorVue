@@ -1,5 +1,5 @@
-.sv-body__page,
-.sv-body__footer {
+.svrvey-body__page,
+.svrvey-body__footer {
   @media only screen and (min-width: 1000px) {
     margin-right: 5%;
     margin-left: 5%;
@@ -10,9 +10,9 @@
   }
 }
 
-.sv-body__progress {
+.svrvey-body__progress {
   margin-bottom: 4.5em;
 }
-.sv-body__progress:not(:first-child){
+.svrvey-body__progress:not(:first-child){
   margin-top: 2.5em;
 }

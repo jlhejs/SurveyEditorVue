@@ -85,8 +85,8 @@ export class FlowPanel extends Vue {
     return this.question.survey;
   }
   get iconCss() {
-    var result = "sv_panel_icon";
-    if (!this.isCollapsed) result += " sv_expanded";
+    var result = "survey-panel_icon";
+    if (!this.isCollapsed) result += " survey-expanded";
     return result;
   }
   get isCollapsed() {

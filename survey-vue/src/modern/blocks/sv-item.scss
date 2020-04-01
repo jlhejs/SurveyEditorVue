@@ -1,11 +1,11 @@
-.sv-item {
+.svrvey-item {
   position: relative;
   cursor: pointer;
 }
-.sv-item--disabled {
+.svrvey-item--disabled {
   cursor: default;
 }
-.sv-item__decorator {
+.svrvey-item__decorator {
   position: relative;
   display: inline-block;
   box-sizing: border-box;
@@ -14,7 +14,7 @@
   border: solid 1px transparent;
   vertical-align: middle;
 }
-.sv-item__svg {
+.svrvey-item__svg {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -25,11 +25,11 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
 }
-.sv-item__control:focus + .sv-item__decorator {
+.svrvey-item__control:focus + .svrvey-item__decorator {
   border-color: $main-color;
   outline: none;
 }
-.sv-item__control-label {
+.svrvey-item__control-label {
   margin-left: 0.4125em;
   vertical-align: middle;
 }

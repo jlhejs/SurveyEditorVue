@@ -406,22 +406,22 @@ questionPrototype["onSelectedElementChanged"] = function() {
   this.koIsSelected(getSurvey(this)["selectedElementValue"] == this);
 };
 
-Survey.QuestionSelectBaseImplementor.prototype["onCreated"] = function() {
-  var q: any = this.question;
-  var updateTriggerFunction = function() {
-    setTimeout(() => q["koElementType"].notifySubscribers(), 0);
-  };
-  [
-    "choices",
-    "hasOther",
-    "hasComment",
-    "hasNone",
-    "hasSelectAll",
-    "colCount"
-  ].forEach(propertyName =>
-    this.question.registerFunctionOnPropertyValueChanged(
-      propertyName,
-      updateTriggerFunction
-    )
-  );
-};
+// Survey.QuestionSelectBaseImplementor.prototype["onCreated"] = function() {
+//   var q: any = this.question;
+//   var updateTriggerFunction = function() {
+//     setTimeout(() => q["koElementType"].notifySubscribers(), 0);
+//   };
+//   [
+//     "choices",
+//     "hasOther",
+//     "hasComment",
+//     "hasNone",
+//     "hasSelectAll",
+//     "colCount"
+//   ].forEach(propertyName =>
+//     this.question.registerFunctionOnPropertyValueChanged(
+//       propertyName,
+//       updateTriggerFunction
+//     )
+//   );
+// };

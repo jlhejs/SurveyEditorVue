@@ -141,12 +141,12 @@ frameworks.forEach(framework => {
       .setNativeDialogHandler(() => {
         return false;
       })
-      .click(".sv_q_file_remove");
+      .click(".survey-q_file_remove");
     await t
       .setNativeDialogHandler(() => {
         return false;
       })
-      .click(".sv_q_file_remove_button");
+      .click(".survey-q_file_remove_button");
     const history = await t.getNativeDialogHistory();
     await t
       .expect(history[1].type)

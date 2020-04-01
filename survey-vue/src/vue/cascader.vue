@@ -32,7 +32,7 @@
      :separator="question.separator"
      :popper-class="question.cssClasses.popper"
      :options="options()"
-     v-else ></el-cascader-panel>{{question.getFirstInputElementId()}}
+     v-else ></el-cascader-panel>
     </el-row>
   </fieldset>
 </template>
@@ -64,7 +64,7 @@ export class Cascader extends QuestionVue<QuestionCascaderModel> {
       itemClass +=
         question.colCount === 0
           ? " " + cssClasses.itemInline
-          : " sv-q-col-" + question.colCount;
+          : " svrvey-q-col-" + question.colCount;
     }
     if (isDisabled) itemClass += " " + cssClasses.itemDisabled;
     if (isChecked) itemClass += " " + cssClasses.itemChecked;

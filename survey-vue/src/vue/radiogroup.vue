@@ -1,7 +1,7 @@
 <template>
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
-    <el-row :gutter="0"  :class="question.css.root">
+    <el-row :gutter="0"  >
       <el-radio-group v-model="question.renderedValue" style="width: 100%;" :disabled="question.isReadOnly">
           <template  v-for="(item, index) in question.visibleChoices" >
             <el-col tag="span" :span="getSpan(item)" :key="item.value" :class="getItemClass(item)" v-if="question.hasColumns">
@@ -74,14 +74,15 @@ export class Radiogroup extends QuestionVue<QuestionRadiogroupModel> {
       itemClass +=
         this.question.colCount === 0
           ? " " + cssClasses.itemInline
-          : " sv-q-col-" + this.question.colCount;
+          : " svrvey-q-col-" + this.question.colCount;
     }
-
+     console.log(this)
+    console.log(this)
     return itemClass;
   }
   getSpan(item: any){
     var question = this.question;
-    console.log(this)
+   
     if (question.hasColumns) {
       return question.colCount === 0? "":  Math.floor(24/question.colCount)
     }

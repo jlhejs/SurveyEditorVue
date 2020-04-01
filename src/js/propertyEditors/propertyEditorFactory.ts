@@ -242,4 +242,20 @@ export class SurveyNumberPropertyEditor extends SurveyPropertyEditorBase {
   }
 }
 
+export class SurveyColorPropertyEditor extends SurveyPropertyEditorBase {
+  constructor(property: Survey.JsonObjectProperty) {
+    super(property);
+  }
+  public get editorType(): string {
+    return "color";
+  }
+}
 
+export class SurveyArrayPropertyEditor extends SurveyDropdownPropertyEditor {
+  constructor(property: Survey.JsonObjectProperty) {
+    super(property);
+  }
+  public get editorType(): string {
+    return "array";
+  }
+}

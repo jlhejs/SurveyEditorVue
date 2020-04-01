@@ -1,15 +1,13 @@
 <template>
-  <div role="alert" v-show="isShow" :class="classes">
-    <div v-for="error in question.errors">
-      <span
-        :class="question.cssClasses ? question.cssClasses.error.icon : 'panel-error-icon'"
-        aria-hidden="true"
-      ></span>
-      <span :class="question.cssClasses ? question.cssClasses.error.item : 'panel-error-item'">
+  <span role="alert" v-show="isShow" :class="classes">
+    <template v-for="error in question.errors">
+      <el-tag type="danger" size="small" :class="question.cssClasses ? question.cssClasses.error.item : 'panel-error-item'">
+        <i  :class="question.cssClasses ? question.cssClasses.error.icon : 'panel-error-icon'"></i>
         <survey-string :locString="error.locText"/>
-      </span>
-    </div>
-  </div>
+      </el-tag>
+    </template>
+   
+  </span>
 </template>
 
 <script lang="ts">
@@ -49,3 +47,52 @@ export class Errors extends Vue {
 Vue.component("survey-errors", Errors);
 export default Errors;
 </script>
+<style scoped>
+.error-item{
+  animation: shake-horizontal 1s ease-in-out both;
+}
+@-webkit-keyframes shake-horizontal {
+  0%,
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translateX(-2px);
+            transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translateX(2px);
+            transform: translateX(2px);
+  }
+}
+@keyframes shake-horizontal {
+  0%,
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translateX(-2px);
+            transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translateX(2px);
+            transform: translateX(2px);
+  }
+}
+</style>

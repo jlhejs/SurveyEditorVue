@@ -4,11 +4,12 @@ import { SurveyPropertyEditorBase } from "./propertyEditorBase";
 export class SurveyPropertyCustomEditor extends SurveyPropertyEditorBase {
   private widgetJSONValue: any;
   public onValueChangedCallback: (newValue: any) => void;
+  afterRender: (el: any, con: any) => void;
   constructor(property: Survey.JsonObjectProperty, widgetJSON: any = null) {
     super(property);
     this.widgetJSONValue = widgetJSON;
     var self = this;
-    this["koAfterRender"] = function(el, con) {
+    this.afterRender= function(el, con) {
       self.doAfterRender(el, con);
     };
   }
@@ -18,7 +19,7 @@ export class SurveyPropertyCustomEditor extends SurveyPropertyEditorBase {
   public get widgetJSON(): any {
     return this.widgetJSONValue;
   }
-  private isValueChanging: boolean = false;
+  public isValueChanging: boolean = false;
   public onValueChanged() {
     if (this.isValueChanging) return;
     this.isValueChanging = true;
@@ -32,7 +33,7 @@ export class SurveyPropertyCustomEditor extends SurveyPropertyEditorBase {
     if (!!res) return res;
     var errorText = this.widgetValidate();
     if (!!errorText) {
-      this.koErrorText(errorText);
+      this.errorText=errorText;
     }
     return !!errorText;
   }
@@ -41,7 +42,7 @@ export class SurveyPropertyCustomEditor extends SurveyPropertyEditorBase {
   }
   protected widgetValidate(): string {
     if (this.widgetJSON && this.widgetJSON.validate) {
-      return this.widgetJSON.validate(this, this.koValue());
+      return this.widgetJSON.validate(this, this.value);
     }
     return null;
   }

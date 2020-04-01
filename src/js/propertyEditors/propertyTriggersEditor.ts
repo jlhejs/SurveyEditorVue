@@ -233,7 +233,7 @@ export class SurveyPropertyTrigger {
     this.conditionEditor.object = this.trigger;
     var self = this;
     this.koIsValid = ko.computed(() => {
-      var text = self.conditionEditor.koTextValue();
+      var text = self.conditionEditor.textValue;
       return !!text;
     });
     this.koText = ko.computed(() => {
@@ -250,7 +250,7 @@ export class SurveyPropertyTrigger {
     var trigger = <Survey.SurveyTrigger>(
       Survey.Serializer.createClass(this.triggerType)
     );
-    trigger["expression"] = this.conditionEditor.koTextValue();
+    trigger["expression"] = this.conditionEditor.textValue;
     this.applyProperties(trigger);
     return trigger;
   }
@@ -258,7 +258,7 @@ export class SurveyPropertyTrigger {
   private getText(): string {
     if (!this.koIsValid())
       return editorLocalization.getString("pe.triggerNotSet");
-    var res = this.conditionEditor.koTextValue();
+    var res = this.conditionEditor.textValue;
     if (!res) return "";
     if (!!this.options && this.options.showTitlesInExpressions) {
       res = new ExpressionToDisplayText(this.survey).toDisplayText(res);

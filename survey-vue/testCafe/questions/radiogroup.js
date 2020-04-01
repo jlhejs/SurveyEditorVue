@@ -71,24 +71,24 @@ frameworks.forEach(framework => {
       () => document.querySelector(`div[id*=sq_1] fieldset > div`).className
     );
     let className = await getClassName();
-    assert.notEqual(className.indexOf("sv-q-column-4"), -1);
+    assert.notEqual(className.indexOf("svrvey-q-column-4"), -1);
 
     await setOptions("car", { colCount: 1 });
 
     className = await getClassName();
-    assert.notEqual(className.indexOf("sv-q-col-1"), -1);
+    assert.notEqual(className.indexOf("svrvey-q-col-1"), -1);
 
     await setOptions("car", { colCount: 2 });
 
     className = await getClassName();
-    assert.notEqual(className.indexOf("sv-q-column-2"), -1);
+    assert.notEqual(className.indexOf("svrvey-q-column-2"), -1);
   });
 
   test(`change choices order`, async t => {
     const getChoicesCount = ClientFunction(
       () =>
         document.querySelectorAll(
-          `div[id*=sq_1] fieldset .sv_q_checkbox_control_item`
+          `div[id*=sq_1] fieldset .survey-q_checkbox_control_item`
         ).length
     );
     const getFirst = Selector(
@@ -198,7 +198,7 @@ frameworks.forEach(framework => {
     const getOtherChoice = Selector(
       () =>
         document.querySelectorAll(
-          `div[id*=sq_1] fieldset .sv_q_select_column:nth-child(5) div:nth-child(3)`
+          `div[id*=sq_1] fieldset .survey-q_select_column:nth-child(5) div:nth-child(3)`
         )[0]
     );
     let otherChoice;
@@ -218,7 +218,7 @@ frameworks.forEach(framework => {
 
     await setOptions("car", { hasOther: true });
     await t
-      .click(`.sv_q_select_column:nth-child(5) div:nth-child(3) label input`)
+      .click(`.survey-q_select_column:nth-child(5) div:nth-child(3) label input`)
       .typeText(getOtherInput, "Zaporozec")
       .click(`input[value=Complete]`);
 
@@ -231,7 +231,7 @@ frameworks.forEach(framework => {
     const isCheckedClassExistsByIndex = ClientFunction(index =>
       document
         .querySelector(
-          `fieldset .sv_q_select_column:nth-child(3) div:nth-child(${index})`
+          `fieldset .survey-q_select_column:nth-child(3) div:nth-child(${index})`
         )
         .classList.contains("checked")
     );
@@ -240,14 +240,14 @@ frameworks.forEach(framework => {
     assert.equal(await isCheckedClassExistsByIndex(3), false);
 
     await t.click(
-      `fieldset .sv_q_select_column:nth-child(3) div:nth-child(2) label input`
+      `fieldset .survey-q_select_column:nth-child(3) div:nth-child(2) label input`
     );
 
     assert.equal(await isCheckedClassExistsByIndex(2), true);
     assert.equal(await isCheckedClassExistsByIndex(3), false);
 
     await t.click(
-      `fieldset .sv_q_select_column:nth-child(3) div:nth-child(3) label input`
+      `fieldset .survey-q_select_column:nth-child(3) div:nth-child(3) label input`
     );
 
     assert.equal(await isCheckedClassExistsByIndex(2), false);

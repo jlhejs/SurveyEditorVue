@@ -1,5 +1,5 @@
 <template>
-  <div>PropertyEditor-restfull</div>
+  <div>PropertyEditor-restfull1</div>
 </template>
 <script>
   export default {
@@ -15,7 +15,8 @@
       return {
       }
     },
-    updated() {
+    created()  {
+      console.log(this.property)
     },
     methods: {
       valueChanged:function(){

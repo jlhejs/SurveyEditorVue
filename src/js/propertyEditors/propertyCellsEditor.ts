@@ -43,9 +43,9 @@ export class SurveyPropertyCellsEditor extends SurveyPropertyModalEditor {
       }
     }
     if (!matrix.cells.isEmpty) {
-      this.koValue(matrix.cells);
+      this.value=matrix.cells;
     } else {
-      this.koValue(null);
+      this.value=null;
     }
   }
   public get editorType(): string {

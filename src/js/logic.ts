@@ -1,4 +1,5 @@
 import * as ko from "knockout";
+import Vue from "vue";
 import * as Survey from "survey-vue";
 import { SurveyPropertyConditionEditor } from "./propertyEditors/propertyConditionEditor";
 import { SurveyPropertyTriggersEditor } from "./propertyEditors/propertyTriggersEditor";
@@ -49,7 +50,7 @@ export class SurveyLogicType {
     public survey: Survey.Model,
     public options: ISurveyObjectEditorOptions = null
   ) {
-    this.koVisible = ko.observable(true);
+    this.koVisible = Vue.observable(true);
     this.update();
   }
   public get name(): string {
@@ -62,14 +63,14 @@ export class SurveyLogicType {
     return this.logicType.propertyName;
   }
   public get templateName(): string {
-    if (this.isTrigger) return "propertyeditorcontent-trigger-content";
+    if (this.isTrigger) return "PropertyEditor-triggerContent";
     return !!this.logicType.templateName
       ? this.logicType.templateName
       : "elementselector";
   }
   public update(operations: Array<SurveyLogicOperation> = null) {
     this.hasUniqueItem = this.isUniqueItem && this.hasThisOperation(operations);
-    this.koVisible(this.visible);
+    this.koVisible=this.visible;
   }
   public get visible(): boolean {
     if (!this.showInUI) return false;
@@ -208,7 +209,7 @@ export class SurveyLogicOperation {
   private templateObjectValue: any;
   private itemSelectorValue: SurveyElementSelector = null;
   constructor(public logicType: SurveyLogicType, element: Survey.Base) {
-    this.koElement = ko.observable(element);
+    this.koElement = Vue.observable(element);
     this.itemSelectorValue = this.logicType.createItemSelector();
     if (this.itemSelector) {
       var self = this;
@@ -228,10 +229,10 @@ export class SurveyLogicOperation {
       : this.itemSelector;
   }
   public get element(): Survey.Base {
-    return this.koElement();
+    return this.koElement;
   }
   public set element(val: Survey.Base) {
-    this.koElement(val);
+    this.koElement=val;
   }
   public get itemSelector(): SurveyElementSelector {
     return this.itemSelectorValue;
@@ -295,7 +296,7 @@ export class SurveyLogicItem {
     public expression: string = ""
   ) {
     this.removedOperations = [];
-    this.koOperations = ko.observableArray();
+    this.koOperations = Vue.observable([]);
   }
   public get name() {
     return "logicItem" + this.id;
@@ -321,7 +322,7 @@ export class SurveyLogicItem {
     return !!this.owner && this.owner.readOnly;
   }
   public get operations(): Array<SurveyLogicOperation> {
-    return this.koOperations();
+    return this.koOperations;
   }
   public addOperation(
     lt: SurveyLogicType,
@@ -334,7 +335,7 @@ export class SurveyLogicItem {
   }
   public removeOperation(op: SurveyLogicOperation) {
     this.removedOperations.push(op);
-    var index = this.koOperations().indexOf(op);
+    var index = this.koOperations.indexOf(op);
     if (index > -1) {
       this.koOperations.splice(index, 1);
       if (!!op.logicType) {
@@ -594,13 +595,13 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
       baseClass: "htmlconditionitem",
       propertyName: "expression",
       isUniqueItem: true,
-      templateName: "propertyeditorcontent-html",
+      templateName: "PropertyEditor-htmlContent",
       createNewElement: function(survey: Survey.Model) {
         return new Survey.HtmlConditionItem();
       },
       createTemplateObject: function(element: Survey.Base) {
         var item = <Survey.HtmlConditionItem>element;
-        return { koValue: ko.observable(item.html), readOnly: false };
+        return { koValue: item.html, readOnly: false };
       },
       saveElement: function(
         survey: Survey.Model,
@@ -699,16 +700,17 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
   ) {
     
     this.createExpressionPropertyEditor();
-    this.koItems = ko.observableArray();
-    this.koLogicTypes = ko.observableArray();
-    this.koMode = ko.observable("view");
-    this.koReadOnly = ko.observable(this.readOnly);
-    this.koErrorText = ko.observable("");
+    this.koItems = Vue.observable([]);
+    this.koLogicTypes = Vue.observable([]);
+    this.koMode = Vue.observable("view");
+    this.koReadOnly = Vue.observable(this.readOnly);
+    this.koErrorText = Vue.observable("");
     var self = this;
-    this.koDisplayError = ko.computed(function() {
-      return !!self.koErrorText();
-    });
+    // this.koDisplayError = ko.computed(function() {
+    //   return !!self.koErrorText();
+    // });
     this.koAddNew = function() {
+      debugger
       self.addNew();
     };
     this.koEditItem = function(item: SurveyLogicItem) {
@@ -734,7 +736,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     this.koRemoveOperation = function(op: SurveyLogicOperation) {
       self.removeOperation(op);
     };
-    this.koEditableItem = ko.observable(null);
+    this.koEditableItem = Vue.observable(null);
     this.update();
   }
   public getTypeByName(name: string): SurveyLogicType {
@@ -753,10 +755,10 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     if (!!options) {
       this.options = options;
     }
-    this.koLogicTypes(this.createLogicTypes());
+    this.koLogicTypes=this.createLogicTypes();
     this.updateVisibleItems();
     this.invisibleItems = this.buildItems(false);
-    this.koReadOnly(this.readOnly);
+    this.koReadOnly=this.readOnly;
     this.mode = "view";
     this.expressionEditor.object = this.survey;
     this.expressionEditor.options = this.options;
@@ -765,9 +767,9 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     this.expressionEditor.beforeShow();
   }
   private updateVisibleItems() {
-    this.koItems(this.buildItems(true));
-    this.koEditableItem(null);
-    this.koErrorText("");
+    this.koItems=this.buildItems(true);
+    this.koEditableItem=null;
+    this.koErrorText="";
   }
   public get readOnly() {
     return !!this.options && this.options.readOnly;
@@ -789,13 +791,13 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     }
   }
   public get items(): Array<SurveyLogicItem> {
-    return this.koItems();
+    return this.koItems;
   }
   public get logicTypes(): Array<SurveyLogicType> {
-    return this.koLogicTypes();
+    return this.koLogicTypes;
   }
   public get editableItem(): SurveyLogicItem {
-    return this.koEditableItem();
+    return this.koEditableItem;
   }
   public renameQuestion(oldName: string, newName: string) {
     this.renameQuestionCore(oldName, newName, this.items);
@@ -818,7 +820,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
         }
       }
     }
-    this.koErrorText(text);
+    this.koErrorText=text;
     return !!text;
   }
   public get addNewOperationText(): string {
@@ -841,7 +843,7 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
    * There are 3 modes: view, new, edit
    */
   public get mode() {
-    return this.koMode();
+    return this.koMode;
   }
   public set mode(val: string) {
     if (val !== "view" && val !== "new" && val !== "edit") return;
@@ -853,15 +855,15 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     if ((oldMode == "new" || oldMode == "edit") && val == "view") {
       this.updateVisibleItems();
     }
-    this.koMode(val);
+    this.koMode=val;
   }
   public addNew() {
-    this.koEditableItem(new SurveyLogicItem(this));
+    this.koEditableItem=new SurveyLogicItem(this);
     this.expressionEditor.editingValue = "";
     this.mode = "new";
   }
   public editItem(item: SurveyLogicItem) {
-    this.koEditableItem(item);
+    this.koEditableItem=item;
     this.expressionEditor.editingValue = item.expression;
     this.mode = "edit";
   }

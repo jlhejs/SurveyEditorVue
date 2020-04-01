@@ -3,7 +3,6 @@ import { editorLocalization } from "./editorLocalization";
 import * as Survey from "survey-vue";
 import { findParentNode } from "./utils/utils";
 import { StylesManager } from "./stylesmanager";
-var s=Survey
 export interface ISurveyObjectMenuItem {
   name: string;
   text: string;
@@ -17,21 +16,21 @@ export class SurveyForDesigner extends Survey.Model {
   private selectedElementValue: any;
   editQuestionClick: any;
   public onSelectedElementChanged: Survey.Event<
-    (sender: Survey.Survey, options: any) => any,
+   (sender: Survey.Model , options: any) => any,
     any
-  > = new Survey.Event<(sender: Survey.Survey, options: any) => any, any>();
+  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
   public onEditButtonClick: Survey.Event<
-    (sender: Survey.Survey, options: any) => any,
+    (sender: Survey.Model , options: any) => any,
     any
-  > = new Survey.Event<(sender: Survey.Survey, options: any) => any, any>();
+  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
   public onGetMenuItems: Survey.Event<
-    (sender: Survey.Survey, options: any) => any,
+    (sender: Survey.Model , options: any) => any,
     any
-  > = new Survey.Event<(sender: Survey.Survey, options: any) => any, any>();
+  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
   public onElementDoubleClick: Survey.Event<
-    (sender: Survey.Survey, options: any) => any,
+    (sender: Survey.Model , options: any) => any,
     any
-  > = new Survey.Event<(sender: Survey.Survey, options: any) => any, any>();
+  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
   public onUpdateElementAllowingOptions: (options: any) => any;
   constructor(
     jsonObj: any = null,
@@ -144,6 +143,7 @@ function elementOnCreating(surveyElement: any) {
     }
   });
   surveyElement.koIsSelected.subscribe(function(newValue) {
+    debugger
     if (surveyElement.renderedElement) {
       if (newValue) {
         surveyElement.renderedElement.classList.add(
@@ -186,7 +186,7 @@ export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner
       surveyElement.renderedElement.classList.add("svd-dark-bg-color");
     }
     surveyElement.renderedElement.classList.add("svd_q_design_border");
-  
+    debugger
     var isRowLayout =
       !surveyElement.getLayoutType || surveyElement.getLayoutType() == "row";
     var opt = surveyElement.allowingOptions;
@@ -380,6 +380,7 @@ Survey.Page.prototype["onAfterRenderPage"] = function(el) {
 };
 
 Survey.Panel.prototype["onCreating"] = function() {
+  debugger
   panelBaseOnCreating(this);
   elementOnCreating(this);
 };
@@ -413,24 +414,23 @@ questionPrototype["onSelectedElementChanged"] = function() {
   if (getSurvey(this) == null) return;
   this.koIsSelected(getSurvey(this)["selectedElementValue"] == this);
 };
-var s=Survey
 
 // Survey.QuestionSelectBaseImplementor.prototype["onCreated"] = function() {
-//   var q: any = this.question;
-//   var updateTriggerFunction = function() {
-//     setTimeout(() => q["koElementType"].notifySubscribers(), 0);
-//   };
-//   [
-//     "choices",
-//     "hasOther",
-//     "hasComment",
-//     "hasNone",
-//     "hasSelectAll",
-//     "colCount"
-//   ].forEach(propertyName =>
-//     this.question.registerFunctionOnPropertyValueChanged(
-//       propertyName,
-//       updateTriggerFunction
-//     )
-//   );
-// };
+//       var q: any = this.question;
+//      var updateTriggerFunction = function() {
+//         setTimeout(() => q["koElementType"].notifySubscribers(), 0);
+//    };
+//     [
+//         "choices",
+//       "hasOther",
+//       "hasComment",
+//       "hasNone",
+//       "hasSelectAll",
+//       "colCount"
+//    ].forEach(propertyName =>
+//        this.question.registerFunctionOnPropertyValueChanged(
+//           propertyName,
+//          updateTriggerFunction
+//        )
+//     );
+//  };

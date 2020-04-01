@@ -57,24 +57,20 @@ export class QuestionToolbox {
       return {
         choices: [
           {
-            value: "lion",
-            imageLink:
-              "https://surveyjs.io/Content/Images/examples/image-picker/lion.jpg"
+            value: "1",
+            imageLink:"http://e.hiphotos.baidu.com/video/pic/item/962bd40735fae6cd80e2473200b30f2442a70f0b.jpg"
           },
           {
-            value: "giraffe",
-            imageLink:
-              "https://surveyjs.io/Content/Images/examples/image-picker/giraffe.jpg"
+            value: "2",
+             imageLink:"2"
           },
           {
-            value: "panda",
-            imageLink:
-              "https://surveyjs.io/Content/Images/examples/image-picker/panda.jpg"
+            value: "3",
+             imageLink:"3"
           },
           {
-            value: "camel",
-            imageLink:
-              "https://surveyjs.io/Content/Images/examples/image-picker/camel.jpg"
+            value: "4",
+            imageLink:"4"
           }
         ]
       };

@@ -1,10 +1,10 @@
-.sv-container-modern {
+.svrvey-container-modern {
   color: $text-color;
   font-size: $font-size;
   font-family: "Segoe UI";
 }
 
-.sv-container-modern__title {
+.svrvey-container-modern__title {
   padding-left: 0.55em;
   @media only screen and (min-width: 1000px) {
     margin-right: 5%;
@@ -18,19 +18,19 @@
   padding-top: 5em;
   padding-bottom: 0.9375em;
 }
-.sv-container-modern__title h3 {
+.svrvey-container-modern__title h3 {
   margin: 0;
   font-size: 1.875em;
 }
-.sv-container-modern__title h5 {
+.svrvey-container-modern__title h5 {
   margin: 0;
 }
-.sv-container-modern fieldset {
+.svrvey-container-modern fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
-.sv-container-modern legend {
+.svrvey-container-modern legend {
   border: none;
   padding: 0;
   margin: 0;

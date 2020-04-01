@@ -1,8 +1,9 @@
 <template>
-  <div :class="getRootClass(element)">
+  <div :class="getRootClass(element)" :data-type="element.inputType">
     <survey-element-header v-if="element.hasTitleOnLeftTop" :element="element" />
+    <survey-errors v-if="hasErrorsOnTop" :question="element" :location="'top'" />
     <div :class="getContentClass(element)">
-      <survey-errors v-if="hasErrorsOnTop" :question="element" :location="'top'" />
+      
       <component :is="getWidgetComponentName(element)" :question="element" :css="css" />
       <div v-if="element.hasComment" :class="element.cssClasses.formGroup">
         <div>{{element.commentText}}</div>

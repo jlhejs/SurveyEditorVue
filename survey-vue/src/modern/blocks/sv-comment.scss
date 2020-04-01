@@ -1,4 +1,4 @@
-.sv-comment {
+.svrvey-comment {
   border: 0.06em solid $text-border-color;
   box-sizing: border-box;
   padding: 0.25em 0.87em;
@@ -7,6 +7,6 @@
   outline: none;
   width: 100%;
 }
-.sv-comment:focus {
+.svrvey-comment:focus {
   border-color: $main-color;
 }

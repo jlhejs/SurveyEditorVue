@@ -18,7 +18,7 @@ export class QuestionRadiogroup extends QuestionRadiogroupModel {
       itemClass +=
         this.colCount === 0
           ? " " + this.cssClasses.itemInline
-          : " sv-q-col-" + this.colCount;
+          : " svrvey-q-col-" + this.colCount;
     }
     if (isDisabled) itemClass += " " + this.cssClasses.itemDisabled;
     if (isChecked) itemClass += " " + this.cssClasses.itemChecked;

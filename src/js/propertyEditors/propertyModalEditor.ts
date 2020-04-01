@@ -1,9 +1,9 @@
 import * as ko from "knockout";
+import Vue from "vue";
 import * as Survey from "survey-vue";
 import { SurveyPropertyEditorBase } from "./propertyEditorBase";
 import {SurveyPropertyEditorFactory} from "./propertyEditorFactory";
 import { SurveyPropertyConditionEditor } from "./propertyConditionEditor";
-import * as ss from "./propertyConditionEditor";
 import { editorLocalization } from "../editorLocalization";
 import { focusFirstControl } from "../utils/utils";
 // import RModal from "rmodal";
@@ -62,29 +62,24 @@ export class SurveyPropertyModalEditor extends SurveyPropertyEditorBase {
   public onHideModal: any;
   public modalName: string;
   public modalNameTarget: string;
-  koShowApplyButton: any;
-  koTitleCaption: any;
+  showApplyButton: any;
+  titleCaption: any;
   koAfterRender: any;
-  koHtmlTop: any;
-  koHtmlBottom: any;
+  htmlTop: any;
+  htmlBottom: any;
   constructor(property: Survey.JsonObjectProperty) {
     super(property);
-    this.koTitleCaption = ko.observable("");
-    this.koHtmlTop = ko.observable("");
-    this.koHtmlBottom = ko.observable("");
+    this.titleCaption = Vue.observable("");
+    this.htmlTop = Vue.observable("");
+    this.htmlBottom = Vue.observable("");
     if (this.property) {
-      this.koTitleCaption(
-        editorLocalization
-          .getString("pe.editProperty")
-          ["format"](editorLocalization.getPropertyName(this.property.name))
-      );
+      this.titleCaption=editorLocalization.getString("pe.editProperty")["format"](editorLocalization.getPropertyName(this.property.name));
     }
-    this.modalName =
-      "modelEditor" + this.editorType + SurveyPropertyModalEditor.idCounter;
+    this.modalName ="modelEditor" + this.editorType + SurveyPropertyModalEditor.idCounter;
     SurveyPropertyModalEditor.idCounter++;
     this.modalNameTarget = "#" + this.modalName;
     var self = this;
-    this.koShowApplyButton = ko.observable(true);
+    this.showApplyButton = Vue.observable(true);
 
     self.onHideModal = function() {};
     self.onApplyClick = function() {
@@ -146,9 +141,7 @@ export class SurveyPropertyModalEditor extends SurveyPropertyEditorBase {
     this.isShowingModalValue = false;
   }
   protected onOptionsChanged() {
-    this.koShowApplyButton = ko.observable(
-      !this.options || this.options.showApplyButtonInEditors
-    );
+    this.showApplyButton = !this.options || this.options.showApplyButtonInEditors;
   }
   public setObject(value: any) {
     this.editingObject = value;
@@ -159,8 +152,8 @@ export class SurveyPropertyModalEditor extends SurveyPropertyEditorBase {
         value
       );
       if (html) {
-        if (html.top) this.koHtmlTop(html.top);
-        if (html.bottom) this.koHtmlBottom(html.bottom);
+        if (html.top) this.htmlTop=html.top;
+        if (html.bottom) this.htmlBottom=html.bottom;
       }
     }
   }
@@ -192,16 +185,16 @@ export class SurveyPropertyModalEditor extends SurveyPropertyEditorBase {
   }
 }
 
-export class SurveyPropertyTextEditor extends SurveyPropertyModalEditor {
-  public koTextValue: any;
+export class SurveyPropertyTextEditor extends SurveyPropertyEditorBase {
+  public textValue: any;
 
   constructor(property: Survey.JsonObjectProperty) {
     super(property);
-    this.koTextValue = ko.observable();
+    this.textValue = Vue.observable("");
     var self = this;
-    this.koTextValue.subscribe(function(newValue) {
-      self.onkoTextValueChanged(newValue);
-    });
+    // this.textValue.subscribe(function(newValue) {
+    //   self.onTextValueChanged(newValue);
+    // });
   }
   public get editorType(): string {
     return "text";
@@ -217,16 +210,16 @@ export class SurveyPropertyTextEditor extends SurveyPropertyModalEditor {
     }
     return str;
   }
-  protected onkoTextValueChanged(newValue) {}
+  protected onTextValueChanged(newValue) {}
   public onValueChanged() {
-    this.koTextValue(this.editingValue);
+    this.textValue=this.editingValue;
   }
   protected onBeforeApply() {
-    this.setValueCore(this.koTextValue());
+    this.setValueCore(this.textValue);
   }
 }
 
-export class SurveyPropertyHtmlEditor extends SurveyPropertyTextEditor {
+export class SurveyPropertyHtmlEditor extends SurveyPropertyEditorBase {
   constructor(property: Survey.JsonObjectProperty) {
     super(property);
   }

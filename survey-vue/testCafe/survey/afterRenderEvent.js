@@ -69,11 +69,11 @@ frameworks.forEach(framework => {
 
   test(`afterRenderQuestion fires for initially hidden questions`, async t => {
     const getQuestionCount = ClientFunction(
-      () => document.querySelectorAll(".sv_q.sv_qstn").length
+      () => document.querySelectorAll(".survey-q.survey-qstn").length
     );
     const isBorderOk = ClientFunction(
       () =>
-        document.querySelectorAll(".sv_q.sv_qstn")[1].style.border ===
+        document.querySelectorAll(".survey-q.survey-qstn")[1].style.border ===
         "1px solid rgb(204, 204, 204)"
     );
 

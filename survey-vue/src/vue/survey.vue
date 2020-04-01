@@ -1,8 +1,9 @@
 <template>
-  <div :class="css.root">
-    <form onsubmit="return false;">
-      <div class="sv_custom_header"></div>
-      <div :class="css.container">
+  <div :class="css.root" :style="{ background: survey.underpainting }">
+    <form onsubmit="return false;" class="survey-form" :style="{ background: survey.typePageUnderpainting,width: survey.areaWidth+'px' }">
+      <survey-heeader :survey="survey"></survey-heeader>
+     
+      <div :class="css.container" >
         <div v-if="hasTitle" :class="css.header">
           <h3 :class="css.title">
             <survey-string :locString="survey.locTitle" />
@@ -44,13 +45,12 @@
           </div>
         </template>
         <template v-if="survey.state === 'running'">
-          <div :class="css.body">
-            <survey-progress v-if="survey.isShowProgressBarOnTop" :survey="survey" :css="css" />
+          <div :class="css.body" :style="{ background: survey.typePageUnderpainting }">
+            <survey-progress v-if="survey.isShowProgressBarOnTop" :survey="survey" :css="css" :class="css.progressBarTop"/>
             <survey-timerpanel v-if="survey.isTimerPanelShowingOnTop" :survey="survey" :css="css" />
             <div
               v-if="survey.isNavigationButtonsShowing === 'top' || survey.isNavigationButtonsShowing === 'both'"
-              :class="css.footer"
-            >
+              :class="css.footer">
               <input
                 type="button"
                 :value="survey.pagePrevText"
@@ -85,14 +85,14 @@
               :survey="survey"
               :css="css"
             />
-            <survey-progress v-if="survey.isShowProgressBarOnBottom" :survey="survey" :css="css" />
+            <survey-progress v-if="survey.isShowProgressBarOnBottom" :survey="survey" :css="css" :class="css.progressBarBottom"/>
             <div
               v-if="survey.isNavigationButtonsShowing === 'bottom' || survey.isNavigationButtonsShowing === 'both'"
               :class="css.footer"
             >
-            <el-button size="medium" v-show="!survey.isFirstPage && survey.isShowPrevButton"  :class="getNavBtnClasses('prev')"  @click="prevPage">{{survey.pagePrevText}}</el-button>
-            <el-button size="medium" v-show="!survey.isLastPage"  :class="getNavBtnClasses('next')"  @click="nextPage">{{survey.pageNextText}}</el-button>
-            <el-button size="medium" type="primary"  v-if="survey.isEditMode"v-show="survey.isLastPage":class="getNavBtnClasses('complete')"@click="completeLastPage">{{survey.completeText}}</el-button>
+            <el-button size="medium" v-if="!survey.isFirstPage && survey.isShowPrevButton"  :class="getNavBtnClasses('prev')"  @click="prevPage">{{survey.pagePrevText}}</el-button>
+            <el-button size="medium" v-if="!survey.isLastPage"  :class="getNavBtnClasses('next')"  @click="nextPage">{{survey.pageNextText}}</el-button>
+            <el-button size="medium" type="primary"  v-if="survey.isEditMode" v-show="survey.isLastPage" :class="getNavBtnClasses('complete')"@click="completeLastPage">{{survey.completeText}}</el-button>
             </div>
           </div>
         </template>
@@ -129,7 +129,9 @@
           </el-alert>
          </div>
       </div>
+      
     </form>
+    <survey-copyright :survey="survey" v-if="survey.showCopyright"></survey-copyright>
   </div>
 </template>
 
@@ -219,3 +221,10 @@ Object.defineProperty(Survey, "cssType", {
 Vue.component("survey", Survey);
 export default Survey;
 </script>
+<style scoped>
+.survey-form{
+  margin:  0 auto;
+  max-width: 100%;
+}
+
+</style>

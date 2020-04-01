@@ -6,14 +6,20 @@
                 <input v-if="question.multiSelect" style="display: none;" type="checkbox" :name="question.name + '_' + question.id" :value="item.value" :id="question.inputId + '_' + item.value" v-model="question.value" :disabled="question.isReadOnly || !item.isEnabled" v-bind:aria-required="question.isRequired" :aria-label="question.locTitle.renderedHtml" :class="question.cssClasses.itemControl"/>
                 <input v-else style="display: none;" type="radio" :name="question.name + '_' + question.id" :value="item.value" :id="question.inputId + '_' + item.value" v-model="question.value" :disabled="question.isReadOnly || !item.isEnabled" v-bind:aria-required="question.isRequired" :aria-label="question.locTitle.renderedHtml" :class="question.cssClasses.itemControl"/>
                 <div>
-                    <el-image
+                  <el-image
                     v-if="question.contentMode === 'image'"
                     :class="question.cssClasses.image"
-                    :height="question.imageHeight ? question.imageHeight + 'px' : undefined" 
-                    :style="{ objectFit: question.imageFit }" 
+                    :style="{ 
+                      objectFit: question.imageFit,
+                      height: question.imageHeight ? question.imageHeight + 'px' : undefined,
+                      width: question.imageWidth ? question.imageWidth + 'px' : undefined}" 
                     :alt="item.text || item.value"
                     :src="item.imageLink"
-                    :fit="item.imageFit"></el-image>
+                    :fit="item.imageFit">
+                     <div slot="error" class="image-slot">
+                        <i class="el-icon-picture-outline"></i>
+                      </div>
+                    </el-image>
                     <embed v-if="question.contentMode === 'video'" :class="question.cssClasses.image" :src="item.imageLink" :width="question.imageWidth ? question.imageWidth + 'px' : undefined" :height="question.imageHeight ? question.imageHeight + 'px' : undefined" v-bind:style="{ objectFit: question.imageFit }"/>
                     <span v-if="question.showLabel" :title="item.text || item.value" :class="question.cssClasses.itemText">{{item.text || item.value}}</span>
                 </div>
@@ -38,7 +44,7 @@ export class ImagePicker extends QuestionVue<QuestionImagePickerModel> {
       cssClasses.item +
       (colCount === 0
         ? " " + cssClasses.itemInline
-        : " sv-q-col-" + colCount);
+        : " svrvey-q-col-" + colCount);
     var isChecked = this.question.isItemSelected(item);
     var isDisabled = question.isReadOnly || !item.isEnabled; 
     var allowHover = !isChecked && !isDisabled;
@@ -57,3 +63,26 @@ export class ImagePicker extends QuestionVue<QuestionImagePickerModel> {
 Vue.component("survey-imagepicker", ImagePicker);
 export default ImagePicker;
 </script>
+<style>
+.question-imagepicker-text{
+  display:block;
+  color:#303133;
+  text-align:center;
+}
+.survey-q_imagepicker_inline{
+  display: inline-block;
+}
+.question-imagepicker {
+  margin-right: 1em;
+}
+.image-slot{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #f5f7fa;
+    color: #909399;
+    font-size: 30px;
+}
+</style>

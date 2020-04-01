@@ -1155,7 +1155,6 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     if (!options) options = {};
     if (!options.hasOwnProperty("generateValidJSON"))options.generateValidJSON = true;
     this.options = options;
-    this.showLogicTabValue=typeof options.showLogicTab !== "undefined" ? options.showLogicTab : false;
     this.showJSONEditorTabValue= typeof options.showJSONEditorTab !== "undefined"? options.showJSONEditorTab: true;
     this.showTestSurveyTabValue=typeof options.showTestSurveyTab !== "undefined"? options.showTestSurveyTab: true;
     this.showEmbededSurveyTabValue=typeof options.showEmbededSurveyTab !== "undefined"? options.showEmbededSurveyTab: false;
@@ -1274,6 +1273,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
    */
   public changeText(value: string, clearState = false) {
     var textWorker = new SurveyTextWorker(value);
+    this.setTextValue(value);
     if (textWorker.isJsonCorrect) {
       this.initSurveyWithJSON(textWorker.survey.toJSON(), clearState);
     } else {
@@ -1672,6 +1672,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     if (this.viewType != "editor") return true;
     if (!this.jsonEditor.isJsonCorrect) {
       alert(this.getLocString("ed.correctJSON"));
+      this.viewType = "editor"
       return false;
     }
     if (!this.readOnly) {
@@ -1835,8 +1836,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     }
 
     this.initSurvey(this.getDefaultSurveyJson());
-    this.setUndoRedoCurrentState(true);
-
+    this.setUndoRedoCurrentState(true);    
     this.jsonEditor.init(<HTMLElement>(
       this.renderedElement.querySelector("#surveyjsJSONEditor")
     ));

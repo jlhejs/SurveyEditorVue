@@ -72,7 +72,7 @@ export class SurveyQuestionRating extends SurveyQuestionElementBase {
       <label key={key} className={className}>
         <input
           type="radio"
-          className="sv-visuallyhidden"
+          className="svrvey-visuallyhidden"
           name={this.question.name}
           value={item.value}
           disabled={this.isDisplayMode}

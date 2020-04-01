@@ -20,6 +20,8 @@ export class QuestionExpressionModel extends Question {
         self.expressionRunner = new ExpressionRunner(self.expression);
       }
     });
+    this.isRequired=false
+
   }
   public getType(): string {
     return "expression";
@@ -351,7 +353,7 @@ Serializer.addClass(
     { name: "useGrouping:boolean", default: true },
     { name: "commentText", visible: false },
     { name: "enableIf", visible: false },
-    { name: "isRequired", visible: false },
+    { name: "isRequired", visible: false , default: false},
     { name: "readOnly", visible: false },
     { name: "requiredErrorText", visible: false },
     { name: "validators", visible: false },

@@ -738,7 +738,7 @@ export class QuestionSelectBase extends Question {
   getColumnClass() {
     var columnClass = this.cssClasses.column;
     if (this.hasColumns) {
-      columnClass += " sv-q-column-" + this.colCount;
+      columnClass += " svrvey-q-column-" + this.colCount;
     }
     return columnClass;
   }

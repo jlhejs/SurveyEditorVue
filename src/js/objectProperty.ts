@@ -71,7 +71,7 @@ export class SurveyObjectProperty {
     return this.editor.text;
   }
   public get koIsDefault(): any {
-    return this.editor.koIsDefault;
+    return this.editor.isDefault;
   }
   private doOnGetLocale(): string {
     if (this.object && this.object["getLocale"]) return this.object.getLocale();

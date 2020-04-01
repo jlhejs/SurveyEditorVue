@@ -29,7 +29,6 @@ import { quillEditor } from 'vue-quill-editor'
         default:"",
         required: false
       }
- 
     },
     data() {
       return {
@@ -76,6 +75,7 @@ import { quillEditor } from 'vue-quill-editor'
       onEditorChange(){
         // 内容改变事件
         this.$emit('input', this.text)
+        this.$emit('change', this.text)
         console.log(this)
       }, 
     }

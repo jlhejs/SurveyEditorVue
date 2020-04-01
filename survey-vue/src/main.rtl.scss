@@ -1,4 +1,4 @@
-﻿[dir="rtl"] .sv_main, [style*="direction:rtl"] .sv_main {
+﻿[dir="rtl"] .survey-main, [style*="direction:rtl"] .survey-main {
 
   input {
     text-align: right;
@@ -7,18 +7,18 @@
     text-align: right;
   }
 
-  .sv_container {
+  .survey-container {
 
-    .sv_body {
+    .survey-body {
 
-      .sv_nav {
+      .survey-nav {
 
-        .sv_start_btn,
-        .sv_next_btn,
-        .sv_complete_btn {
+        .survey-start_btn,
+        .survey-next_btn,
+        .survey-complete_btn {
           float: left;
         }
-        .sv_prev_btn {
+        .survey-prev_btn {
           float: right;
         }
       }

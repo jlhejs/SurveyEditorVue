@@ -8,10 +8,18 @@
               <el-checkbox :label="item.value" >{{item.text}}</el-checkbox>
             </el-col>
             <span :key="item.value" :class="getItemClass(item)"  v-else>
-              <el-checkbox :label="item.value" :class="getItemClass(item)">{{item.text}}</el-checkbox>
+              <el-checkbox :label="item.value" >{{item.text}}</el-checkbox>
+              <template v-if="item.value == question.otherItem.value">
+                <survey-other-choice
+                  v-show="question.hasOther && question.renderedValue && question.isOtherSelected"
+                  :question="question"></survey-other-choice>
+              </template>
             </span>
+            
           </template>
+          
       </el-checkbox-group>
+      
     </el-row>
   </fieldset>
 </template>
@@ -35,7 +43,7 @@ export class Checkbox extends QuestionVue<QuestionCheckboxModel> {
       itemClass +=
         question.colCount === 0
           ? " " + cssClasses.itemInline
-          : " sv-q-col-" + question.colCount;
+          : " svrvey-q-col-" + question.colCount;
     }
     if (isDisabled) itemClass += " " + cssClasses.itemDisabled;
     if (isChecked) itemClass += " " + cssClasses.itemChecked;
@@ -44,12 +52,10 @@ export class Checkbox extends QuestionVue<QuestionCheckboxModel> {
   }
   getSpan(item: any){
     var question = this.question;
-    console.log(this)
     if (question.hasColumns) {
       return question.colCount === 0? "":  Math.floor(24/question.colCount)
     }
   }
-
 }
 Vue.component("survey-checkbox", Checkbox);
 export default Checkbox;

@@ -26,6 +26,7 @@ export class SurveyJSONEditor {
     //   self.onJsonEditorChanged();
     // });
   }
+
   public init(editorElement: HTMLElement) {
     if (!this.hasAceEditor) return;
     this.aceEditor = window.ace.edit(editorElement);
@@ -96,6 +97,8 @@ export class SurveyJSONEditor {
     }
   }
   private createAnnotations(text: string, errors: any[]){
+    text=text||this.text
+    errors=this.textWorker.errors
     var annotations = new Array();
     for (var i = 0; i < errors.length; i++) {
       var error = errors[i];
@@ -109,14 +112,14 @@ export class SurveyJSONEditor {
     }
     return annotations;
   }
-  private _readOnly = ko.observable(false);
+  private _readOnly = Vue.observable(false);
   /**
    * A boolean property, false by default. Set it to true to deny editing.
    */
   public get readOnly() {
-    return this._readOnly();
+    return this._readOnly;
   }
   public set readOnly(newVal) {
-    this._readOnly(newVal);
+    this._readOnly=newVal;
   }
 }

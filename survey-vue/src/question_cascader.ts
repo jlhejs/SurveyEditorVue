@@ -19,9 +19,6 @@ export class QuestionCascaderModel extends QuestionCheckboxBase {
     // };
     // this.noneItemValue.locOwner = this;
     // this.noneItemValue.setLocText(noneItemText);
-
-
-
     var self = this;
     // this.registerFunctionOnPropertiesValueChanged(
     //   ["hasNone", "noneText", "hasSelectAll", "selectAllText"],

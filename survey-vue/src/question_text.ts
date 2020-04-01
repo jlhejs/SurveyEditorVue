@@ -60,17 +60,9 @@ export class QuestionTextModel extends Question {
       this.survey ? this.survey.maxTextLength : -1
     );
   }
+
   /**
-   * The text input size输入框宽度
-   */
-  public get size(): number {
-    return this.getPropertyValue("size");
-  }
-  public set size(val: number) {
-    this.setPropertyValue("size", val);
-  }
-  /**
-   * The text input size 输入框大小
+   * The text inputSize 输入框大小
    */
   public get inputSize(): string {
     return this.getPropertyValue("inputSize","small");
@@ -201,7 +193,6 @@ Serializer.addClass(
         "textarea"
       ]
     },
-    { name: "size:number", default: 25 },
     { name: "clearable:boolean", default: false },
     { name: "inputSize:string", 
       default: "small" ,

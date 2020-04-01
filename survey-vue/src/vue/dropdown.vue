@@ -5,7 +5,7 @@
       v-model="question.renderedValue" 
       :disabled="question.isReadOnly"
       :id="question.inputId" 
-      placeholder="请选择"  
+      :placeholder="question.showOptionsCaption?question.optionsCaption:''"  
       :class="question.cssClasses.control" 
       v-bind:aria-label="question.locTitle.renderedHtml"
       :filterable="showFilterable()"
@@ -15,7 +15,7 @@
       :style="{ width: (question.inputWidth)+'px'}"
       :clearable="showClearable()">
         <el-option
-        v-if="question.showOptionsCaption" :value="undefined" :label="question.optionsCaption">
+        v-if="question.showOptionsCaption" :value="undefined" :label="question.optionsCaption" disabled>
         </el-option>
         <el-option
         v-for="item in question.visibleChoices"

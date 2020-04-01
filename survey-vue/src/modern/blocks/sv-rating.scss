@@ -1,19 +1,19 @@
-.sv-rating {
+.svrvey-rating {
   color: $text-color;
   padding-bottom: 3px;
-  input:focus + .sv-rating__min-text + .sv-rating__item-text,
-  input:focus + .sv-rating__item-text {
+  input:focus + .svrvey-rating__min-text + .svrvey-rating__item-text,
+  input:focus + .svrvey-rating__item-text {
     outline: 1px solid $main-color;
     outline-offset: 2px;
   }
 }
 
-.sv-rating__item {
+.svrvey-rating__item {
   position: relative;
   display: inline;
 }
 
-.sv-rating__item-text {
+.svrvey-rating__item-text {
   min-width: 2.3125em;
   height: 2.3125em;
   display: inline-block;
@@ -40,15 +40,15 @@
   }
 }
 
-.sv-rating__item--selected {
-  .sv-rating__item-text {
+.svrvey-rating__item--selected {
+  .svrvey-rating__item-text {
     background-color: $main-color;
     color: $body-background-color;
     border-color: $main-color;
   }
 }
 
-.sv-rating__min-text {
+.svrvey-rating__min-text {
   @media only screen and (max-width: 600px) {
     display: none;
   }
@@ -57,7 +57,7 @@
   cursor: pointer;
 }
 
-.sv-rating__max-text {
+.svrvey-rating__max-text {
   @media only screen and (max-width: 600px) {
     display: none;
   }
@@ -66,8 +66,8 @@
   cursor: pointer;
 }
 
-.sv-rating--disabled {
-  .sv-rating__item-text {
+.svrvey-rating--disabled {
+  .svrvey-rating__item-text {
     cursor: default;
     color: $disable-color;
     border-color: $disable-color;
@@ -76,18 +76,18 @@
     }
   }
 
-  .sv-rating__item--selected {
-    .sv-rating__item-text {
+  .svrvey-rating__item--selected {
+    .svrvey-rating__item-text {
       background-color: $disable-color;
       color: $body-background-color;
     }
   }
 
-  .sv-rating__min-text {
+  .svrvey-rating__min-text {
     cursor: default;
   }
 
-  .sv-rating__max-text {
+  .svrvey-rating__max-text {
     cursor: default;
   }
 }

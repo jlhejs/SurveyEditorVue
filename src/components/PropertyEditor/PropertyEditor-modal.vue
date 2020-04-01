@@ -7,20 +7,23 @@
     :disabled="value.editor.readOnly"
     @focus="onShowModal"
     v-model="value.value">
-    <i slot="suffix" class="el-icon-share"></i>
-    
+      <i
+        class="el-icon-edit el-input__icon"
+        slot="suffix"
+        @click="dialogVisible = true">
+      </i>
   </el-input>
- 
   <el-dialog
   title="提示"
   :visible.sync="value.editor.isShowingModalValue"
   width="30%"
   >
    <component v-bind:is="'PropertyEditor-'+value.editorTypeTemplate+'Content'" v-model="value"></component>
-  <span>这是一段信息</span>
+  <span>这是一段信息{{value.editorTypeTemplate}}</span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="onCloseModal">取 消</el-button>
-    <el-button type="primary" @click="value.editor.onApplyClick">确 定</el-button>
+    <el-button type="primary" @click="valueChanged">确 定</el-button>
+    <!-- <el-button type="primary" @click="value.editor.onApplyClick">确 定</el-button> -->
   </span>
   </el-dialog>
 </span>
@@ -47,6 +50,7 @@
     },
    methods: {
     onShowModal:function(){
+      console.log(this)
        this.value.editor.onShowModal()
      },
     onCloseModal:function(){

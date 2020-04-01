@@ -1,47 +1,57 @@
 ﻿@media (max-width: 600px) {
-  .sv_main {
-    .sv_container {
-      .sv_body {
-        .sv_p_root {
-          .sv_row {
-            .sv_q,
-            .sv_qstn {
+  .survey-main {
+
+    .survey-container {
+      .survey-body {
+        .page-root {
+          .survey-row {
+
+            .survey-q,
+            .survey-qstn {
               display: block;
               width: 100% !important;
+
               .title-left {
                 float: none;
               }
-              .sv_q_radiogroup_inline,
-              .sv_q_checkbox_inline,
-              .sv_q_imagepicker_inline {
+
+              .survey-q_radiogroup_inline,
+              .survey-q_checkbox_inline,
+              .survey-q_imagepicker_inline {
                 display: block;
               }
-              table.sv_q_matrix,
-              table.sv_q_matrix_dropdown,
-              table.sv_q_matrix_dynamic {
+
+              table.question-matrix,
+              table.question-matrix-dropdown,
+              table.question-matrix-dynamic {
                 display: block;
+
                 thead {
                   display: none;
                 }
+
                 tbody,
                 tr,
                 td {
                   display: block;
                 }
               }
-              table.sv_q_matrix_dropdown,
-              table.sv_q_matrix_dynamic {
+
+              table.question-matrix-dropdown,
+              table.question-matrix-dynamic {
                 td {
                   &:before {
                     content: attr(headers);
                   }
                 }
               }
-              table.sv_q_matrix {
+
+              table.question-matrix {
                 td {
-                  label.sv_q_m_label {
+                  label.survey-q_m_label {
                     display: inline;
                   }
+
                   &:after {
                     content: attr(headers);
                   }

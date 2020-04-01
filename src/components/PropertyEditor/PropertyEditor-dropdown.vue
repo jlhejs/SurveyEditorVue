@@ -1,12 +1,12 @@
 <template>
-   <el-select v-model="property.value" @change="valueChanged" size="mini"  placeholder="请选择" >
-    <el-option
-      v-for="item in property.editor.choices"
-      :key="item.value"
-      :label="item.text"
-      :value="item.value">
-    </el-option>
-  </el-select>
+      <el-select v-model="property.editor.value" @change="valueChanged" size="mini"  placeholder="请选择"   value-key="key">
+      <el-option
+        v-for="(item,key) in property.editor.choices"
+        :key="key"
+        :label="item.text"
+        :value="item.value">
+      </el-option>
+    </el-select> 
 </template>
 <script>
   export default {
@@ -24,10 +24,12 @@
       }
     },
     created() {
+       if("dropdown"==this.property.editorType&&this.property.name=="page")console.log(this.property)
       
     },
     methods: {
       valueChanged:function(){
+        debugger
         this.property.editor.onValueChanged(this.property.value)
       }
     },

@@ -498,7 +498,7 @@ export class SurveyModel extends Base
    * There are two parameters in options: options.panel and options.cssClasses
    * <br/> sender the survey object that fires the event
    * <br/> options.panel a panel for which you may change the css classes
-   * <br/> options.cssClasses an object with css classes. For example {title: "sv_p_title", description: "small"}. You may change them to your own css classes.
+   * <br/> options.cssClasses an object with css classes. For example {title: "survey-page-title", description: "small"}. You may change them to your own css classes.
    */
   public onUpdatePanelCssClasses: Event<
     (sender: SurveyModel, options: any) => any,
@@ -777,6 +777,8 @@ export class SurveyModel extends Base
     this.createLocalizableString("title", this, true);
     this.createLocalizableString("description", this, true);
     this.createLocalizableString("completedHtml", this);
+    this.createLocalizableString("copyrightHtml", this);
+
     this.createLocalizableString("completedBeforeHtml", this);
     this.createLocalizableString("loadingHtml", this);
     this.createLocalizableString("startSurvey", this);
@@ -981,6 +983,57 @@ export class SurveyModel extends Base
   }
   public set showTitle(val: boolean) {
     this.setPropertyValue("showTitle", val);
+  } 
+  /**
+   * 设置引导动画"allShow", "allHide", "mobileShow", "PCshow"
+   * @see title
+   */
+  public get showGuideAnm(): string {
+    return this.getPropertyValue("showGuideAnm", "allShow");
+  }
+  public set showGuideAnm(val: string) {
+    this.setPropertyValue("showGuideAnm", val);
+  }
+  public get completeShowGuideAnm(): boolean {
+    if (this.showGuideAnm == "allShow") return true
+    else if (this.showGuideAnm == "allHide") return false
+    else if (this.showGuideAnm == "mobileShow" ) {
+      if (this.isMobile) return true
+      return false
+    } else if (this.showGuideAnm == "PCshow" ) {
+      if (this.isMobile) return false
+      return true
+    }
+    return true
+  }
+  /**
+   * 设置版权是否显示
+   * @see title
+   */
+  public get showCopyright(): boolean {
+    return this.getPropertyValue("showCopyright", true);
+  }
+  public set showCopyright(val: boolean) {
+    this.setPropertyValue("showCopyright", val);
+  } 
+
+  public get copyrightHtml(): string {
+    debugger
+    return this.getLocalizableStringText("copyrightHtml");
+  }
+  public set copyrightHtml(value: string) {
+    debugger
+    this.getLocString("copyrightHtml")
+    this.setLocalizableStringText("copyrightHtml", value);
+  }
+  get locCopyrightHtml(): LocalizableString {
+    return this.getLocalizableString("copyrightHtml");
+  }
+  public get processedCopyrightHtml(): string {
+    if (this.copyrightHtml) {
+      return this.processHtml(this.copyrightHtml);
+    }
+    return this.getLocString("copyrightHtml");
   }
   /**
    * Set it to false to hide page titles.
@@ -1013,6 +1066,56 @@ export class SurveyModel extends Base
   public set requiredText(val: string) {
     this.setPropertyValue("requiredText", val);
   }
+
+  /*
+   *@description:在这里全部为新加属性 start
+   *@author: sunny
+   *@date: 2020-01-09 09:42:24
+  */
+  public get screenWidth(): number {
+    return this.getPropertyValue("screenWidth", window.screen.width);
+  }
+  public get screenHeight(): number {
+    return this.getPropertyValue("screenHeight", window.screen.height);
+  } 
+  public get isMobile(): boolean {
+    return this.screenWidth < 768
+  } 
+
+  
+
+  public get typePageUnderpainting(): string {
+    return this.getPropertyValue("typePageUnderpainting","#FFFFFF");
+  }
+  public set typePageUnderpainting(val: string) {
+    this.setPropertyValue("typePageUnderpainting", val);
+  }
+  public get underpainting(): string {
+    return this.getPropertyValue("underpainting","#FFFFFF");
+  }
+  public set underpainting(val: string) {
+    this.setPropertyValue("underpainting", val);
+  }
+  public get onValueChangeTriggerAddress(): any {
+    return this.getPropertyValue("onValueChangeTriggerAddress",{});
+  }
+  public set onValueChangeTriggerAddress(val: any) {
+    this.setPropertyValue("onValueChangeTriggerAddress", val);
+  }
+  public get areaWidth(): number {
+    return this.getPropertyValue("areaWidth",960);
+  }
+  public set areaWidth(val: number) {
+    this.setPropertyValue("areaWidth", val);
+  }
+
+  /*
+   *@description:在这里全部为新加属性 end
+   *@author: sunny
+   *@date: 2020-01-09 09:42:24
+  */
+
+
   /**
    * Set this property to true to make all requried errors invisible
    */
@@ -1235,6 +1338,10 @@ export class SurveyModel extends Base
   get locTitle(): LocalizableString {
     return this.getLocalizableString("title");
   }
+  public get processedTitle() {
+    return this.locTitle.renderedHtml || this.getLocString("title")||"";
+  }
+
   /**
    * Survey description. It shows under survey title
    * @see title
@@ -1243,10 +1350,14 @@ export class SurveyModel extends Base
     return this.getLocalizableStringText("description");
   }
   public set description(value: string) {
+    this.getLocString("completingSurveyBefore")
     this.setLocalizableStringText("description", value);
   }
   get locDescription(): LocalizableString {
     return this.getLocalizableString("description");
+  }
+  public get processedDescription() {
+    return this.locDescription.renderedHtml || this.getLocString("description") ||"";
   }
   /**
    * The html that shows on completed ('Thank you') page. Set it to change the default text.
@@ -1490,12 +1601,7 @@ export class SurveyModel extends Base
   public get isShowProgressBarOnBottom(): boolean {
     return this.showProgressBar === "bottom" || this.showProgressBar === "both";
   }
-  /**
-   * Returns the text/html that renders as survey title.
-   */
-  public get processedTitle() {
-    return this.locTitle.renderedHtml;
-  }
+
   /**
    * Set this property to 'bottom' or 'left' to show question title under the question or on the left.
    * <br/><b>Note:</b> Some questions, for example matrixes, do not support 'left' value. The title for them will be displayed on the top.
@@ -4069,8 +4175,8 @@ Serializer.addClass("survey", [
       return obj.locale == surveyLocalization.defaultLocale ? null : obj.locale;
     }
   },
-  { name: "title", serializationProperty: "locTitle" },
-  { name: "description:text", serializationProperty: "locDescription" },
+  { name: "title", serializationProperty: "locTitle"},
+  { name: "description", serializationProperty: "locDescription"},
   { name: "focusFirstQuestionAutomatic:boolean", default: true },
   { name: "focusOnFirstError:boolean", default: true },
   { name: "completedHtml:html", serializationProperty: "locCompletedHtml" },
@@ -4083,6 +4189,9 @@ Serializer.addClass("survey", [
     className: "htmlconditionitem"
   },
   { name: "loadingHtml:html", serializationProperty: "locLoadingHtml" },
+
+  { name: "showCopyright:boolean", default: true },
+  { name: "copyrightHtml:html", serializationProperty: "locCopyrightHtml" },
   { name: "pages", className: "page", visible: false },
   {
     name: "questions",
@@ -4118,7 +4227,9 @@ Serializer.addClass("survey", [
     choices: ["none", "top", "bottom", "both"]
   },
   { name: "showPrevButton:boolean", default: true },
-  { name: "showTitle:boolean", default: true },
+  { name: "showTitle:boolean", default: true }, 
+ 
+  { name: "showGuideAnm", default: "allShow", choices: ["allShow", "allHide", "mobileShow", "PCshow"]},
   { name: "showPageTitles:boolean", default: true },
   { name: "showCompletedPage:boolean", default: true },
   {
@@ -4178,6 +4289,9 @@ Serializer.addClass("survey", [
   { name: "pageNextText", serializationProperty: "locPageNextText" },
   { name: "completeText", serializationProperty: "locCompleteText" },
   { name: "requiredText", default: "*" },
+  { name: "typePageUnderpainting:color",default: "#FFFFFF"},
+  { name: "underpainting:color",default: "#FFFFFF"},
+  { name: "areaWidth:number",default: 960,minValue: 350},
   "questionStartIndex",
   {
     name: "questionTitleTemplate",

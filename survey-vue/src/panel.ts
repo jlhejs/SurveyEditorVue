@@ -1433,8 +1433,8 @@ Serializer.addClass(
       default: "default",
       choices: ["default", "top", "bottom", "left", "hidden"]
     },
-    { name: "title", serializationProperty: "locTitle" },
-    { name: "description:text", serializationProperty: "locDescription" }
+    { name: "title:html", serializationProperty: "locTitle" },
+    { name: "description:html", serializationProperty: "locDescription" }
   ],
   function() {
     return new PanelModelBase();

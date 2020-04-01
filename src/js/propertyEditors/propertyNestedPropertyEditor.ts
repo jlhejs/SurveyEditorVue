@@ -233,7 +233,7 @@ export class SurveyNestedPropertyEditorEditorCell {
     return this.objectProperty.editor;
   }
   public get koValue(): any {
-    return this.objectProperty.editor.koValue;
+    return this.objectProperty.editor.value;
   }
   public get value() {
     return this.property.getValue(this.obj);

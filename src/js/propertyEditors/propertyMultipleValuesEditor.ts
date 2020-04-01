@@ -43,7 +43,7 @@ export class SurveyPropertyMultipleValuesEditor extends SurveyPropertyModalEdito
     this.setEditingValue();
   }
   protected onBeforeApply() {
-    this.koValue([].concat(this.koEditingValue()));
+    this.value = [].concat(this.koEditingValue());
   }
   public get editorType(): string {
     return "multiplevalues";
@@ -90,7 +90,7 @@ export class SurveyPropertyMultipleValuesEditor extends SurveyPropertyModalEdito
     return val;
   }
   private setEditingValue() {
-    var val = this.koValue();
+    var val = this.value;
     if (val == null || val == undefined) val = [];
     if (!Array.isArray(val)) val = [val];
     this.koEditingValue(val);

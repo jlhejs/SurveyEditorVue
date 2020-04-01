@@ -42,6 +42,8 @@ export var enStrings = {
     "selectmutex": "下拉排序题",
     "datepicker": "日期题",
     "multilevellinkage": "级联题",
+    "cascader": "级联题",
+    "slider": "滑块题",
     "default": "默认"
   },
   "ct": {
@@ -67,7 +69,7 @@ export var enStrings = {
     "newPanelName": "面板",
    
     "testSurveyAgain": "再次预览问卷",
-    "testSurveyWidth": "问卷宽度: ",
+    "testSurveyWidth": "问卷宽度:",
    
     "saveSurvey": "保存问卷",
 
@@ -93,7 +95,7 @@ export var enStrings = {
     "delSelObject": "删除所选对象",
     "editSelObject": "编辑所选对象",
     "correctJSON": "请修正 JSON 数据",
-    "surveyResults": "问卷结果: ",
+    "surveyResults": "问卷结果:",
     "modified": "已修改",
     "saving": "保存中...",
     "saved": "已保存",
@@ -117,7 +119,67 @@ export var enStrings = {
     "translationNoStrings": "No strings to translate. Please, change the filter.",
     "translationExportToSCVButton": "导出CSV",
     "translationImportFromSCVButton": "导入CSV",
-    "translationMergeLocaleWithDefault": "Merge {0} with default locale"
+    "translationMergeLocaleWithDefault": "Merge {0} with default locale",
+    lg: {
+      //Logic tab strings
+      page_visibilityName: "页面可见",
+      panel_visibilityName: "面板可见",
+      panel_enableName: "面板只读/可写",
+      question_visibilityName: "问题可见",
+      question_enableName: "问题只读/可写",
+      question_requireName: "问题必答条件",
+      trigger_completeName: "提交问卷",
+      trigger_setvalueName: "设置问题值",
+      trigger_copyvalueName: "复制问题值",
+      trigger_skipName: "跳过问题",
+      trigger_runExpressionName: "运行自定义逻辑表达式",
+      completedHtmlOnConditionName: "Custom 'Thank you page' text",
+
+      page_visibilityDescription:"使页面在逻辑表达式正确时可见，否则就看不见",
+      panel_visibilityDescription:"使面板在逻辑表达式正确时可见，否则就让它隐藏",
+      panel_enableDescription:"使面板及其内部的所有元素在逻辑表达式正确时启用。否则就让他们只读",
+      question_visibilityDescription:"使问题在逻辑表达式正确时可见。否则就看不见",
+      question_enableDescription:
+        "使问题在逻辑表达式正确时启用。否则保持禁用状态。",
+      question_requireDescription:
+        "当逻辑表达式正确时，就需要提问。",
+      trigger_completeDescription:
+        "当逻辑表达式正确时，调查将完成，最终用户将看到“感谢页面”。",
+      trigger_setvalueDescription:
+        "当逻辑表达式中使用的问题值更改并且逻辑表达式正确时，该值将设置为所选问题。",
+      trigger_copyvalueDescription:
+        "当逻辑表达式中使用的问题值更改且逻辑表达式正确时，则将一个选定问题的值复制到另一个选定问题。",
+      trigger_skipDescription:
+        "当逻辑表达式正确时，调查将跳到/聚焦所选问题。",
+      trigger_runExpressionDescription:
+        "当逻辑表达式正确时，将执行自定义表达式。您可以选择将此表达式结果设置为选定的问题",
+      completedHtmlOnConditionDescription:
+        "如果逻辑表达式正确，则“感谢页面”的默认文本将更改为给定文本。",
+
+      itemExpressionText: "当表达式: '{0}' 正确时:", //{0} - the expression
+      page_visibilityText: "页面 {0} 可见", //{0} page name
+      panel_visibilityText: "面板 {0} 可见", //{0} panel name
+      panel_enableText: "面板 {0} enable", //{0} panel name
+      question_visibilityText: "问题 {0} 可见", //{0} question name
+      question_enableText: "问题 {0} enable", //{0} question name
+      question_requireText: "问题 {0} required", //{0} question name
+      trigger_completeText: "问卷提交",
+      trigger_setvalueText: "Set into question: {0} value {1}", //{0} question name, {1} setValue
+      trigger_copyvalueText: "Copy into question: {0} value from question {1}", //{0} and {1} question names
+      trigger_skipText: "Survey skip to the question {0}", //{0} question name
+      trigger_runExpressionText1: "运行表达式: '{0}'", //{0} the expression
+      trigger_runExpressionText2: " and set it's result into question: {0}", //{0} question name
+      completedHtmlOnConditionText:
+        "显示自定义提交成功页面",
+
+      expressionEditorTitle: "设置逻辑表达式",
+
+      deleteOperation: "删除逻辑",
+      addNewOperation: "添加新逻辑",
+      expressionInvalid: "逻辑表达式为空或无效。请改正一下.",
+      noOperationError: "请至少添加一个操作.",
+      operationInvalid: "请修复逻辑中的问题."
+    }
   },
   "pel": {"isRequired": "必答"},
   "pe": {
@@ -182,6 +244,9 @@ export var enStrings = {
     "mode": "模式 (编辑/只读)",
     "clearInvisibleValues": "清除隐藏值",
     "cookieName": "Cookie禁止填答两次",
+    "progressBarType": "进度显示类型",
+    "questionDescriptionLocation": "说明位置",
+    "focusOnFirstError": "聚焦第一个错误问题",
     "loadAnswerData": "续填方式",
     "award": "答题奖励",
     "sendResultOnPageNext": "下一页提交",
@@ -245,14 +310,14 @@ export var enStrings = {
     "enterNewValue": "请设定值",
     "noquestions": "问卷中还没有创建任何问题",
     "createtrigger": "请创建触发器",
-    "triggerOn": "当 ",
+    "triggerOn": "当",
     "triggerMakePagesVisible": "使页面可见:",
     "triggerMakeQuestionsVisible": "使问题可见:",
     "triggerCompleteText": "如果满足条件，则完成问卷",
     "triggerNotSet": "触发器尚未设置",
     "triggerRunIf": "满足下列条件时执行",
-    "triggerSetToName": "修改下列问题值: ",
-    "triggerSetValue": "修改为: ",
+    "triggerSetToName": "修改下列问题值:",
+    "triggerSetValue": "修改为:",
     "triggerIsVariable": "在问卷提交结果中不要包含该变量",
     "addItem": "Click to add an item...",
     "itemValueEdit": "显示条件",
@@ -275,7 +340,7 @@ export var enStrings = {
     "cellsDefaultRow": "Default cells texts",
     "surveyEditorTitle": "设置问卷",
     "maxLength": "Maximum length",
-    "triggerFromName": "Copy value from: ",
+    "triggerFromName": "Copy value from:",
     "triggerRunExpression": "运行这个表达式:"
   },
   "op": {
@@ -383,6 +448,12 @@ export var enStrings = {
     "mode": "模式 (编辑/只读)",
     "clearInvisibleValues": "清除隐藏值",
     "cookieName": "Cookie禁止填答两次",
+    "progressBarType": "进度显示类型",
+    "questionDescriptionLocation": "说明位置",
+    "focusOnFirstError": "聚焦第一个错误问题",
+    "calculatedValues": "推测值",
+    "completedHtmlOnCondition": "推测值提交页面",
+
     "loadAnswerData": "续填方式",
     "award": "答题奖励",
     "sendResultOnPageNext": "下一页提交",

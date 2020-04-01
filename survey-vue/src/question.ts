@@ -402,9 +402,7 @@ export class Question extends SurveyElement
   public set descriptionLocation(val: string) {
     this.setPropertyValue("descriptionLocation", val);
   }
-  get hasDescriptionUnderTitle(): boolean {
-    return this.getDescriptionLocation() == "underTitle";
-  }
+
   get hasDescriptionUnderInput(): boolean {
     return this.getDescriptionLocation() == "underInput";
   }
@@ -674,7 +672,7 @@ export class Question extends SurveyElement
    * Set this property to true, to make the question a required. If a user doesn't answer the question then a validation error will be generated.
    */
   public get isRequired(): boolean {
-    return this.getPropertyValue("isRequired", false);
+    return this.getPropertyValue("isRequired", true);
   }
   public set isRequired(val: boolean) {
     if (this.isRequired == val) return;
@@ -809,15 +807,27 @@ export class Question extends SurveyElement
     this.conditionRequiredRunner.run(values, properties);
   }
   /**
+   * The rendered width of the question.
+   */
+  public get showQuestionNo(): boolean {
+    return this.getPropertyValue("showQuestionNo", true);
+  }
+  public set showQuestionNo(val: boolean) {
+    this.setPropertyValue("showQuestionNo", val);
+  }
+  /**
    * The property returns the question number. If question is invisible then it returns empty string.
    * If visibleIndex is 1, then no is 2, or 'B' if survey.questionStartIndex is 'A'.
    * @see SurveyModel.questionStartIndex
    */
   public get no(): string {
     if (this.visibleIndex < 0) return "";
+    if (!this.showQuestionNo) return "";
+
     var startIndex = 1;
     var isNumeric = true;
     var str = "";
+    debugger
     if (this.survey && this.survey.questionStartIndex) {
       str = this.survey.questionStartIndex;
       if (parseInt(str)) startIndex = parseInt(str);
@@ -1367,6 +1377,7 @@ Serializer.addClass("question", [
   "!name",
   { name: "visible:boolean", default: true },
   { name: "useDisplayValuesInTitle:boolean", default: true, layout: "row" },
+  { name: "showQuestionNo:boolean", default: true},
   "visibleIf:condition",
   { name: "width" },
   { name: "startWithNewLine:boolean", default: true, layout: "row" },
@@ -1383,9 +1394,9 @@ Serializer.addClass("question", [
         : [];
     }
   },
-  { name: "title:text", serializationProperty: "locTitle", layout: "row" },
+  { name: "title:html", serializationProperty: "locTitle", layout: "row" },
   {
-    name: "description:text",
+    name: "description:html",
     serializationProperty: "locDescription",
     layout: "row"
   },
@@ -1398,7 +1409,8 @@ Serializer.addClass("question", [
   "enableIf:condition",
   "defaultValue:value",
   "correctAnswer:value",
-  "isRequired:boolean",
+  {  name:"isRequired:boolean",default: true},
+
   "requiredIf:condition",
   {
     name: "requiredErrorText:text",

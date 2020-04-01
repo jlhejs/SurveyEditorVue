@@ -1,8 +1,8 @@
-import { englishStrings } from "./localization/english";
+import { simplifiedChineseSurveyStrings } from "./localization/simplified-chinese";
 
 export var surveyLocalization = {
   currentLocaleValue: "",
-  defaultLocaleValue: "en",
+  defaultLocaleValue: "zh-cn",
   locales: <{[index: string]: any}>{},
   localeNames: <{[index: string]: any}>{},
   supportedLocales: <Array<any>>[],
@@ -27,7 +27,7 @@ export var surveyLocalization = {
     if (!loc || !loc[strName]) loc = this.locales[this.defaultLocale];
     var result = loc[strName];
     if(result === undefined) {
-      result = this.locales["en"][strName];
+      result = this.locales["zh-cn"][strName];
     }
     return result;
   },
@@ -48,6 +48,6 @@ export var surveyLocalization = {
   }
 };
 
-export var surveyStrings = englishStrings;
-(<any>surveyLocalization).locales["en"] = englishStrings;
-(<any>surveyLocalization).localeNames["en"] = "english";
+export var surveyStrings = simplifiedChineseSurveyStrings;
+(<any>surveyLocalization).locales["zh-cn"] = simplifiedChineseSurveyStrings;
+(<any>surveyLocalization).localeNames["zh-cn"] = "simplifiedChinese";

@@ -47,6 +47,10 @@ export var settings = {
    * Maximum rate value count in rating question
    */
   ratingMaximumRateValueCount: 20,
+   /**
+   * Maximum rate value count in rating question
+   */
+  sliderMaximumRateValueCount: 200,
   /**
    * Disable the question while choices are getting from the web service
    */

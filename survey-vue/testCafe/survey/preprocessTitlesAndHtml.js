@@ -77,10 +77,10 @@ frameworks.forEach(framework => {
       )
     );
     const getFirstInput = Selector(
-      () => document.querySelectorAll(".sv_q_text_root")[0]
+      () => document.querySelectorAll(".survey-q_text_root")[0]
     );
     const getSecondInput = Selector(
-      () => document.querySelectorAll(".sv_q_text_root")[1]
+      () => document.querySelectorAll(".survey-q_text_root")[1]
     );
 
     await t.hover(getFirstTitle).hover(getSecondTitle);

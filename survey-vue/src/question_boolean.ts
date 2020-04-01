@@ -44,9 +44,12 @@ export class QuestionBooleanModel extends Question {
     return this.value == this.getValueTrue();
   }
   public set checkedValue(val: any) {
+    debugger
     if (this.isValueEmpty(val)) {
       this.value = null;
     } else {
+      // this.value = val == true ? this.getValueTrue() : this.getValueFalse();
+
       this.value = val == true ? this.getValueTrue() : this.getValueFalse();
     }
   }
@@ -96,7 +99,7 @@ export class QuestionBooleanModel extends Question {
    * Set this property, if you want to have a different label for state when check is set.
    */
   public get labelTrue(): any {
-    return this.getLocalizableStringText("labelTrue");
+    return this.getLocalizableStringText("labelTrue", surveyLocalization.getString("booleanCheckedLabel"));
   }
   public set labelTrue(val: any) {
     this.setLocalizableStringText("labelTrue", val);
@@ -109,7 +112,7 @@ export class QuestionBooleanModel extends Question {
    * Set this property, if you want to have a different label for state when check is unset.
    */
   public get labelFalse(): any {
-    return this.getLocalizableStringText("labelFalse");
+    return this.getLocalizableStringText("labelFalse", surveyLocalization.getString("booleanUncheckedLabel"));
   }
   public set labelFalse(val: any) {
     this.setLocalizableStringText("labelFalse", val);
@@ -153,6 +156,7 @@ export class QuestionBooleanModel extends Question {
     return this.valueFalse ? this.valueFalse : false;
   }
   protected setDefaultValue() {
+    debugger
     if (this.defaultValue == "true") this.checkedValue = true;
     if (this.defaultValue == "false") this.checkedValue = false;
     if (this.defaultValue == "indeterminate") this.value = null;
@@ -170,11 +174,13 @@ Serializer.addClass(
     },
     { name: "label:text", serializationProperty: "locLabel" },
     {
-      name: "labelTrue:text",
+      name: "labelTrue",
+      default: surveyLocalization.getString("booleanCheckedLabel"),
       serializationProperty: "locLabelTrue"
     },
     {
-      name: "labelFalse:text",
+      name: "labelFalse",
+      default: surveyLocalization.getString("booleanUncheckedLabel"),
       serializationProperty: "locLabelFalse"
     },
     "showTitle:boolean",

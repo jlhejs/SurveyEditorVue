@@ -1,8 +1,8 @@
 <template>
   <div :class="question.cssClasses.root">
     <label :class="itemClass">
-      <span :class="getLabelClass(false)" style="font-size: 14px;padding-right: 10px;">{{question.locLabelFalse.renderedHtml}}</span>
-      <el-checkbox
+      <!-- <span :class="getLabelClass(false)" style="font-size: 14px;padding-right: 10px;">{{question.locLabelFalse.renderedHtml}}</span> -->
+      <!-- <el-checkbox
       :name="question.name"
       :id="question.inputId"
       v-model="question.checkedValue"
@@ -13,8 +13,20 @@
       :false-label="question.valueFalse" 
       :indeterminate="indeterminate()">
       <span :class="getLabelClass(true)">{{question.locLabelTrue.renderedHtml}}</span>
-      </el-checkbox>
-     
+      </el-checkbox> -->
+      <div>
+        
+      </div>
+      
+     <el-switch
+      v-model="question.checkedValue"
+      :id="question.inputId"
+       v-bind:aria-required="question.isRequired"
+      :active-value="question.valueTrue"
+      :inactive-value="question.valueFalse"
+      :active-text="question.locLabelTrue.renderedHtml"
+      :inactive-text="question.locLabelFalse.renderedHtml">
+    </el-switch>
     </label>
   </div>
 </template>

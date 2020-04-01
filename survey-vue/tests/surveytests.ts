@@ -4116,12 +4116,12 @@ QUnit.test(
     var css2 = panel2.cssClasses;
     assert.equal(
       css2.panel.container,
-      "sv_p_container",
+      "survey-page-container",
       "keep original panel class"
     );
     assert.equal(
       css.panel.container,
-      "sv_p_container",
+      "survey-page-container",
       "keep original main css class"
     );
   }
@@ -4143,14 +4143,14 @@ QUnit.test("Survey Elements css", function(assert) {
   );
   var textCss = textQuestion.cssClasses;
   var checkCss = checkQuestion.cssClasses;
-  assert.equal(textCss.root, "sv_q_text_root", "text question root class");
-  assert.equal(textCss.title, "sv_q_title", "text question title class");
+  assert.equal(textCss.root, "survey-q_text_root", "text question root class");
+  assert.equal(textCss.title, "survey-q_title", "text question title class");
   assert.equal(
     checkCss.root,
-    "sv_qcbc sv_qcbx",
+    "survey-qcbc survey-qcbx",
     "checkbox question root class"
   );
-  assert.equal(checkCss.item, "sv_q_checkbox", "checkbox question title class");
+  assert.equal(checkCss.item, "survey-q_checkbox", "checkbox question title class");
   assert.equal(
     checkCss.newItem,
     "hereIam",
@@ -4160,7 +4160,7 @@ QUnit.test("Survey Elements css", function(assert) {
   textCss = textQuestion.cssClasses;
   assert.equal(
     textCss.title,
-    "sv_q_title required",
+    "survey-q_title required",
     "text question title class"
   );
   css.question.titleRequired = "";

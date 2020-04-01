@@ -1,13 +1,13 @@
-.sv-progress {
+.svrvey-progress {
   height: 0.19em;
   background-color: $header-background-color;
 }
-.sv-progress__bar {
+.svrvey-progress__bar {
   position: relative;
   height: 100%;
   background-color: $main-color;
 }
-.sv-progress__text {
+.svrvey-progress__text {
   position: absolute;
   margin-top: 0.69em;
   color: $progress-text-color;

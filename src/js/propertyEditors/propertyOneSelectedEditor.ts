@@ -1,4 +1,5 @@
 import * as ko from "knockout";
+import Vue from "vue";
 import * as Survey from "survey-vue";
 import { SurveyPropertyItemsEditor } from "./propertyItemsEditor";
 import { SurveyQuestionEditor } from "../questionEditors/questionEditor";
@@ -89,14 +90,14 @@ export class SurveyPropertyOneSelectedEditor extends SurveyPropertyItemsEditor {
 }
 
 export class SurveyPropertyOneSelectedItem {
-  public koText: any;
+  public text: any;
   constructor(public obj: Survey.Base) {
-    this.koText = ko.observable(this.getText());
+    this.text = Vue.observable(this.getText());
   }
   public getText() {
     return "";
   }
   public objectChanged() {
-    this.koText(this.getText());
+    this.text=this.getText();
   }
 }

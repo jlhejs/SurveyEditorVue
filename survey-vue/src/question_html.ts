@@ -14,6 +14,7 @@ export class QuestionHtmlModel extends QuestionNonValue {
     locHtml.onGetTextCallback = function(str: string): string {
       return !!self.survey ? self.survey.processHtml(str) : str;
     };
+    this.isRequired=false
   }
   public getType(): string {
     return "html";

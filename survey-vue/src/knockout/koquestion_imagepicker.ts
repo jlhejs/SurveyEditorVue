@@ -14,7 +14,7 @@ export class QuestionImagePicker extends QuestionImagePickerModel {
       this.cssClasses.item +
       (this.colCount === 0
         ? " " + this.cssClasses.itemInline
-        : " sv-q-col-" + this.colCount);
+        : " svrvey-q-col-" + this.colCount);
     if(this.multiSelect) {
       this.renderedValue = this.value;
     }

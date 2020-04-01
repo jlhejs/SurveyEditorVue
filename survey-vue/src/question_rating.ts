@@ -47,6 +47,40 @@ export class QuestionRatingModel extends Question {
       return text ? " " + text : text;
     };
   }
+  public clearIncorrectValues() {
+    if (this.multiSelect) {
+      var val = this.value;
+      if (!val) return;
+      if (!Array.isArray(val) || val.length == 0) {
+        this.clearValue();
+        return;
+      }
+      var newValue = [];
+      for (var i = 0; i < val.length; i++) {
+        if (!this.hasUnknownValue(val[i], true)) {
+          newValue.push(val[i]);
+        }
+      }
+      if (newValue.length == val.length) return;
+      if (newValue.length == 0) {
+        this.clearValue();
+      } else {
+        this.value = newValue;
+      }
+    } else {
+      super.clearIncorrectValues();
+    }
+  }
+  protected getValueCore() {
+    var value = super.getValueCore();
+    if(value !== undefined) {
+      return value;
+    }
+    if(this.multiSelect) {
+      return [];
+    }
+    return  value;
+  }
   public onSurveyLoad() {
     super.onSurveyLoad();
     this.fireCallback(this.rateValuesChangedCallback);
@@ -163,66 +197,25 @@ export class QuestionRatingModel extends Question {
     return this.getLocalizableString("maxRateDescription");
   }
     /**
-   * allow-half	是否允许半选	boolean	—	false
+   * d多选
    */
-  public get allowHalf(): boolean {
-    return this.getPropertyValue("allowHalf",false);
-  }
-  public set allowHalf(val: boolean) {
-    this.setPropertyValue("allowHalf", val);
-  }
-    /**
-   * allow-half	是否允许半选	boolean	—	false
+   public get multiSelect	(): boolean {
+     return this.getPropertyValue("multiSelect",false);
+   }
+   public set multiSelect(val: boolean) {
+     this.setPropertyValue("multiSelect", val);
+   }    
+   /**
+   * d多选
    */
-  public get showText	(): boolean {
-    return this.getPropertyValue("showText",false);
-  }
-  public set showText(val: boolean) {
-    this.setPropertyValue("showText", val);
-  }
-    /**
-   * icon-classes	icon 的类名。
-   * 若传入数组，共有 3 个元素，为 3 个分段所对应的类名；若传入对象，可自定义分段，键名为分段的界限值，键值为对应的类名	
-   * array/object	—	
-   * ['el-icon-star-on', 'el-icon-star-on','el-icon-star-on']
-   */
-  public get voidIconClass	(): string {
-    return this.getPropertyValue("voidIconClass","el-icon-star-on");
-  }
-  public set voidIconClass(val: string) {
-    this.setPropertyValue("voidIconClass", val);
-  }
+   public get inputSize	(): string {
+     return this.getPropertyValue("inputSize","small");
+   }
+   public set inputSize(val: string) {
+     this.setPropertyValue("inputSize", val);
+   }
 }
-var icon=[
-  "el-icon-star-off",
-"el-icon-eleme",
-"el-icon-delete-solid",
-"el-icon-delete",
-"el-icon-s-tools",
-"el-icon-setting",
-"el-icon-user-solid",
-"el-icon-user",
-"el-icon-phone",
-"el-icon-phone-outline",
-"el-icon-more",
-"el-icon-more-outline",
-"el-icon-star-on",
-"el-icon-s-goods",
-"el-icon-goods",
-"el-icon-warning",
-"el-icon-warning-outline",
-"el-icon-question",
-"el-icon-info",
-"el-icon-remove",
-"el-icon-circle-plus",
-"el-icon-success",
-"el-icon-error",
-"el-icon-zoom-in",
-"el-icon-zoom-out",
-"el-icon-remove-outline",
-"el-icon-circle-plus-outline",
-"el-icon-circle-check",
-"el-icon-circle-close"]
+
 Serializer.addClass(
   "rating",
   [
@@ -238,14 +231,15 @@ Serializer.addClass(
     { name: "rateMin:number", default: 1 },
     { name: "rateMax:number", default: 5 },
     { name: "rateStep:number", default: 1, minValue: 1 },
-    { name: "allowHalf:boolean", default: false },
-    { name: "showText:boolean", default: false },
-   
-    {
-      name: "voidIconClass:string",
-      default: "el-icon-star-off",
-      choices: icon
-    },
+    { name: "multiSelect:boolean", default: false },
+    { name: "inputSize:string", 
+      default: "small" ,
+      choices: [
+      "medium",
+      "small",
+      "mini",
+      
+    ]},
     {
       name: "minRateDescription",
       alternativeName: "mininumRateDescription",

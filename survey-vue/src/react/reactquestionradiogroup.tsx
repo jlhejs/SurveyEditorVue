@@ -140,7 +140,7 @@ export class SurveyQuestionRadioItem extends ReactSurveyElement {
       itemClass +=
         this.question.colCount === 0
           ? " " + this.cssClasses.itemInline
-          : " sv-q-col-" + this.question.colCount;
+          : " svrvey-q-col-" + this.question.colCount;
     }
     return itemClass;
   }

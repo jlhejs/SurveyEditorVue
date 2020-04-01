@@ -113,7 +113,7 @@ export class SurveyJSON5 {
       (this.ch < "a" || this.ch > "z") &&
       (this.ch < "A" || this.ch > "Z")
     ) {
-      this.error("Bad identifier");
+      this.error("错误的标识符");
     }
 
     // Subsequent characters can contain digits.

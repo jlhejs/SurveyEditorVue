@@ -70,7 +70,7 @@ export class SurveyQuestionImagePicker extends SurveyQuestionElementBase {
     var colCount = this.question.colCount;
     var itemClass =
       cssClasses.item +
-      (colCount === 0 ? " " + cssClasses.itemInline : " sv-q-col-" + colCount);
+      (colCount === 0 ? " " + cssClasses.itemInline : " svrvey-q-col-" + colCount);
     var allowHover = !isChecked && !isDisabled;
     if (isChecked) {
       itemClass += " " + cssClasses.itemChecked;

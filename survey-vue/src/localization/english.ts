@@ -1,7 +1,10 @@
 //Uncomment this line on creating a translation file
-//import { surveyLocalization } from "../surveyStrings";
+import { surveyLocalization } from "../surveyStrings";
 
 export var englishStrings = {
+  title: "survey Title",
+  description: "survey description",
+
   pagePrevText: "Previous",
   pageNextText: "Next",
   completeText: "Complete",
@@ -79,5 +82,6 @@ export var englishStrings = {
 };
 
 //Uncomment these two lines on creating a translation file. You should replace "en" and enStrings with your locale ("fr", "de" and so on) and your variable.
-//surveyLocalization.locales["en"] = englishStrings;
-//surveyLocalization.localeNames["en"] = "English";
+// console.log(surveyLocalization)
+ surveyLocalization.locales["en"] = englishStrings;
+ surveyLocalization.localeNames["en"] = "English";
