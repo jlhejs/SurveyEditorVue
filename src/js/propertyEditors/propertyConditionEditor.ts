@@ -2,9 +2,14 @@ import * as ko from "knockout";
 import Vue from "vue";
 import * as Survey from "survey-vue";
 import { SurveyPropertyTextEditor } from "./propertyModalEditor";
-import { SurveyPropertyEditorBase } from "./propertyEditorBase";
+import {
+  SurveyPropertyEditorBase,
+  ISurveyObjectEditorOptions
+} from "./propertyEditorBase";
 import { SurveyPropertyEditorFactory } from "./propertyEditorFactory";
 import { EditableObject } from "./editableObject";
+import { ExpressionToDisplayText } from "../expressionToDisplayText";
+import { SurveyPropertyDefaultValueEditor } from "./propertyDefaultValueEditor";
 import * as editorLocalization from "../editorLocalization";
 
 interface MyWindow extends Window {
@@ -17,96 +22,112 @@ declare var window: MyWindow;
 export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
   public availableOperators = [];
   public showHelpText: boolean = true;
-  koIsValid: any;
-  koCanAddCondition: any;
-  koAddConditionQuestions: any;
-  koAddConditionQuestion: any;
-  koAddConditionOperator: any;
-  koAddConditionValue: any;
-  koAddConditionType: any;
-  koShowAddConditionType: any;
-  koAddConditionButtonText: any;
-  koCanAddConditionValue: any;
-  koAddContionValueEnabled: any;
-  koHasValueSurvey: any;
-  onConditionAddClick: any;
-  koValueSurvey: any;
-  public isValueChanging: boolean = false;
+  public koTextValue: any;
+  public onRemoveConditionClick: any;
+  public onChangeViewClick: any;
+  public onShowHideEditor: any;
+  public koShowTabs: any;
+  public koActiveView: any;
+  koEditorItems: ko.ObservableArray<ConditionEditorItem>;
+  koCanParseExpression: any;
+  koConditionDisplayText: any;
+  koIsTextConditionValid: any;
+  koIsEditorShowing: any;
+  koIsWideMode: any;
+  koIsEditorHidingDisabled: any;
   private addConditionQuestionsHash = {};
-  private emptySurvey = "";
   constructor(
     property: Survey.JsonObjectProperty,
     private _type: string = "condition",
     public syntaxCheckMethodName: string = "createCondition"
   ) {
     super(property);
-    if (!this.emptySurvey) {
-      this.emptySurvey =
-        !!this.options && this.options.createSurvey({}, "conditionEditor");
-    }
-    this.availableOperators = SurveyPropertyEditorFactory.getOperators();
-    this.koIsValid = Vue.observable(true);
-    this.koAddConditionQuestions = Vue.observable([]);
-    this.koAddConditionQuestion = Vue.observable("");
-    this.koAddConditionOperator = Vue.observable("");
-    this.koAddConditionValue = Vue.observable("");
-    this.koAddConditionType = ko.observable("and");
-    this.koHasValueSurvey = ko.observable(false);
-    this.koValueSurvey = ko.observable(
-      this.emptySurvey
-    );
+    this.koShowTabs = ko.observable(true);
+    this.koActiveView = ko.observable("form");
+    this.koTextValue = ko.observable();
+    this.koEditorItems = ko.observableArray<ConditionEditorItem>([]);
+    this.koCanParseExpression = ko.observable(true);
+    this.koConditionDisplayText = ko.computed(function() {
+      if (!!this.value) return this.getConditionDisplayText();
+      return this.getLocString("pe.expressionIsEmpty");
+    }, this);
+    this.koIsWideMode = ko.observable(false);
+    this.koIsEditorShowing = ko.observable(false);
+    this.koIsEditorHidingDisabled = ko.observable(false);
+    this.onShowHideEditor = () => {
+      if (this.koIsEditorHidingDisabled()) return;
+      this.koIsEditorShowing(!this.koIsEditorShowing());
+    };
+    this.koIsTextConditionValid = ko.observable(true);
     var self = this;
-    // this.koAddConditionQuestion.subscribe(function(newValue) {
-    //   self.koAddConditionValue("");
-    //   self.onValueSurveyChanged(newValue, self.koAddConditionOperator());
-    // });
-    // this.koAddConditionOperator.subscribe(function(newValue) {
-    //   self.onValueSurveyChanged(self.koAddConditionQuestion(), newValue);
-    // });
-    // this.koAddConditionValue.subscribe(function(newValue) {
-    //   if (self.koHasValueSurvey()) {
-    //     var newParsedValue = !newValue ? {} : JSON.parse(newValue);
-    //     self.isValueChanging = true;
-    //     self.koValueSurvey().setValue("question", newParsedValue);
-    //     self.isValueChanging = false;
-    //   }
-    // });
-     this.koCanAddCondition = function() {
-       return (
-         this.koAddConditionQuestion != "" &&
-         this.koAddConditionQuestion != undefined &&
-         this.koAddConditionOperator != "" &&
-         (!this.koCanAddConditionValue || this.koAddConditionValue != "")
-       );
-     };
-     this.koShowAddConditionType = function() {
-      if (!this.koIsValid) return false;
-      var text = this.textValue;
-      if (text) text = text.trim();
-      return text;
+    this.koCanParseExpression.subscribe(function(newValue) {
+      if (newValue === false) {
+        self.koActiveView("text");
+      }
+    });
+    this.koIsEditorShowing.subscribe(function(newValue) {
+      if (newValue === true) {
+        self.buildEditorsItemsOnShowing();
+      }
+    });
+    self.onRemoveConditionClick = function(item) {
+      self.removeCondition(item);
     };
-     this.koAddConditionButtonText = function() {
-       var name = this.koIsValid
-         ? "conditionButtonAdd"
-         : "conditionButtonReplace";
-       return editorLocalization.editorLocalization.getPropertyInEditor(name);
-     };
-    // this.koCanAddConditionValue = ko.computed(function() {
-    //   return self.canShowValueByOperator(self.koAddConditionOperator());
-    // }, this);
-    // this.koAddContionValueEnabled = ko.computed(function() {
-    //   return self.koCanAddConditionValue() && !self.koHasValueSurvey();
-    // }, this);
-    this.onConditionAddClick = function() {
-      self.addCondition();
+    self.onChangeViewClick = function(newView) {
+      self.koActiveView(newView);
     };
-    this.resetAddConditionValues();
+    this.koTextValue.subscribe(function(newValue) {
+      self.onkoTextValueChanged(newValue);
+    });
   }
-  public beforeShow() {
-    super.beforeShow();
-    this.koAddConditionQuestion="";
-    this.addConditionQuestionsHash = {};
-    this.koAddConditionQuestions=this.allConditionQuestions;
+  public addCondition() {
+    this.koEditorItems.push(new ConditionEditorItem(this));
+    this.updateEditorItemsVisibilities();
+  }
+  public removeCondition(item: ConditionEditorItem) {
+    this.koEditorItems.remove(item);
+    if (this.koEditorItems().length == 0) {
+      this.addCondition();
+    }
+    this.updateEditorItemsVisibilities();
+    this.onConditionItemChanged();
+  }
+  public get addConditionText(): string {
+    return this.getLocString("pe.addCondition");
+  }
+  public get removeConditionText(): string {
+    return this.getLocString("pe.remove");
+  }
+  public beforeShowCore() {
+    super.beforeShowCore();
+    this.resetAllConditionQuestions();
+    this.onkoTextValueChanged(this.value);
+    if (!!this.options) {
+      this.koShowTabs(this.options.allowEditExpressionsInTextEditor);
+    }
+  }
+  protected beforeShowModal() {
+    super.beforeShowModal();
+    this.isEditorShowing = true;
+    this.isEditorHidingDisabled = true;
+  }
+  public get isEditorShowing(): boolean {
+    return this.koIsEditorShowing();
+  }
+  public set isEditorShowing(val: boolean) {
+    this.koIsEditorShowing(val);
+  }
+  public get isEditorHidingDisabled(): boolean {
+    return this.koIsEditorHidingDisabled();
+  }
+  public set isEditorHidingDisabled(val: boolean) {
+    this.koIsEditorHidingDisabled(val);
+  }
+  public get isWideMode(): boolean {
+    return this.koIsWideMode();
+  }
+  public set isWideMode(val: boolean) {
+    this.koIsWideMode(val);
   }
   public get editorType(): string {
     return this._type;
@@ -115,36 +136,30 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
     var survey = this.getSurvey();
     return !!survey ? survey.getAllQuestions() : [];
   }
-  protected getSurvey(): Survey.Model {
-    if (this.object instanceof Survey.Model) {
-      return this.getOrigionalSurvey(this.object);
-    }
-    if (
-      this.object instanceof Survey.MatrixDropdownColumn &&
-      !!this.object.colOwner
-    )
-      return this.object.colOwner["survey"];
-    if (!!this.object && !!this.object.survey)
-      return this.getOrigionalSurvey(this.object.survey);
-    return null;
+  protected getSurvey(): Survey.SurveyModel {
+    return EditableObject.getSurvey(this.object);
   }
-  private getOrigionalSurvey(survey: Survey.Model): Survey.Model {
-    return EditableObject.getOrigionalSurvey(survey);
-  }
-  public get allConditionQuestions(): any[] {
-    var res = this.getConditionQuetions();
-    res.sort(function(a, b) {
+  private allConditionQuestionsValue: any[];
+  private resetAllConditionQuestions() {
+    this.addConditionQuestionsHash = {};
+    this.allConditionQuestionsValue = this.getConditionQuestions();
+    this.allConditionQuestionsValue.sort(function(a, b) {
       return a.text.localeCompare(b.text);
     });
-    return res;
+  }
+  public get allConditionQuestions(): any[] {
+    if (!!this.allConditionQuestionsValue)
+      return this.allConditionQuestionsValue;
+    this.resetAllConditionQuestions();
+    return this.allConditionQuestionsValue;
   }
   public get isExpressionValid(): boolean {
-    var text = this.textValue;
-    if (!text) return false;
-    var runner = new Survey.ConditionRunner(text);
-    return runner.canRun();
+    return this.koIsTextConditionValid() && !!this.koTextValue();
   }
-  private getConditionQuetions(): any[] {
+  protected onValueChanged() {
+    this.koTextValue(this.value);
+  }
+  private getConditionQuestions(): any[] {
     if (!this.object) return [];
     var res = [];
     var questions = this.availableQuestions;
@@ -171,6 +186,21 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
       );
     return res;
   }
+  public isClassContains(
+    qType: string,
+    contains: Array<string>,
+    notContains: Array<string>
+  ): boolean {
+    var classInfo = Survey.Serializer.findClass(qType);
+    while (!!classInfo) {
+      if (contains.indexOf(classInfo.name) > -1) return true;
+      if (notContains.indexOf(classInfo.name) > -1) return false;
+      classInfo = !!classInfo.parentName
+        ? Survey.Serializer.findClass(classInfo.parentName)
+        : null;
+    }
+    return contains.length == 0;
+  }
   private addCalculatedValues(res: Array<any>) {
     var survey = this.getSurvey();
     if (!survey) return;
@@ -180,87 +210,27 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
       res.push({ name: name, text: name, question: null });
     }
   }
-  private onValueSurveyChanged(questionName: string, operator: string) {
-    if (
-      !this.canShowValueByOperator(operator) ||
-      !questionName ||
-      !this.getSurvey()
-    ) {
-      this.koHasValueSurvey(false);
-      return;
-    }
-    var json = this.getQuestionConditionJson(questionName, operator);
-    this.koHasValueSurvey(!!json && !!json.type);
-    if (this.koHasValueSurvey()) {
-      this.koValueSurvey(this.createValueSurvey(json, questionName));
-      var question = this.koValueSurvey().getQuestionByName("question");
-      if (!!question && !question.isEmpty()) {
-        this.koAddConditionValue=JSON.stringify(question.value);
-      }
-    }
-  }
-  private deleteConditionProperties(json: any) {
-    delete json["visible"];
-    delete json["visibleIf"];
-    delete json["enable"];
-    delete json["enableIf"];
-  }
-  private createValueSurvey(qjson: any, questionName: string): Survey.Model {
-    qjson.name = "question";
-    qjson.title = editorLocalization.editorLocalization.getString(
-      "pe.conditionValueQuestionTitle"
-    );
-    this.deleteConditionProperties(qjson);
-    if (!!qjson.choices) {
-      for (var i = 0; i < qjson.choices.length; i++) {
-        this.deleteConditionProperties(qjson.choices[i]);
-      }
-    }
-    var json = {
-      questions: [],
-      showNavigationButtons: false,
-      showQuestionNumbers: "off"
-    };
-    json.questions.push(qjson);
-    var survey = !!this.options
-      ? this.options.createSurvey(json, "conditionEditor")
-      : new Survey.Model(json);
-    var self = this;
-    survey.onValueChanged.add(function(survey, options) {
-      if (!self.isValueChanging) {
-        self.koAddConditionValue=JSON.stringify(options.value);
-      }
-    });
-    if (this.options) {
-      var propName = !!this.property ? this.property.name : "";
-      this.options.onConditionValueSurveyCreatedCallBack(
-        questionName,
-        propName,
-        this.object,
-        this,
-        survey
-      );
-    }
-    return survey;
-  }
-  private getQuestionByName(questionName: string): Survey.Question {
+  public getQuestionByName(questionName: string): Survey.Question {
     if (!this.getSurvey()) return null;
     return this.addConditionQuestionsHash[questionName];
   }
-  private getQuestionValueByName(questionName: string): string {
-    var question = this.getQuestionByName(questionName);
-    if (question && question.name != question.getValueName())
-      return questionName.replace(question.name, question.getValueName());
-    return questionName;
+  public getQuestionValueJSON(questionName: string, operator: string): any {
+    return this.getQuestionConditionJson(questionName, operator, true);
   }
   private getQuestionConditionJson(
     questionName: string,
-    operator: string
+    operator: string,
+    convertOnAnyOf: boolean = false
   ): any {
     var path = "";
     var question = this.getQuestionByName(questionName);
     if (!question) return null;
-    var path = questionName.substr(question.name.length);
+    if (questionName.indexOf(question.name) == 0) {
+      path = questionName.substr(question.name.length);
+    }
+    if (questionName.indexOf("row.") == 0) {
+      path = questionName.substr("row.".length);
+    }
     if (!!path && path[0] == ".") {
       path = path.substr(1);
     }
@@ -268,85 +238,249 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
       question && question.getConditionJson
         ? question.getConditionJson(operator, path)
         : null;
-    return json && (json.type !== "text" || json.inputType) ? json : null;
+    if (!!json && json.type == "radiogroup") {
+      json.type = "dropdown";
+    }
+    if (!!json && operator == "anyof" && convertOnAnyOf) {
+      if (!this.isClassContains(json.type, ["checkbox"], [])) {
+        json.type = "checkbox";
+      }
+    }
+    return !!json ? json : null;
   }
   private canShowValueByOperator(operator: string) {
     return operator != "empty" && operator != "notempty";
   }
   public get hasAceEditor(): boolean {
     return (
-      typeof window.ace !== "undefined" 
-      // &&typeof window.require("ace/ext/language_tools") !== "undefined"
+      typeof ace !== "undefined" &&
+      typeof ace.require("ace/ext/language_tools") !== "undefined"
     );
   }
-  public get addConditionQuestionOptions(): string {
-    return editorLocalization.editorLocalization.getString(
-      "pe.conditionSelectQuestion"
-    );
+  protected onkoTextValueChanged(newValue) {
+    if (!this.isBeforeShowCalled || this.isConditionItemsBuilding) return;
+    var isValid = true;
+    var operand = null;
+    if (!!newValue) {
+      var conditionParser = new Survey.ConditionsParser();
+      operand = conditionParser.parseExpression(newValue);
+      isValid = !!operand;
+    }
+    this.koIsTextConditionValid(isValid);
+    if (isValid) {
+      this.value=newValue;
+    }
+    this.rebuildEditorItems(operand, isValid);
   }
-  public addCondition() {
-    if (!this.koCanAddCondition()) return;
+  private buildEditorsItemsOnShowing() {
+    var operand = null;
+    var conditionText = this.value  ;
+    if (!!conditionText) {
+      var conditionParser = new Survey.ConditionsParser();
+      operand = conditionParser.parseExpression(conditionText);
+    }
+    this.rebuildEditorItems(operand, true);
+  }
+  private isConditionItemsBuilding: boolean = false;
+  public onConditionItemChanged() {
+    if (this.isConditionItemsBuilding) return;
     var text = "";
-    if (this.koShowAddConditionType()) {
-      text = this.textValue + " " + this.koAddConditionType() + " ";
+    var items = this.koEditorItems();
+    for (var i = 0; i < items.length; i++) {
+      var itemText = items[i].toString();
+      if (!itemText) continue;
+      if (!!text) {
+        text += " " + items[i].conjunction + " ";
+      }
+      text += itemText;
     }
-    text +=
-      "{" +
-      this.getQuestionValueByName(this.koAddConditionQuestion) +
-      "} " +
-      this.getAddConditionOperator();
-    if (this.koCanAddConditionValue) {
-      text += " " + this.getAddConditionValue();
+    this.isConditionItemsBuilding = true;
+    this.koValue(text);
+    this.isConditionItemsBuilding = false;
+  }
+  private rebuildEditorItems(operand: Survey.Operand, isValid: boolean) {
+    if (!this.isEditorShowing) return;
+    if (this.isConditionItemsBuilding) return;
+    if (!isValid) {
+      this.koEditorItems([]);
+      this.koCanParseExpression(false);
+      return;
     }
-    this.textValue=text;
-    this.resetAddConditionValues();
-  }
-  protected onBeforeApply() {
-    if (!this.textValue&& this.koCanAddCondition()) {
-      this.addCondition();
-    }
-    super.onBeforeApply();
-  }
-  private getAddConditionOperator(): string {
-    var op = this.koAddConditionOperator;
-    if (op == "equal") return "=";
-    if (op == "notequal") return "<>";
-    if (op == "greater") return ">";
-    if (op == "less") return "<";
-    if (op == "greaterorequal") return ">=";
-    if (op == "lessorequal") return "<=";
-    return op;
-  }
-  private getAddConditionValue(): string {
-    var val = this.koAddConditionValue;
-    if (!val) return val;
-    if (val == "true" || val == "false") return val;
-    if (!isNaN(val)) return val;
-    if (val[0] == "[") return val.replace(/(?!^)(['])(?!$)/g, "\\$1");
-    if (!this.isQuote(val[0])) val = "'" + val;
-    if (!this.isQuote(val[val.length - 1])) val = val + "'";
-    return val.replace(/(?!^)(['"])(?!$)/g, "\\$1");
-  }
-  private isQuote(ch: string): boolean {
-    return ch == "'" || ch == '"';
-  }
-  protected onTextValueChanged(newValue) {
-    if (!newValue) {
-      this.koIsValid=true;
+    if (!operand) {
+      this.koEditorItems([]);
     } else {
-      var conditionParser: any = new Survey.ConditionsParser();
-      conditionParser[this.syntaxCheckMethodName](newValue);
-      this.koIsValid=!conditionParser.error;
+      this.isConditionItemsBuilding = true;
+      var items = this.buildEditorItems(operand);
+      this.isConditionItemsBuilding = false;
+      this.koEditorItems(items);
+    }
+    this.koCanParseExpression(this.koEditorItems().length > 0 || !operand);
+    if (this.koEditorItems().length == 0 && !operand) {
+      this.koEditorItems([new ConditionEditorItem(this)]);
+    }
+    this.updateEditorItemsVisibilities();
+  }
+  private updateEditorItemsVisibilities() {
+    var items = this.koEditorItems();
+    for (var i = 0; i < items.length; i++) {
+      items[i].isFirst = i == 0;
     }
   }
-  private resetAddConditionValues() {
-    this.koAddConditionQuestion="";
-    this.koAddConditionOperator="equal";
-    this.koAddConditionValue="";
+  private buildEditorItems(
+    operand: Survey.Operand
+  ): Array<ConditionEditorItem> {
+    var res = [];
+    if (!this.buildEditorItemsCore(operand, res, "")) {
+      res = [];
+    }
+    return res;
+  }
+  private buildEditorItemsCore(
+    operand: Survey.Operand,
+    res: Array<ConditionEditorItem>,
+    parentConjunction: string
+  ): boolean {
+    if (operand.getType() == "unary")
+      return this.buildEditorItemsAddUnaryOperand(
+        <Survey.UnaryOperand>operand,
+        res
+      );
+    if (operand.getType() !== "binary") return false;
+    var op = <Survey.BinaryOperand>operand;
+    if (op.isArithmetic && !op.isConjunction) return false;
+    if (op.isConjunction)
+      return this.buildEditorItemsAddConjunction(op, res, parentConjunction);
+    return this.buildEditorItemsAddBinaryOperand(op, res);
+  }
+  private buildEditorItemsAddConjunction(
+    op: Survey.BinaryOperand,
+    res: Array<ConditionEditorItem>,
+    parentConjunction: string
+  ): boolean {
+    var conjunction = op.conjunction;
+    if (
+      conjunction == "or" &&
+      !!parentConjunction &&
+      parentConjunction != conjunction
+    )
+      return false;
+    if (!this.buildEditorItemsCore(op.leftOperand, res, conjunction))
+      return false;
+    var conjunctionIndex = res.length;
+    if (!this.buildEditorItemsCore(op.rightOperand, res, conjunction))
+      return false;
+    res[conjunctionIndex].conjunction = op.conjunction;
+    return true;
+  }
+  private buildEditorItemsAddBinaryOperand(
+    op: Survey.BinaryOperand,
+    res: Array<ConditionEditorItem>
+  ): boolean {
+    var variableOperand = <Survey.Variable>(
+      this.getOperandByType(op, "variable")
+    );
+    var arrayValue = this.getArrayValueFromOperand(op);
+    var constOperand = !arrayValue
+      ? <Survey.Const>this.getOperandByType(op, "const")
+      : null;
+    if (
+      !variableOperand ||
+      (!constOperand && !arrayValue && this.canShowValueByOperator(op.operator))
+    )
+      return false;
+    if (!this.getQuestionByName(variableOperand.variable)) return false;
+    var item = new ConditionEditorItem(this);
+    item.questionName = variableOperand.variable;
+    item.operator =
+      op.leftOperand !== variableOperand
+        ? this.getOppositeOperator(op.operator)
+        : op.operator;
+    if (!!arrayValue) {
+      item.value = arrayValue;
+    }
+    if (!!constOperand) {
+      item.value = constOperand.correctValue;
+    }
+    res.push(item);
+    return true;
+  }
+  private getArrayValueFromOperand(op: Survey.BinaryOperand): Array<any> {
+    var arrayOperand = <Survey.ArrayOperand>this.getOperandByType(op, "array");
+    //TODO
+    if (!arrayOperand || !arrayOperand["values"]) return null;
+    var valuesOperand = arrayOperand["values"];
+    if (!Array.isArray(valuesOperand) || valuesOperand.length == 0) return null;
+    var res = [];
+    for (var i = 0; i < valuesOperand.length; i++) {
+      var opConst = valuesOperand[i];
+      if (!opConst) continue;
+      if (opConst.getType() != "const") return null;
+      res.push((<Survey.Const>opConst).correctValue);
+    }
+    if (res.length == 0) return null;
+    return res;
+  }
+  private buildEditorItemsAddUnaryOperand(
+    op: Survey.UnaryOperand,
+    res: Array<ConditionEditorItem>
+  ): boolean {
+    var operator = op.operator;
+    if (operator !== "empty" && operator != "notempty") return false;
+    var operand = op.expression;
+    if (operand == null || operand.getType() != "variable") return false;
+    var questionName = (<Survey.Variable>operand).variable;
+    if (!this.getQuestionByName(questionName)) return false;
+    var item = new ConditionEditorItem(this);
+    item.questionName = questionName;
+    item.operator = operator;
+    res.push(item);
+    return true;
+  }
+  private getOppositeOperator(operator: string): string {
+    if (operator == "less") return "greater";
+    if (operator == "greater") return "less";
+    if (operator == "lessorequal") return "greaterorequal";
+    if (operator == "greaterorequal") return "lessorequal";
+    return operator;
+  }
+  private getOperandByType(
+    op: Survey.BinaryOperand,
+    opType: string
+  ): Survey.Operand {
+    if (
+      op.leftOperand.getType() !== opType &&
+      op.rightOperand.getType() !== opType
+    )
+      return null;
+    if (
+      op.leftOperand.getType() == opType &&
+      op.rightOperand.getType() == opType
+    )
+      return null;
+    return op.leftOperand.getType() == opType
+      ? op.leftOperand
+      : op.rightOperand;
+  }
+  private getConditionDisplayText(): string {
+    var value = this.koIsTextConditionValid()
+      ? this.koTextValue()
+      : this.koValue();
+    return new ExpressionToDisplayText(
+      this.getSurvey(),
+      this.options
+    ).toDisplayText(value);
   }
 }
 
-
+SurveyPropertyEditorFactory.registerEditor("condition", function(
+  property: Survey.JsonObjectProperty
+): SurveyPropertyEditorBase {
+  return new SurveyPropertyConditionEditor(
+    property,
+    "condition",
+    "createCondition"
+  );
+});
 
 var operations = [
   {
@@ -469,15 +603,15 @@ var operations = [
 const createAnnotations = (
   condition: string,
   syntaxCheckMethodName: string
-)=> {
+): AceAjax.Annotation[] => {
   condition = condition || "";
-  var annotations = new Array();
+  var annotations = new Array<AceAjax.Annotation>();
   var conditionParser: any = new Survey.ConditionsParser();
   conditionParser[syntaxCheckMethodName](condition);
   if (!!condition && conditionParser.error) {
     var toErrorSubstring = condition.substring(0, conditionParser.error.at);
     var column = toErrorSubstring.length - toErrorSubstring.lastIndexOf("\n");
-    var annotation = {
+    var annotation: AceAjax.Annotation = {
       row: condition.match(/\n/g) ? condition.match(/\n/g).length : 0,
       column: column,
       text: conditionParser.error.code + " (" + column + ")",
@@ -620,76 +754,76 @@ export function insertMatch(editor, data) {
   editor.execCommand("insertstring", data.value || data);
 }
 
-// ko.bindingHandlers.aceEditor = {
-//   init: function(element, options) {
-//     var configs = options();
-//     var langTools = ace.require("ace/ext/language_tools");
-//     var langUtils = ace.require("ace/autocomplete/util");
-//     var editor = ace.edit(element);
-//     var objectEditor: SurveyPropertyConditionEditor = configs.editor;
-//     var isUpdating = false;
+ko.bindingHandlers.aceEditor = {
+  init: function(element, options) {
+    var configs = options();
+    var langTools = ace.require("ace/ext/language_tools");
+    var langUtils = ace.require("ace/autocomplete/util");
+    var editor = ace.edit(element);
+    var objectEditor: SurveyPropertyConditionEditor = configs.editor;
+    var isUpdating = false;
 
-//     editor.setOption("useWorker", false);
+    editor.setOption("useWorker", false);
 
-//     editor.getSession().on("change", function() {
-//       var errors = createAnnotations(
-//         editor.getValue(),
-//         objectEditor.syntaxCheckMethodName
-//       );
-//       isUpdating = true;
-//       objectEditor.koTextValue(editor.getValue());
-//       isUpdating = false;
-//       //   objectEditor.koHasError(errors.length > 0);
-//       //   if (errors.length > 0) {
-//       //     objectEditor.koErrorText(errors[0].text);
-//       //   }
-//       editor.getSession().setAnnotations(errors);
-//     });
-//     editor.on("focus", function() {
-//       editor.setReadOnly(objectEditor.readOnly());
-//     });
-//     var updateCallback = () => {
-//       if (!isUpdating) {
-//         editor.setValue(objectEditor.koTextValue() || "");
-//       }
-//     };
-//     var valueSubscription = objectEditor.koTextValue.subscribe(updateCallback);
-//     updateCallback();
+    editor.getSession().on("change", function() {
+      var errors = createAnnotations(
+        editor.getValue(),
+        objectEditor.syntaxCheckMethodName
+      );
+      isUpdating = true;
+      objectEditor.koTextValue(editor.getValue());
+      isUpdating = false;
+      //   objectEditor.koHasError(errors.length > 0);
+      //   if (errors.length > 0) {
+      //     objectEditor.koErrorText(errors[0].text);
+      //   }
+      editor.getSession().setAnnotations(errors);
+    });
+    editor.on("focus", function() {
+      editor.setReadOnly(objectEditor.readOnly());
+    });
+    var updateCallback = () => {
+      if (!isUpdating) {
+        editor.setValue(objectEditor.koTextValue() || "");
+      }
+    };
+    var valueSubscription = objectEditor.koTextValue.subscribe(updateCallback);
+    updateCallback();
 
-//     var completer = {
-//       identifierRegexps: [ID_REGEXP],
-//       insertMatch: insertMatch,
-//       getCompletions: (editor, session, pos, prefix, callback) => {
-//         var prevIdentifier = langUtils.retrievePrecedingIdentifier(
-//           session.getLine(pos.row),
-//           pos.column - 1
-//         );
-//         var completions = doGetCompletions(
-//           prevIdentifier,
-//           prefix,
-//           configs,
-//           completer
-//         );
-//         callback(null, completions);
-//       },
-//       getDocTooltip: function(item) {
-//         item.docHTML =
-//           "<div style='max-width: 300px; white-space: normal;'>" +
-//           item.meta +
-//           "</div>";
-//       }
-//     };
-//     langTools.setCompleters([completer]);
-//     editor.setOptions({
-//       enableBasicAutocompletion: true,
-//       enableLiveAutocompletion: true
-//     });
+    var completer = {
+      identifierRegexps: [ID_REGEXP],
+      insertMatch: insertMatch,
+      getCompletions: (editor, session, pos, prefix, callback) => {
+        var prevIdentifier = langUtils.retrievePrecedingIdentifier(
+          session.getLine(pos.row),
+          pos.column - 1
+        );
+        var completions = doGetCompletions(
+          prevIdentifier,
+          prefix,
+          configs,
+          completer
+        );
+        callback(null, completions);
+      },
+      getDocTooltip: function(item) {
+        item.docHTML =
+          "<div style='max-width: 300px; white-space: normal;'>" +
+          item.meta +
+          "</div>";
+      }
+    };
+    langTools.setCompleters([completer]);
+    editor.setOptions({
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true
+    });
 
-//     ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-//       editor.destroy();
-//       valueSubscription.dispose();
-//     });
+    ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+      editor.destroy();
+      valueSubscription.dispose();
+    });
 
-//     editor.focus();
-//   }
-// };
+    editor.focus();
+  }
+};

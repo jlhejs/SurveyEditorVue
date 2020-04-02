@@ -14,10 +14,16 @@
       :indeterminate="indeterminate()">
       <span :class="getLabelClass(true)">{{question.locLabelTrue.renderedHtml}}</span>
       </el-checkbox> -->
-      <div>
-        
-      </div>
-      
+      <span v-html="question.locLabelFalse.renderedHtml"></span>
+      <el-checkbox :indeterminate="indeterminate()" 
+      v-model="question.checkedValue"
+      :id="question.inputId"
+      :disabled	="question.disabled"
+       v-bind:aria-required="question.isRequired"
+      :true-label="question.valueTrue"
+      :false-label="question.valueFalse"
+     ></el-checkbox><span v-html="question.locLabelTrue.renderedHtml"></span>
+<!-- 
      <el-switch
       v-model="question.checkedValue"
       :id="question.inputId"
@@ -26,7 +32,7 @@
       :inactive-value="question.valueFalse"
       :active-text="question.locLabelTrue.renderedHtml"
       :inactive-text="question.locLabelFalse.renderedHtml">
-    </el-switch>
+    </el-switch> -->
     </label>
   </div>
 </template>

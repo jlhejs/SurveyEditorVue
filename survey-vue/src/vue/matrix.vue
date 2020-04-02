@@ -32,7 +32,16 @@
               v-on:click="function() { cellClick(row, column); }"
             >
               <label :class="getItemClass(row, column)">
-                
+                <!-- <el-radio 
+                  
+                  :name="row.fullName"
+                  v-model="row.fullName"
+                  :label="column.value"
+                  :disabled="question.isReadOnly"
+                  :id="question.inputId + '_' + row.name + '_' + columnIndex"
+                  v-bind:aria-required="question.isRequired"
+                  :aria-label="question.locTitle.renderedHtml">{{row.value}}</el-radio> -->
+
                 <input
                   type="radio"
                   :class="question.cssClasses.itemValue"
@@ -45,8 +54,7 @@
                   :aria-label="question.locTitle.renderedHtml"
                 />
                 
-                <span :class="question.cssClasses.materialDecorator">
-                </span>
+                <span :class="question.cssClasses.materialDecorator"></span>
                 <span class="circle"></span>
                 <span class="check"></span>
                 <span :style="{ 'display': 'none' }">{{question.locTitle.renderedHtml}}</span>
@@ -55,6 +63,19 @@
           </tr>
         </tbody>
       </table>
+      <!-- <el-table
+        :class="question.cssClasses.root"
+        :data="tableData"
+       >
+        <el-table-column prop="date" label="日期" width="180">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name"  label="姓名是"></el-table-column>
+        <el-table-column prop="address" label="地址"></el-table-column>
+      </el-table> -->
     </fieldset>
   </div>
 </template>
@@ -67,6 +88,23 @@ import { QuestionMatrixModel } from "../question_matrix";
 
 @Component
 export class Matrix extends QuestionVue<QuestionMatrixModel> {
+  tableData= [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }]
   getItemClass(row: any, column: any) {
     var question = this.question;
     var cssClasses = this.question.cssClasses;

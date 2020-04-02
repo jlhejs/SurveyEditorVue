@@ -1,7 +1,6 @@
 <template>
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
-    {{question.marks}}
     <el-row :gutter="0"  style="padding-right: 3px;">
        <el-slider 
         v-model="question.value" 
@@ -32,14 +31,7 @@ import { QuestionSliderModel } from "../question_slider";
 
 @Component
 export class Slider extends QuestionVue<QuestionSliderModel> {
-  propsOption(){
-    var question = this.question;
-    var propsOption={}
-    if(question.multiple){
-      propsOption.multiple=question.multiple
-    }
-    return propsOption
-  }
+
   getItemClass(item: any) {
     var question = this.question;
     var cssClasses = question.cssClasses;
@@ -65,15 +57,12 @@ export class Slider extends QuestionVue<QuestionSliderModel> {
       return question.colCount === 0? "":  Math.floor(24/question.colCount)
     }
   }
-  changeValue(){
-    this.question.hasRequiredError=false
-  }
   options(){
     var options=[]
     return options
   }
   style(){
-    var style={};
+    var style={height:"auto"};
     var question = this.question;
     if(question.vertical){
       style.height="200px"

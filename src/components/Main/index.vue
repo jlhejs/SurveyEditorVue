@@ -1,7 +1,11 @@
 <template>
     <div id="editor-main">
-
-      <Survey :survey="editor.survey"></Survey>
+      <transition name="el-zoom-in-top">
+        <Survey :survey="editor.survey" v-show="!editor.isCurrentPageEmpty()"></Survey>
+      </transition>
+      <transition name="el-zoom-in-top">
+        <emptySurvey :editor="editor" v-show="editor.isCurrentPageEmpty()"></emptySurvey>
+      </transition>
     </div>
 </template>
 <script>

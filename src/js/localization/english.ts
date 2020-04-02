@@ -425,7 +425,6 @@ export var enStrings = {
     "paddingTop": "上边距",
     "paddingBottom": "下边距",
     "contentPaddingLeft": "内容左缩进",
-    "columns": "允许问题在新行",
     "rowsVisibleIf": "行显示条件",
     "columnsVisibleIf": "列显示条件",
     "radioClass": "按钮样式",
@@ -462,6 +461,7 @@ export var enStrings = {
     "showOptionsCaption":"显示选择标题",
     "multiSelect":"多选",
     "contentMode":"多选",
+    "rowsOrder":"行随机",
 
 
     "mode": "模式 (编辑/只读)",

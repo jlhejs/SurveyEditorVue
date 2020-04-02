@@ -11,7 +11,7 @@ import { SurveyLiveTester } from "./surveylive";
 import { SurveyEmbedingWindow } from "./surveyEmbedingWindow";
 import { SurveyObjects } from "./surveyObjects";
 import { QuestionConverter } from "./questionconverter";
-import { SurveyPropertyEditorShowWindow } from "./questionEditors/questionEditor";
+import { SurveyPropertyEditorShowWindow,SurveyElementPropertyGrid } from "./questionEditors/questionEditor";
 import { SurveyJSONEditor } from "./surveyJSONEditor";
 import { SurveyTextWorker } from "./textWorker";
 import { SurveyUndoRedo, UndoRedoItem } from "./undoredo";
@@ -82,6 +82,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   private surveyjs: HTMLElement;
 
   private jsonEditor: SurveyJSONEditor;
+  private elementPropertyGridValue: SurveyElementPropertyGrid;
   public selectedObjectEditorValue: SurveyObjectEditor;
   private questionEditorWindow: SurveyPropertyEditorShowWindow;
 
@@ -117,7 +118,8 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
    * If set to true (default value) the creator scrolls to a new element. A new element can be added from Toolbox or by copying.
    */
   public scrollToNewElement: boolean = true;
-  hideAdvancedSettingsValue: boolean = Vue.observable(false);
+  hideAdvancedSettings: boolean = false;
+  hideToolboxCollapse: boolean = false;
   tabs = Vue.observable([]);
 
   /**
@@ -777,7 +779,6 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   doRedoClick: any;
   deleteObjectClick: any;
   runSurveyClick: any;
-
   saveButtonClick: any;
   draggingToolboxItem: any;
   clickToolboxItem: any;
@@ -836,6 +837,10 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     this.selectPage = (page: Survey.PageModel) => {
       this.surveyObjects.selectObject(page);
     };
+    this.elementPropertyGridValue = new SurveyElementPropertyGrid(this);
+
+
+
     this.undoRedo = new SurveyUndoRedo();
 
     this.selectedObjectEditorValue = new SurveyObjectEditor(this);
@@ -1189,6 +1194,9 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   public get survey(): SurveyForDesigner {
     return this.surveyValue;
   }
+  public get selectedElementPropertyGrid(): SurveyElementPropertyGrid {
+    return this.elementPropertyGridValue;
+  }
   public get objects(){
     return this.surveyObjects?this.surveyObjects.objects:[]
   }
@@ -1422,15 +1430,12 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     this.vueShowPropertyGrid=value;
     this.hideAdvancedSettings=!value;
   }
-  public get hideAdvancedSettings() {
-    return this.hideAdvancedSettingsValue
+
+  protected changeHideAdvancedSettings() {
+    this.hideAdvancedSettings=(!this.hideAdvancedSettings)
   }
-  public set hideAdvancedSettings(value: boolean) {
-    this.hideAdvancedSettingsValue=value;
-   
-  }
-  changeHideAdvancedSettings(value:boolean) {
-    this.hideAdvancedSettingsValue=(!this.hideAdvancedSettingsValue)
+  protected changeHideToolboxCollapse() {
+    this.hideToolboxCollapse=(!this.hideToolboxCollapse)
   }
  
   /**
@@ -2173,12 +2178,11 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   private getRows(pnl: Survey.PanelModelBase): Array<any> {
     return !!pnl["koRows"] ? pnl["koRows"]() : pnl.rows;
   }
-  public isCurrentPageEmpty = ko.computed(
-    () =>
-      !!this.surveyValue &&
-      !!this.surveyValue.currentPage &&
-      this.getRows(this.surveyValue.currentPage).length === 0
-  );
+  public isCurrentPageEmpty (){
+    return !!this.surveyValue &&
+    !!this.surveyValue.currentPage &&
+    this.getRows(this.surveyValue.currentPage).length === 0;
+  }
   public dragOverQuestionsEditor(data, e) {
     data.survey.dragDropHelper.doDragDropOver(e, data.survey.currentPage);
     return false;

@@ -81,7 +81,6 @@ export class Cascader extends QuestionVue<QuestionCascaderModel> {
   changeCascader(){
   }
   options(){
-    var options=[]
      var options=[{
            value: 1,
            label: '东南',

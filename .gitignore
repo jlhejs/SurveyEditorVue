@@ -20,5 +20,4 @@ yarn-error.log*
 *.sln
 *.sw?
 `
-src/components/PropertyEditor/PropertyEditorModal.vue
-src/components/Editor/index.vue
+

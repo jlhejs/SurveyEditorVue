@@ -41,11 +41,11 @@ export class SurveyForDesigner extends Survey.Model {
     renderedElement: any = null,
     css: any = null
   ) {
-    super(jsonObj);
+    super(jsonObj, renderedElement, css);
     var self = this;
     this.setDesignMode(true);
     this.onAfterRenderPage.add((sender: Survey.Model, options) => {
-      // options.page["onAfterRenderPage"](options.htmlElement);
+      options.page["onAfterRenderPage"](options.htmlElement);
       // sender["onAfterRenderPage"](options.htmlElement);
     });
     this.editQuestionClick = function() {
@@ -53,6 +53,7 @@ export class SurveyForDesigner extends Survey.Model {
     };
     this.onUpdateQuestionCssClasses.add(onUpdateQuestionCssClasses);
     this.onUpdatePanelCssClasses.add(onUpdateQuestionCssClasses);
+    // this.onUpdatePageCssClasses.add(onUpdateQuestionCssClasses);
   }
   public updateElementAllowingOptions(obj: Survey.Base) {
     if (this.onUpdateElementAllowingOptions && obj["allowingOptions"]) {
@@ -161,23 +162,13 @@ function elementOnCreating(surveyElement: any) {
         );
       }
     }
- })
+  });
 }
 
-function createQuestionDesignItem(obj: any, item: any): HTMLLIElement {
-  var res = <HTMLLIElement>document.createElement("li");
-  var btn = document.createElement("button");
-  btn.innerText = item.text;
-  var onClick = item.onClick;
-  btn.onclick = function() {
-    onClick(obj, item);
-  };
-  btn.className = "btn btn-primary btn-sm btn-xs";
-  res.appendChild(btn);
-  return res;
-}
-
-export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner) {
+export function createAfterRenderHandler(
+  creator: any,
+  survey: SurveyForDesigner
+) {
   return function elementOnAfterRendering(
     domElement: any,
     surveyElement: any,
@@ -206,6 +197,17 @@ export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner
         "svd-main-border-color"
       );
     }
+    domElement.setAttribute(
+      "aria-label",
+      surveyElement.title + " " + surveyElement.getType()
+    );
+    domElement.tabIndex = "0";
+    domElement.addEventListener("keyup", function(ev) {
+      var char = ev.which || ev.keyCode;
+      if (char === 13 || char === 27) {
+        domElement.click();
+      }
+    });
     domElement.onclick = function(e) {
       if (!e["markEvent"]) {
         e["markEvent"] = true;
@@ -222,8 +224,8 @@ export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner
         if (childs[i].style) childs[i].style.pointerEvents = "none";
       }
     }
-    
-    if(creator.readOnly) {
+
+    if (creator.readOnly) {
       addAdorner(domElement, surveyElement);
       return;
     }
@@ -262,7 +264,29 @@ export function createAfterRenderHandler(creator: any, survey: SurveyForDesigner
     });
   
     addAdorner(domElement, surveyElement);
-  }
+  };
+}
+
+export function createAfterRenderPageHandler(
+  creator: any,
+  survey: SurveyForDesigner
+) {
+  return function elementOnAfterRendering(domElement: any, page: any) {
+    page.renderedElement = domElement;
+    domElement.classList.add("svd_page");
+    domElement.onclick = function(e) {
+      if (!e["markEvent"]) {
+        e["markEvent"] = true;
+        getSurvey(page)["selectedElement"] = page;
+      }
+    };
+
+    domElement.ondblclick = function(e) {
+      getSurvey(page).doElementDoubleClick(page);
+    };
+
+    addAdorner(domElement, page);
+  };
 }
 
 var adornersConfig: { [index: string]: any[] } = {};
@@ -283,15 +307,15 @@ export function removeAdorners(names: string[] = undefined) {
 
 function onUpdateQuestionCssClasses(survey, options) {
   var classes = options.panel ? options.cssClasses.panel : options.cssClasses;
+  classes = options.page ? options.cssClasses.page : classes;
   Object.keys(adornersConfig).forEach(element => {
     adornersConfig[element].forEach(adorner => {
       var classesElementName = adorner.getElementName(
-        options.question || options.panel
+        options.question || options.panel || options.page
       );
       var adornerMarkerClass = adorner.getMarkerClass(
-        options.question || options.panel
+        options.question || options.panel || options.page
       );
-
       classes[classesElementName] = applyAdornerClass(
         classes[classesElementName],
         adornerMarkerClass
@@ -337,7 +361,9 @@ function addAdorner(node, model) {
         if (node.className.split(" ").indexOf(elementClass) !== -1) {
           elements.unshift(node);
         }
-        elements = filterNestedQuestions(node, elements);
+        if (model.getType() !== "page") {
+          elements = filterNestedQuestions(node, elements);
+        }
         if (
           elements.length === 0 &&
           node.className.indexOf(elementClass) !== -1
@@ -345,11 +371,11 @@ function addAdorner(node, model) {
           elements = [node];
         }
         if (elements.length > 0) {
-          var editor =  getSurvey(model).getEditor();
-          if(editor.readOnly)
-            adorner.renderReadOnly && adorner.renderReadOnly(elements, model, editor);
-          else
-            adorner.afterRender(elements, model, editor);
+          var editor = getSurvey(model).getEditor();
+          if (editor.readOnly)
+            adorner.renderReadOnly &&
+              adorner.renderReadOnly(elements, model, editor);
+          else adorner.afterRender(elements, model, editor);
         }
       }
     });

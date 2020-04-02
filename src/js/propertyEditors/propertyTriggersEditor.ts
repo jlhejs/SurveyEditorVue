@@ -201,7 +201,7 @@ export class SurveyPropertyTriggersEditor extends SurveyPropertyItemsEditor {
     return !!this.object ? this.object : this.editingObject;
   }
   private getOrigionalSurvey(): Survey.Model {
-    return EditableObject.getOrigionalSurvey(this.getSurvey());
+    return EditableObject.getOriginalSurvey(this.getSurvey());
   }
 }
 export class SurveyPropertyTrigger {

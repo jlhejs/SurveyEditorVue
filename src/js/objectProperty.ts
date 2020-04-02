@@ -22,7 +22,7 @@ export class SurveyObjectProperty {
   public onDependedPropertyUpdateCallback: (propertyName: string) => void;
   public koVisible: any;
 
-  koIsShowEditor = Vue.observable(false);
+  isShowEditor = Vue.observable(false);
 
   constructor(
     public property: Survey.JsonObjectProperty,
@@ -59,7 +59,7 @@ export class SurveyObjectProperty {
   public set isActive(val: boolean) {
     if (this.isActive == val) return;
     this.isActiveValue = val;
-    this.koIsShowEditor=!this.disabled && (this.editor.alwaysShowEditor || this.isActive);
+    this.isShowEditor=!this.disabled && (this.editor.alwaysShowEditor || this.isActive);
   }
   public get value(): any {
     return this.editor.value;

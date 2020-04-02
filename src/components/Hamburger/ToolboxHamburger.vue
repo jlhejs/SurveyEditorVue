@@ -1,6 +1,6 @@
 <template>
-  <span @click="toggleClick">
-    <i :class="[isActive?'':'is-active','hamburger','el-icon-s-fold']"  ></i>
+  <span @click="editor.changeHideToolboxCollapse()">
+    <i :class="[editor.hideToolboxCollapse?'':'is-active','hamburger','el-icon-s-fold']"  ></i>
   </span>
 </template>
 
@@ -10,25 +10,22 @@ export default {
   props: {
     editor: {
       type: Object,
-      default: true
+      default: {}
     }
   },
   data:function(){
-    return {
-    
-      
+    return { 
     }
   },
   methods: {
     toggleClick() {
-      this.editor.toolboxCollapse=!this.editor.toolboxCollapse
+    
     }
   },
   computed: {
     isActive:function(){
-        return !this.editor.toolboxCollapse
-      }
-    },
+    }
+  },
 }
 </script>
 <style scoped>

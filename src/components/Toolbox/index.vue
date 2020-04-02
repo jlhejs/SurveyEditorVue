@@ -1,7 +1,7 @@
 <template>
   <div  class="toolbox">
     <el-scrollbar>
-      <el-menu  class="toolbox-menu"  :collapse="isCollapse">
+      <el-menu  class="toolbox-menu"  :collapse="editor.hideToolboxCollapse">
         <template v-if="!editor.toolbox.koHasCategories()">
           <template v-for="(item,key) in editor.toolbox.koItems()">
             <el-menu-item :index="item.name" @click.native="editor.clickToolboxItem(item)" :key="item.name" class="toolbox-menu-item">
@@ -27,14 +27,12 @@
     },
     data() {
       return {
-        activeNames: ["1", "2", "3", "4"]
       }
     },
     methods: {
     },
     computed: {
-      isCollapse:function(){
-        return this.editor.toolboxCollapse
+      test:function(){
       }
     },
     created () {
