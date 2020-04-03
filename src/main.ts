@@ -15,6 +15,21 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+// import  ss from '../packages/index';
+// ss.install(Vue)
+const requireComponent = require.context('../packages/',true,/\.vue$/)
+const components={}
+requireComponent.keys().forEach(filename => {
+  //获取组件配置
+  const componentConfig = requireComponent(filename);
+  // //截取出组件名称
+  // filename = filename.replace(/^\.\//,'').replace(/.vue$/,'')
+  // //全局注册组件
+  // console.log(filename,componentConfig.default.name || componentConfig)
+  components[componentConfig.default.name]=componentConfig.default
+});
+console.log(components)
+
 
 
 import  editorModels from './components/index';
