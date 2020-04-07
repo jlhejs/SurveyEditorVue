@@ -28,7 +28,7 @@
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { default as QuestionVue } from "./question";
-import { QuestionRatetimeModel } from "../question_rate";
+import { QuestionRateModel } from "../question_rate";
 import SurveyRate from "./survey-rate-ele.vue";
 
 @Component({ // 引入子组件 
@@ -36,7 +36,7 @@ import SurveyRate from "./survey-rate-ele.vue";
       SurveyRate
     }
 })
-export class Rate extends QuestionVue<QuestionRatetimeModel> {
+export class Rate extends QuestionVue<QuestionRateModel> {
 
   changeValue(){
     this.question.elIsChange()

@@ -8,7 +8,7 @@ import { icons } from "./icons";
 /**
  * A Model for an input text question.
  */
-export class QuestionRatetimeModel extends Question {
+export class QuestionRateModel extends Question {
   constructor(public name: string) {
     super(name);
   }
@@ -174,7 +174,7 @@ export class QuestionRatetimeModel extends Question {
     { name: "highThreshold:number", default: 4 },
     { name: "voidColor:color", default: "#C6D1DE" },
     { name: "disabledVoidColor:color", default: "#C6D1DE" },
-    { name: "iconClasses:array", default:[], choices: icons},
+    // { name: "iconClasses:array", default:[], choices: icons},
     { name: "texts:array", default:[], choices: [] },
     { name: "showText:boolean", default: false },
     { name: "showScore:boolean", default: false },
@@ -192,11 +192,11 @@ export class QuestionRatetimeModel extends Question {
     ]},   
   ],
   function() {
-    return new QuestionRatetimeModel("");
+    return new QuestionRateModel("");
   },
   "question"
 );
 
 QuestionFactory.Instance.registerQuestion("rate", name => {
-  return new QuestionRatetimeModel(name);
+  return new QuestionRateModel(name);
 });
