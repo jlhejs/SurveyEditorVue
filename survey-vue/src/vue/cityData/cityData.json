@@ -690,7 +690,9 @@
             { "value": "659009", "label": "昆玉市", "children": [{ "value": "659009", "label": "昆玉市" }] }
         ]
     },
-    { "value": "710000", "label": "台湾省", "children": [{ "value": "710000", "label": "台湾省", "children": [{ "value": "710000", "label": "台湾省" }] }] },
+    { "value": "710000", 
+        "label": "台湾省", 
+        "children": [{ "value": "710100", "label": "台湾省", "children": [{ "value": "710101", "label": "台湾省" }] }] },
     {
         "value": "810000",
         "label": "香港特别行政区",
