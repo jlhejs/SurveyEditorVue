@@ -11,7 +11,6 @@ import { settings } from "./settings";
  */
 export class QuestionSliderModel extends Question {
   private rates: Array<ItemValue>;
-  private isChange: Boolean=false;
 
   rateValuesChangedCallback: () => void;
 
@@ -51,11 +50,7 @@ export class QuestionSliderModel extends Question {
   }
   protected hasRequiredError(): boolean {
     if(!this.isRequired){ return false}
-    if(!this.isChange){ return true }
     return false
-  }
-  public elIsChange(){
-    this.isChange=true
   }
   public clearIncorrectValues() {
     if (this.range) {
@@ -295,12 +290,21 @@ export class QuestionSliderModel extends Question {
     /**
    * 设置vertical可使 Slider 变成竖向模式，此时必须设置高度height属性
    */
-   public get vertical	(): boolean {
-     return this.getPropertyValue("vertical",false);
-   }
-   public set vertical(val: boolean) {
-     this.setPropertyValue("vertical", val);
-   }
+  public get vertical	(): boolean {
+    return this.getPropertyValue("vertical",false);
+  }
+  public set vertical(val: boolean) {
+    this.setPropertyValue("vertical", val);
+  }
+  /**
+  * 设置vertical可使 Slider 变成竖向模式，此时必须设置高度height属性
+  */
+  public get height	(): number {
+    return this.getPropertyValue("height",200);
+  }
+  public set height(val: number) {
+    this.setPropertyValue("height", val);
+  }
 }
 
 Serializer.addClass(
@@ -316,6 +320,7 @@ Serializer.addClass(
       name: "rateValues:itemvalue[]"
     },
     { name: "rateMin:number", default: 0 },
+    { name: "height:number", default: 200 },
     { name: "rateMax:number", default: 10 },
     { name: "rateStep:number", default: 1, minValue: 1 },
     { name: "showStops:boolean", default: false },

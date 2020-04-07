@@ -4,7 +4,6 @@
     <el-row :gutter="0"  style="padding-right: 3px;">
        <el-slider 
         v-model="question.value" 
-        @change="question.elIsChange()" 
        :min="question.rateMin"
        :max="question.rateMax"
        :disabled="question.isReadOnly"
@@ -28,44 +27,21 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { default as QuestionVue } from "./question";
 import { QuestionSliderModel } from "../question_slider";
-
-@Component
+import * as ele from "element-ui";
+var slider=ele.Slider
+console.log(slider)
+@Component({ // 引入子组件 
+    components: {
+      SurveySlider:slider
+    }
+})
 export class Slider extends QuestionVue<QuestionSliderModel> {
 
-  getItemClass(item: any) {
-    var question = this.question;
-    var cssClasses = question.cssClasses;
-    var isChecked = question.isItemSelected(item);
-    var isDisabled = question.isReadOnly || !item.isEnabled;
-    var allowHover = !isChecked && !isDisabled;
-    var itemClass = cssClasses.item;
-    if (!question.hasColumns) {
-      itemClass +=
-        question.colCount === 0
-          ? " " + cssClasses.itemInline
-          : " svrvey-q-col-" + question.colCount;
-    }
-    if (isDisabled) itemClass += " " + cssClasses.itemDisabled;
-    if (isChecked) itemClass += " " + cssClasses.itemChecked;
-    if (allowHover) itemClass += " " + cssClasses.itemHover;
-    return itemClass;
-  }
-  getSpan(item: any){
-    var question = this.question;
-    console.log(this)
-    if (question.hasColumns) {
-      return question.colCount === 0? "":  Math.floor(24/question.colCount)
-    }
-  }
-  options(){
-    var options=[]
-    return options
-  }
   style(){
     var style={height:"auto"};
     var question = this.question;
     if(question.vertical){
-      style.height="200px"
+      style.height=this.question.height+"px"||"200px"
     }
     return style
   }
