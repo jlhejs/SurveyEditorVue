@@ -5,7 +5,7 @@
       v-model="question.renderedValue" 
       :disabled="question.isReadOnly"
       :id="question.inputId" 
-      :placeholder="question.showOptionsCaption?question.optionsCaption:''"  
+      :placeholder="question.placeholder?question.placeholder:''"  
       :class="question.cssClasses.control" 
       v-bind:aria-label="question.locTitle.renderedHtml"
       :filterable="showFilterable()"
@@ -14,9 +14,7 @@
       :multiple="showMultiple()"
       :style="{ width: (question.inputWidth)+'px'}"
       :clearable="showClearable()">
-        <el-option
-        v-if="question.showOptionsCaption" :value="undefined" :label="question.optionsCaption" disabled>
-        </el-option>
+
         <el-option
         v-for="item in question.visibleChoices"
         :value="item.value"
@@ -25,7 +23,6 @@
         :disabled="!item.isEnabled">
         </el-option>
       </el-select>
-     
     </div>
     <span  v-if="isOtherSelected"
     :class="question.cssClasses.control">

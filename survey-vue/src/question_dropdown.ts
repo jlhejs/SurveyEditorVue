@@ -23,11 +23,11 @@ export class QuestionDropdownModel extends QuestionSelectBase {
   /**
    * This flag controls whether to show options caption item ('Choose...').
    */
-  public get showOptionsCaption(): boolean {
-    return this.getPropertyValue("showOptionsCaption");
+  public get placeholder(): boolean {
+    return this.getPropertyValue("placeholder");
   }
-  public set showOptionsCaption(val: boolean) {
-    this.setPropertyValue("showOptionsCaption", val);
+  public set placeholder(val: boolean) {
+    this.setPropertyValue("placeholder", val);
   }
   /**
    * Use this property to set the options caption different from the default value. The default value is taken from localization strings.
@@ -173,7 +173,7 @@ Serializer.addClass(
   "dropdown",
   [
     { name: "optionsCaption", serializationProperty: "locOptionsCaption" },
-    { name: "showOptionsCaption:boolean", default: true },
+    { name: "placeholder", default: "" },
     { name: "choicesMin:number", default: 0 },
     { name: "choicesMax:number", default: 0 },
     { name: "choicesStep:number", default: 1, minValue: 1 },
