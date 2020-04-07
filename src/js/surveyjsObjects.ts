@@ -106,6 +106,7 @@ function getSurvey(el: any): any {
 }
 
 function panelBaseOnCreating(self: any) {
+  debugger
   self.dragEnterCounter = 0;
   self.emptyElement = null;
   var vuebusbat= vueBus({value:false});
@@ -383,15 +384,15 @@ function addAdorner(node, model) {
 }
 
 Survey.PageModel.prototype["onCreating"] = function() {
-  console.log("onCreating")
+  // console.log("onCreating")
   panelBaseOnCreating(this);
 };
 var s=Survey
-console.log(s)
+ console.log(s)
 
 
 Survey.PageModel.prototype["onAfterRenderPage"] = function(el) {
-  console.log("onAfterRenderPage")
+  // console.log("onAfterRenderPage")
   if (!getSurvey(this).isDesignMode) return;
   var self = this;
   var dragDropHelper = getSurvey(this)["dragDropHelper"];

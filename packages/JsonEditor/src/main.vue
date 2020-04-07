@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-  name:"Jsoneditor",
-  componentName: 'Jsoneditor',
+  name:"JsonEditor",
+  componentName: 'JsonEditor',
   data: () => ({
-    test:"Jsoneditor"
+    test:"JsonEditor"
   }),
   computed: {
     computedTest () {

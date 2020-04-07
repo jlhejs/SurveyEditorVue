@@ -1,0 +1,44 @@
+{
+  "id": "1738785",
+  "name": "rate",
+  "font_family": "iconfont",
+  "css_prefix_text": "el-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11178032",
+      "name": "心",
+      "font_class": "rate-heart",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "13924513",
+      "name": "Favorite, star, rate",
+      "font_class": "rate-star",
+      "unicode": "e9e0",
+      "unicode_decimal": 59872
+    },
+    {
+      "icon_id": "845788",
+      "name": "笑脸",
+      "font_class": "rate-face2",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "845792",
+      "name": "心",
+      "font_class": "rate-collection",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "845793",
+      "name": "赞",
+      "font_class": "rate-praise",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    }
+  ]
+}

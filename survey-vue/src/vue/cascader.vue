@@ -45,14 +45,6 @@ import { QuestionCascaderModel } from "../question_cascader";
 
 @Component
 export class Cascader extends QuestionVue<QuestionCascaderModel> {
-  propsOption(){
-    var question = this.question;
-    var propsOption={}
-    if(question.multiple){
-      propsOption.multiple=question.multiple
-    }
-    return propsOption
-  }
   getItemClass(item: any) {
     var question = this.question;
     var cssClasses = question.cssClasses;
@@ -128,13 +120,12 @@ export class Cascader extends QuestionVue<QuestionCascaderModel> {
              ]
            }]
          }]
-    
-    for(var i=0;i<this.question.visibleChoices.length;i++){
-      options.push({
-        value:this.question.visibleChoices[i].value,
-        label: this.question.visibleChoices[i].text,
-      })
-    }
+    // for(var i=0;i<this.question.visibleChoices.length;i++){
+    //   options.push({
+    //     value:this.question.visibleChoices[i].value,
+    //     label: this.question.visibleChoices[i].text,
+    //   })
+    // }
       
     return options
   }

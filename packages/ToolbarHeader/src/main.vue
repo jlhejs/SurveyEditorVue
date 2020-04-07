@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-  name:"TabDesigner",
-  componentName: 'TabDesigner',
+  name:"ToolbarHeader",
+  componentName: 'ToolbarHeader',
   data: () => ({
-    test:"TabDesigner"
+    test:"ToolbarHeader"
   }),
   computed: {
     computedTest () {

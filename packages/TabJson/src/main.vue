@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-  name:"TabDesigner",
-  componentName: 'TabDesigner',
+  name:"TabJson",
+  componentName: 'TabJson',
   data: () => ({
-    test:"TabDesigner"
+    test:"TabJson"
   }),
   computed: {
     computedTest () {
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style scoped>
-  .style-test{
-    font-size: 16px;
-  }
-  </style>
+.style-test{
+  font-size: 16px;
+}
+</style>

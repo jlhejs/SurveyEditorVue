@@ -1018,11 +1018,9 @@ export class SurveyModel extends Base
   } 
 
   public get copyrightHtml(): string {
-    debugger
     return this.getLocalizableStringText("copyrightHtml");
   }
   public set copyrightHtml(value: string) {
-    debugger
     this.getLocString("copyrightHtml")
     this.setLocalizableStringText("copyrightHtml", value);
   }
@@ -2295,6 +2293,7 @@ export class SurveyModel extends Base
    * @see doComplete
    */
   public completeLastPage(): boolean {
+    debugger
     return this.doCurrentPageComplete(true);
   }
   protected doCurrentPageComplete(doComplete: boolean): boolean {
@@ -2408,6 +2407,7 @@ export class SurveyModel extends Base
    * @see completeLastPage
    */
   public doComplete() {
+    debugger
     var onCompletingOptions = { allowComplete: true };
     this.onCompleting.fire(this, onCompletingOptions);
     if (!onCompletingOptions.allowComplete) return;

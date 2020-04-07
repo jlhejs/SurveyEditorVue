@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-  name:"TabDesigner",
-  componentName: 'TabDesigner',
+  name:"TabTest",
+  componentName: 'TabTest',
   data: () => ({
-    test:"TabDesigner"
+    test:"TabTest"
   }),
   computed: {
     computedTest () {

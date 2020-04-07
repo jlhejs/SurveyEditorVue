@@ -2,11 +2,10 @@
   <fieldset :class="question.cssClasses.root">
     <legend v-bind:aria-label="question.locTitle.renderedHtml"></legend>
     <el-row :gutter="0"  :class="question.cssClasses.root">
-        <el-rate
-        @click.native="question.clearableValue"
-        @change="changeValue"
+        <SurveyRate       
         v-model="question.value" 
         :max="question.max"
+        :clearable="question.clearable"
         :disabled="question.isReadOnly"
         :show-score="question.showScore"
         :show-text="question.showText"
@@ -17,11 +16,10 @@
         :low-threshold="question.lowThreshold"
         :high-threshold="question.highThreshold"
         :colors="question.colors"
-        :icon-classes="question.iconClasses"
         :texts="question.texts"
         :disabled-void-color	="question.disabledVoidColor	"
         :allow-half	="question.allowHalf	"
-        class="rate"></el-rate>
+        class="rate"></SurveyRate>
     </el-row>
   </fieldset>
 </template>
@@ -31,10 +29,14 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { default as QuestionVue } from "./question";
 import { QuestionRatetimeModel } from "../question_rate";
+import SurveyRate from "./survey-rate-ele.vue";
 
-@Component
+@Component({ // 引入子组件 
+    components: {
+      SurveyRate
+    }
+})
 export class Rate extends QuestionVue<QuestionRatetimeModel> {
-  oldValue=0
 
   changeValue(){
     this.question.elIsChange()

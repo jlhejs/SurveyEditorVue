@@ -9,7 +9,6 @@ import { icons } from "./icons";
  * A Model for an input text question.
  */
 export class QuestionRatetimeModel extends Question {
-  private isChange: boolean=false;
   constructor(public name: string) {
     super(name);
   }
@@ -17,20 +16,11 @@ export class QuestionRatetimeModel extends Question {
     return "rate";
   }
   protected hasRequiredError(): boolean {
-    return this.isRequired && !this.isChange
+    return this.isRequired && !this.value
   }
   public elIsChange(){
-    this.isChange=true
   }
-  public clearableValue(){
-    var THIS=this
-    if(!this.question.clearable)return
-    if(this.question.value===this.oldValue){
-      this.question.value=0
-      this.question.isChange=false
-    }
-    this.oldValue=this.question.value
-  }
+
   /**
    * The text input size 输入框大小
    */
@@ -80,7 +70,7 @@ export class QuestionRatetimeModel extends Question {
    * zuidazhi 
    */
   public get max	(): number {
-    return this.getPropertyValue("max",10);
+    return this.getPropertyValue("max",5);
   }
   public set max(val: number) {
     this.setPropertyValue("max", val);
@@ -89,14 +79,14 @@ export class QuestionRatetimeModel extends Question {
    * 输入框尾部图标
    */
   public get lowThreshold		(): number {
-    return this.getPropertyValue("lowThreshold",3);
+    return this.getPropertyValue("lowThreshold",2);
   }
   public set lowThreshold(val: number) {
     this.setPropertyValue("lowThreshold", val);
   }
  
   public get highThreshold		(): number {
-    return this.getPropertyValue("highThreshold",7);
+    return this.getPropertyValue("highThreshold",4);
   }
   public set highThreshold(val: number) {
     this.setPropertyValue("highThreshold", val);
@@ -177,12 +167,11 @@ export class QuestionRatetimeModel extends Question {
  Serializer.addClass(
   "rate",
   [
-    
     { name: "clearable:boolean", default: false },
     { name: "max:number", default: 10 },
     { name: "allowHalf:boolean", default: false },
-    { name: "lowThreshold:number", default: 3 },
-    { name: "highThreshold:number", default: 7 },
+    { name: "lowThreshold:number", default: 2 },
+    { name: "highThreshold:number", default: 4 },
     { name: "voidColor:color", default: "#C6D1DE" },
     { name: "disabledVoidColor:color", default: "#C6D1DE" },
     { name: "iconClasses:array", default:[], choices: icons},

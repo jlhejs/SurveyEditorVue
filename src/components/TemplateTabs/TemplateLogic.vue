@@ -1,5 +1,6 @@
 <template>
   <div class="template-logic">
+    <SurveyEmpty></SurveyEmpty>
     <template v-if="editor.logic.mode == 'view' ">
       <el-button size="small" type="primary" icon="el-icon-plus" @click="editor.logic.koAddNew">{{editor.getLocString('pe.addNew')}}</el-button>
       <el-collapse accordion class="logic-items" v-if="editor.logic.koItems.length>0">
@@ -80,7 +81,12 @@
       }
     },
     updated() {
-      console.log(this.editor.logic)
+      console.log(this.$el)
+      var decoration = document.createElement("div");
+      decoration.className = "svda-question-actions";
+      decoration.innerHTML =
+      "<template>11111111111<SurveyEditor></SurveyEditor></template>";
+      this.$el.appendChild(decoration);
     },
     computed: {
       showDialog:function(){

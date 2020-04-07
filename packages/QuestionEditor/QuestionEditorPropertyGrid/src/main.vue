@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-  name:"TabDesigner",
-  componentName: 'TabDesigner',
+  name:"QuestionEditorPropertyGrid",
+  componentName: 'QuestionEditorPropertyGrid',
   data: () => ({
-    test:"TabDesigner"
+    test:"QuestionEditorPropertGrid"
   }),
   computed: {
     computedTest () {

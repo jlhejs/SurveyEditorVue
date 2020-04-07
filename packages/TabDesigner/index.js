@@ -1,8 +1,8 @@
-import SurveyLive from './src/main.vue';
+import TabDesigner from './src/main.vue';
 
 /* link:survey-creator component   */
-SurveyLive.install = function(Vue) {
-  Vue.component(SurveyLive.name, SurveyLive);
+TabDesigner.install = function(Vue) {
+  Vue.component(TabDesigner.name, TabDesigner);
 };
 
-export default SurveyLive;
+export default TabDesigner;
