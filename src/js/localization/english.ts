@@ -608,7 +608,32 @@ export var enStrings = {
     "allowDigits": "允许数字",
     "minCount": "最小数",
     "maxCount": "最大数",
-    "regex": "正则表达式"
+    "regex": "正则表达式",
+
+    // 滑块题
+    "range": "范围选择",
+    "vertical": "竖向模式",
+    "showInput": "输入框",
+    "showInputControls": "输入框按钮",
+    "inputBoxSize": "输入框尺寸",
+    "showTooltip": "提示工具",
+    "showStops": "间断点",
+
+    // 星星题
+    "voidIconClass": "图标",
+    "allowHalf": "半选",
+    "colors": "颜色",
+    "disabledVoidColor": "只读时未选中颜色",
+    "highThreshold": "高界限值",
+    "lowThreshold": "低界限值",
+    "max": "最大值",
+    "scoreTemplate": "值模板",
+    "showScore": "值显示",
+    "showText": "辅助文字",
+    "textColor": "辅助文字颜色",
+    "texts": "辅助文字数组",
+    "voidColor": "未选中颜色",
+    "reeaeaea":""
   },
   "pv": {
     "defaultTheme": "默认主题",

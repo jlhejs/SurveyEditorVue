@@ -52,10 +52,10 @@ export var editorLocalization = {
     if (obj["title"]) return obj["title"];
     return "";
   },
-  getPropertyNameInEditor: function(strName: string, locale: string = null) {
+  getPropertyInEditor: function(strName: string, locale: string = null) {
     var obj = this.getString("pe." + strName, locale);
     if (obj !== strName) return obj;
-    return this.getPropertyName(strName);
+    return this.getProperty(strName);
   },
   getProperty: function(strName: string, locale: string = null) {
     var obj = this.getString("p." + strName, locale);
@@ -93,7 +93,7 @@ export var editorLocalization = {
     if (!loc) loc = defaultStrings;
     return loc;
   },
-  getValueInternal(value: any, prefix: string, locale: string = "") {
+  getValueInternal(value: any, prefix: string, locale: string = null) {
     if (value === "" || value === null || value === undefined) return "";
     value = value.toString();
     var loc = this.getLocale(locale);
