@@ -106,7 +106,6 @@ function getSurvey(el: any): any {
 }
 
 function panelBaseOnCreating(self: any) {
-  debugger
   self.dragEnterCounter = 0;
   self.emptyElement = null;
   var vuebusbat= vueBus({value:false});

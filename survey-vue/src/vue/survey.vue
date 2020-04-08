@@ -127,6 +127,7 @@
             :title="survey.emptySurveyText"
             type="error">
           </el-alert>
+          <survey-empty></survey-empty>
          </div>
       </div>
       

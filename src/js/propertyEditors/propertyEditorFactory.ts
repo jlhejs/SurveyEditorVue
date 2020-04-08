@@ -259,3 +259,12 @@ export class SurveyArrayPropertyEditor extends SurveyDropdownPropertyEditor {
     return "array";
   }
 }
+
+// export class SurveyHtmlPropertyEditor extends SurveyDropdownPropertyEditor {
+//   constructor(property: Survey.JsonObjectProperty) {
+//     super(property);
+//   }
+//   public get editorType(): string {
+//     return "array";
+//   }
+// }

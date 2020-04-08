@@ -1,5 +1,5 @@
 <template>
-    <div></div>
+    <div @click="test"></div>
 </template>
 
 <script lang="ts">
@@ -10,6 +10,9 @@
 
     @Component
     export class Empty extends QuestionVue<QuestionEmptyModel> {
+        test(){
+            console.log(this)
+        }
     }
     Vue.component("survey-empty", Empty)
     export default Empty;

@@ -36,6 +36,7 @@ export class SurveyObjectProperty {
     var onItemChanged = function(newValue) {
       self.onEditorValueChanged(newValue);
     };
+    debugger
     this.editor = SurveyPropertyEditorFactory.createEditor(
       property,
       onItemChanged

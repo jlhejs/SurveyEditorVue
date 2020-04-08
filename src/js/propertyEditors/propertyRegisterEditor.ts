@@ -1,7 +1,15 @@
 
 import * as Survey from "survey-vue";
 import { SurveyPropertyEditorBase } from "./propertyEditorBase";
-import { SurveyPropertyEditorFactory, SurveyStringPropertyEditor, SurveyDropdownPropertyEditor, SurveyColorPropertyEditor, SurveyArrayPropertyEditor,SurveyBooleanPropertyEditor, SurveyNumberPropertyEditor} from "./propertyEditorFactory";
+import { 
+  SurveyPropertyEditorFactory, 
+  SurveyStringPropertyEditor, 
+  SurveyDropdownPropertyEditor, 
+  SurveyColorPropertyEditor, 
+  SurveyArrayPropertyEditor,
+  SurveyBooleanPropertyEditor, 
+  SurveyNumberPropertyEditor
+} from "./propertyEditorFactory";
 import { SurveyPropertyCalculatedValueEditor } from "./propertyCalculatedValues";
 import { SurveyPropertyCellsEditor } from "./propertyCellsEditor";
 import { SurveyPropertyConditionEditor } from "./propertyConditionEditor";
