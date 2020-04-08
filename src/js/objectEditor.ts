@@ -10,9 +10,9 @@ import { SurveyHelper } from "./surveyHelper";
 export class SurveyObjectEditor {
   private selectedObjectValue: any;
   private oldActiveProperty: SurveyObjectProperty = null;
-  public properties = Vue.observable([]);
-  public koActiveProperty = Vue.observable({});
-  public koHasObject = Vue.observable<boolean>(true);
+  public properties =[];
+  public koActiveProperty:any=null;
+  public koHasObject = true;
   public onPropertyValueChanged: Survey.Event<(sender: SurveyObjectEditor, options: any)=>any,
   any> = new Survey.Event<  (sender: SurveyObjectEditor, options: any) => any,  any>();
   public onSortPropertyCallback: (object: any,  property1: Survey.JsonObjectProperty,  property2: Survey.JsonObjectProperty) => number;
