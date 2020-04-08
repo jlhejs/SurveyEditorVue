@@ -16,7 +16,7 @@
     <el-divider class="editor-advanced-divider"></el-divider>
     <el-scrollbar class="seditor-advanced-editor">
       <el-row class="seditor-advanced-editor-box">
-        <template v-for="(item,key) in editor.selectedObjectEditor.koProperties">
+        <template v-for="(item,key) in editor.selectedObjectEditor.properties">
           <ObjectEditorProperty :property="item" :key="key"></ObjectEditorProperty>
         </template>
       </el-row>

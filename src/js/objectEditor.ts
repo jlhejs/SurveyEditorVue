@@ -10,7 +10,7 @@ import { SurveyHelper } from "./surveyHelper";
 export class SurveyObjectEditor {
   private selectedObjectValue: any;
   private oldActiveProperty: SurveyObjectProperty = null;
-  public koProperties = Vue.observable([]);
+  public properties = Vue.observable([]);
   public koActiveProperty = Vue.observable({});
   public koHasObject = Vue.observable<boolean>(true);
   public onPropertyValueChanged: Survey.Event<(sender: SurveyObjectEditor, options: any)=>any,
@@ -42,7 +42,7 @@ export class SurveyObjectEditor {
     this.updatePropertiesObject();
   }
   public getPropertyEditor(name: string): SurveyObjectProperty {
-    var properties = this.koProperties;
+    var properties = this.properties;
     for (var i = 0; i < properties.length; i++) {
       if (properties[i].name == name) return properties[i];
     }
@@ -70,7 +70,7 @@ export class SurveyObjectEditor {
   }
   protected updateProperties() {
     if (!this.selectedObject || !this.selectedObject.getType) {
-      this.koProperties=[];
+      this.properties=[];
       this.koActiveProperty=null;
       return;
     }
@@ -133,7 +133,7 @@ export class SurveyObjectEditor {
       objectProperties.push(objectProperty);
     }
     objectProperties.sort(sortEvent);
-    this.koProperties=objectProperties;
+    this.properties=objectProperties;
     var propEditor = this.getPropertyEditor("name");
     if (!propEditor && objectProperties.length > 0) {
       propEditor = this.getPropertyEditor(objectProperties[0].name);
@@ -157,7 +157,7 @@ export class SurveyObjectEditor {
     );
   }
   protected updatePropertiesObject() {
-    var properties = this.koProperties;
+    var properties = this.properties;
     for (var i = 0; i < properties.length; i++) {
       properties[i].object = this.selectedObject;
     }

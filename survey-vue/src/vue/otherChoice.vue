@@ -1,6 +1,5 @@
 <template>
-  <div class="other">
-    <el-input 
+  <el-input 
     v-model="question.comment" 
     :readonly="question.isReadOnly"
     :disabled="question.isReadOnly" 
@@ -8,19 +7,8 @@
     :placeholder="question.otherPlaceHolder"
     v-bind:aria-label="question.locTitle.renderedHtml"
     size="mini"
-    class="other-input"
+    class="other other-input"
    ></el-input>
-    <!-- <textarea
-      :readonly="question.isReadOnly"
-      :disabled="question.isReadOnly"
-      :value="question.comment"
-      :maxlength="question.getOthersMaxLength()"
-      :placeholder="question.otherPlaceHolder"
-      v-bind:aria-label="question.locTitle.renderedHtml"
-      @change="change"
-      @keyup="keyup"
-    />  -->
-  </div>
 </template>
 
 <script lang="ts">
@@ -43,11 +31,8 @@ Vue.component("survey-other-choice", OtherChoice);
 export default OtherChoice;
 </script>
 <style scoped>
-  .other{
-    display: inline-block;
-  }
-.other-input{
-  display: inline;
+.other{
+  display: inline-block;
   width: auto;
 }
 </style>

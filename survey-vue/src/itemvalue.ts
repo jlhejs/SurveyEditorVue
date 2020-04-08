@@ -212,6 +212,9 @@ export class ItemValue extends Base {
   }
   setLocText(locText: LocalizableString) {
     this.locTextValue = locText;
+  } 
+  public set LocText(locText: LocalizableString) {
+    this.locTextValue = locText;
   }
   public get locOwner(): ILocalizableOwner {
     return this.locText.owner;
