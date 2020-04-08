@@ -268,6 +268,8 @@ export class ItemValue extends Base {
     return res;
   }
   public setData(value: any) {
+    debugger
+
     if (Helpers.isValueEmpty(value)) return;
     if (typeof value.value !== "undefined") {
       var json = value;

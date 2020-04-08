@@ -3587,6 +3587,7 @@ export class SurveyModel extends Base
     newValue: string,
     locNotification: any = false
   ) {
+    debugger
     if (!newValue) newValue = "";
     if (Helpers.isTwoValueEquals(newValue, this.getComment(name))) return;
     var commentName = name + this.commentPrefix;
@@ -3605,6 +3606,7 @@ export class SurveyModel extends Base
       this.tryGoNextPageAutomatic(name);
     }
     var question = this.getQuestionByName(name);
+    debugger
     if (question) {
       this.onValueChanged.fire(this, {
         name: commentName,
