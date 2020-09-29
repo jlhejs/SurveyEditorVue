@@ -24,7 +24,6 @@ export class DragDropTargetElement {
     return this.page.dragDropMoveTo(destination, isBottom, isEdge);
   }
   public doDrop(): any {
-    debugger
     this.clearCore();
     return this.page.dragDropFinish();
   }

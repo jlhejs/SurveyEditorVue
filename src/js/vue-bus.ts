@@ -5,7 +5,6 @@ export default function vueBus(data){
    data:data,
    watch: {
     vueIsDragging(val) {
-     debugger
     }
   }
   })

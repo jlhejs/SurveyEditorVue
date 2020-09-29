@@ -29,7 +29,6 @@
     },
     methods: {
       valueChanged:function(){
-        debugger
         this.property.editor.onValueChanged(this.property.value)
       }
     },

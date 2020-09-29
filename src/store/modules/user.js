@@ -41,7 +41,6 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
-      // debugger
     })
   },
 

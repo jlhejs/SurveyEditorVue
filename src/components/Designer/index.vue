@@ -23,7 +23,6 @@
     created() {
     },
     updated() {
-    //  debugger
     },
   }
 </script>

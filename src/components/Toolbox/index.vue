@@ -36,7 +36,6 @@
       }
     },
     created () {
-      // debugger
     }
   })
   export default class Toolbox extends Vue {

@@ -710,7 +710,6 @@ export class SurveyLogic implements ISurveyLogicItemOwner {
     //   return !!self.koErrorText();
     // });
     this.koAddNew = function() {
-      debugger
       self.addNew();
     };
     this.koEditItem = function(item: SurveyLogicItem) {

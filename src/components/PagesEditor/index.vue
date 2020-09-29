@@ -67,7 +67,6 @@
     },
     computed: {
       "PagesEditor.pagesSelection"(){
-        debugger
         return this.PagesEditor.computedPagesEditorPagesSelection()
       }
     },

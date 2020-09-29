@@ -66,7 +66,6 @@
       sunyytest:function(){
         console.log(this)
         console.log(this.data)
-        debugger
       },
       aceInput:function(){
         var errors = createAnnotations(

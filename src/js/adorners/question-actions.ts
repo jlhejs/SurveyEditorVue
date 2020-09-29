@@ -24,7 +24,6 @@
      return editorLocalization.getString(entryString);
    }
  }
- debugger
  ko.components.register("question-actions", {
    viewModel: {
      createViewModel: (params, componentInfo) => {
