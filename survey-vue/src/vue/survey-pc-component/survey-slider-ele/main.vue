@@ -78,7 +78,6 @@
   import SliderButton from './button.vue';
   import SliderMarker from './marker.js';
   import Emitter from 'element-ui/src/mixins/emitter.js';
-
   export default {
     name: 'ElSlider',
 
