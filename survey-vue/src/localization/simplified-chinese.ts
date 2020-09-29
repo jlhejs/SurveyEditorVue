@@ -3,7 +3,7 @@ import { surveyLocalization } from "../surveyStrings";
 export var simplifiedChineseSurveyStrings = {
   title: "问卷标题",
   description: "为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！",
-  copyrightHtml: '<div>系统由<a href="https://esurvey.zkey.cc/" style="text-decoration: none;color: inherit;">易研问卷</a> 提供</div><div><a href="https://www.zkey.cc/" style="text-decoration: none;color: inherit;"> 中科易研（北京）科技有限公司 </a></div><div>联系方式:010 - 56036485　地址:北京市西城区马甸桥裕民路18号北环中心A座505</div>',
+  copyrightHtml: 'footer',
   pagePrevText: "上一页",
   pageNextText: "下一页",
   completeText: "提交问卷",

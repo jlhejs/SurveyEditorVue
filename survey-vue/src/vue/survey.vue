@@ -2,7 +2,6 @@
   <div :class="css.root" :style="{ background: survey.underpainting }">
     <form onsubmit="return false;" class="survey-form" :style="{ background: survey.typePageUnderpainting,width: survey.areaWidth+'px' }">
       <survey-heeader :survey="survey"></survey-heeader>
-     
       <div :class="css.container" >
         <div v-if="hasTitle" :class="css.header">
           <h3 :class="css.title">
@@ -92,7 +91,7 @@
             >
             <el-button size="medium" v-if="!survey.isFirstPage && survey.isShowPrevButton"  :class="getNavBtnClasses('prev')"  @click="prevPage">{{survey.pagePrevText}}</el-button>
             <el-button size="medium" v-if="!survey.isLastPage"  :class="getNavBtnClasses('next')"  @click="nextPage">{{survey.pageNextText}}</el-button>
-            <el-button size="medium" type="primary"  v-if="survey.isEditMode" v-show="survey.isLastPage" :class="getNavBtnClasses('complete')"@click="completeLastPage">{{survey.completeText}}</el-button>
+            <el-button size="medium" type="primary"  v-if="survey.isEditMode" v-show="survey.isLastPage" :class="getNavBtnClasses('complete')" @click="completeLastPage">{{survey.completeText}}</el-button>
             </div>
           </div>
         </template>

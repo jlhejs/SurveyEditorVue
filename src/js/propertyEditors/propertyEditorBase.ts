@@ -76,6 +76,8 @@ export interface ISurveyObjectEditorOptions {
     reason: string,
     surveyType?: new (json: any) => Survey.Model
   );
+  stopUndoRedoTransaction()
+  startUndoRedoTransaction()
 }
 
 export class SurveyPropertyEditorBase implements Survey.ILocalizableOwner {

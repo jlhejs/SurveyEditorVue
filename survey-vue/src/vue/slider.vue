@@ -29,7 +29,7 @@ import { default as QuestionVue } from "./question";
 import { QuestionSliderModel } from "../question_slider";
 import * as ele from "element-ui";
 var slider=ele.Slider
-console.log(slider)
+
 @Component({ // 引入子组件 
     components: {
       SurveySlider:slider

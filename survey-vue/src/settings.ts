@@ -54,5 +54,21 @@ export var settings = {
   /**
    * Disable the question while choices are getting from the web service
    */
-  disableOnGettingChoicesFromWeb: false
+  disableOnGettingChoicesFromWeb: false,
+  /**
+   * 作者
+   */
+  author: false,
+  /**
+   * Disable the question while choices are getting from the web service
+   */
+  contact: '132600111XX',
+  /**
+   * Disable the question while choices are getting from the web service
+   */
+  appName: 'sunny survey',
+  /**
+   * Disable the question while choices are getting from the web service
+   */
+  address: 'XX省XX市XX街道XX号'
 };

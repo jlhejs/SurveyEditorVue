@@ -6,7 +6,7 @@ export let Version: string;
 Version = `${process.env.VERSION}`;
 
 export { settings } from "../../settings";
-export { Helpers } from "../../helpers";
+export { Helpers, HashTable } from "../../helpers";
 export {
   AnswerCountValidator,
   EmailValidator,
@@ -19,7 +19,7 @@ export {
   ValidatorRunner
 } from "../../validator";
 export { ItemValue } from "../../itemvalue";
-export { Base, Event, SurveyError, ISurvey, SurveyElement } from "../../base";
+export { Base, Event, SurveyError, ISurvey, SurveyElement, IElement } from "../../base";
 export { CalculatedValue } from "../../calculatedValue";
 export {
   CustomError,

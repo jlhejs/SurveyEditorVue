@@ -70,6 +70,7 @@
 
   .seditor-advanced-editor {
     height: calc(100% - 50px);
+    width: 100%;
   }
 
   .seditor-advanced-editor-box {

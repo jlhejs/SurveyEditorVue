@@ -156,7 +156,7 @@ export class SurveyPropertyConditionEditor extends SurveyPropertyTextEditor {
   public get isExpressionValid(): boolean {
     return this.koIsTextConditionValid() && !!this.koTextValue();
   }
-  protected onValueChanged() {
+  public onValueChanged() {
     this.koTextValue(this.value);
   }
   private getConditionQuestions(): any[] {

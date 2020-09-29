@@ -8,7 +8,9 @@
 // import { getNextValue, findParentNode } from "../utils/utils";
 
 // import "./item-editor.scss";
-// import { QuestionSelectBase } from "survey-vue";
+import { QuestionSelectBase } from "survey-vue";
+
+
 // // var templateHtml = require("html-loader?interpolate!val-loader!./item-editor.html");
 
 // class ItemInplaceEditor extends TitleInplaceEditor {
@@ -100,45 +102,46 @@
    getElementName: model => "controlLabel",
    afterRender: (elements: HTMLElement[], model: QuestionSelectBase, editor) => {
      for (var i = 0; i < elements.length; i++) {
-       elements[i].onclick = e => e.preventDefault();
-       var decoration = document.createElement("span");
-       decoration.className = "svda-adorner-root";
-       var itemValue = ko.dataFor(elements[i]);
-       var propertyName = itemAdorner.inplaceEditForValues ? "value" : "text";
-       var target = itemValue;
-       if (itemValue === model["selectAllItem"]) {
-         target = model;
-         propertyName = "selectAllText";
-       }
-       if (itemValue === model["noneItemValue"]) {
-         target = model;
-         propertyName = "noneText";
-       }
-       if (itemValue === model["otherItemValue"]) {
-         target = model;
-         propertyName = "otherText";
-       }
-       decoration.innerHTML =
-         "<item-editor params='name: \"" +
-         propertyName +
-         "\", target: target, item: item, question: question, editor: editor'></item-editor>";
-       elements[i].appendChild(decoration);
-       ko.applyBindings(
-         {
-           item: itemValue,
-           question: model,
-           target: target,
-           editor: editor
-         },
-         decoration
-       );
-       ko.tasks.runEarly();
-       editor.onAdornerRenderedCallback(
-         model,
-         "choices-label",
-         decoration,
-         itemValue
-       );
+      elements[i].onclick = e => e.preventDefault();
+      var decoration = document.createElement("span");
+      decoration.className = "svda-adorner-root";
+      //  var itemValue = ko.dataFor(elements[i]);
+       var itemValue:any = elements[i]; 
+      var propertyName = itemAdorner.inplaceEditForValues ? "value" : "text";
+      var target:any = itemValue;
+      if (itemValue === model["selectAllItem"]) {
+        target = model;
+        propertyName = "selectAllText";
+      }
+      if (itemValue === model["noneItemValue"]) {
+        target = model;
+        propertyName = "noneText";
+      }
+      if (itemValue === model["otherItemValue"]) {
+        target = model;
+        propertyName = "otherText";
+      }
+      decoration.innerHTML =
+        "<item-editor params='name: \"" +
+        propertyName +
+        "\", target: target, item: item, question: question, editor: editor'></item-editor>";
+      elements[i].appendChild(decoration);
+      // ko.applyBindings(
+      //   {
+      //     item: itemValue,
+      //     question: model,
+      //     target: target,
+      //     editor: editor
+      //   },
+      //   decoration
+      // );
+      // ko.tasks.runEarly();
+      editor.onAdornerRenderedCallback(
+        model,
+        "choices-label",
+        decoration,
+        itemValue
+      );
      }
    }
  };

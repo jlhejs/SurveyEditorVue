@@ -11,7 +11,7 @@ import { ConditionRunner } from "./conditions";
 import { settings } from "./settings";
 
 /**
- * It is a base class for checkbox, dropdown and radiogroup questions.
+ * It is a base class for checkbox, dropdown and radiogroup questions. 
  */
 export class QuestionSelectBase extends Question {
   private filteredChoicesValue: Array<ItemValue> = null;

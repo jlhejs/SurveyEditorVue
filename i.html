@@ -1,0 +1,138 @@
+<!Doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport'
+    content='width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no' />
+  <title>实验</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .progress {
+      height: 50px;
+      background-color: red;
+    }
+  </style>
+  <link rel="stylesheet" href="assets/webuploader.css" rel="external nofollow">
+</head>
+
+<body>
+
+  <div class="myuploader">
+    <!--用来存放文件信息-->
+    <div class="uploader-list">
+    </div>
+    <!-- 放置按钮 -->
+    <div class="btns">
+      <div id="picker">选择文件</div>
+      <!-- <button class="send">开始上传</button> -->
+    </div>
+  </div>
+  <img src="" alt="" />
+  <div class="state"></div>
+  <div class="progess"></div>
+
+  <script src="assets/jquery-1.12.0.js"></script>
+  <script src="assets/webuploader.html5only.min.js"></script>
+  <script>
+    // 初始化WebUploader 
+    var uploader = WebUploader.create({
+      // 选完文件后是否自动上传
+      auto: true,
+
+      // 文件接收的服务端路径
+      server: 'http://webuploader.duapp.com/server/fileupload.php',
+
+      // 选择文件的按钮
+      pick: '#picker',
+
+      // 只允许选择图片文件
+      accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/jpg,image/jpeg,image/png' //如果写成image/*会出现响应慢的问题
+      },
+
+      // 配置生成缩略图的选项
+      thumb: {
+        // 缩略图的宽高，当取值介于0-1时，被当成百分比使用
+        width: 500,
+        height: 250,
+        // 强制转换成指定的类型
+        type: "image/jpeg",
+        // 图片质量，只有type为image/jpeg的时候才有效
+        quality: 70,
+        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false
+        allowMagnify: true,
+        // 是否允许裁剪
+        crop: true
+      },
+
+      // 是否压缩图片, 默认如果是jpeg文件上传前会压缩，如果是false, 则图片在上传前不进行压缩
+      compress: {
+        // 压缩后的尺寸
+        width: 100,
+        height: 100,
+        // 图片质量，只有type为image/jpeg的时候才有效。
+        quality: 90,
+        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false
+        allowMagnify: false,
+        // 是否允许裁剪
+        crop: false,
+        // 是否保留头部meta信息
+        preserveHeaders: true,
+        // 如果发现压缩后文件大小比原来还大，则使用原来图片，此属性可能会影响图片自动纠正功能
+        noCompressIfLarger: false,
+        // 单位字节，如果图片大小小于此值，不会采用压缩
+        compressSize: 0
+      }
+    });
+    // 监听fileQueued事件来处理UI逻辑，当有一批文件被添加进队列改用filesQueued
+    uploader.on('fileQueued', function (file) {
+      // 可以在控制台中查看file对象的详细信息
+      console.log(file);
+      // 创建缩略图 makeThumb，还可以写成(file,callback,width,height)
+      uploader.makeThumb(file, function (error, src) {
+        if (error) {
+          console.log("不能预览");
+          return;
+        } else {
+          $("img").attr('src', src);
+        }
+      });
+    });
+    // 文件上传开始
+    uploader.on('startUpload', function (file) {
+      $(".state").text('开始');
+    });
+    // 文件上传进度
+    uploader.on('uploadProgress', function (file, percentage) {
+      $(".progress").css('width', percentage * 100 + "%");
+    });
+    // 文件上传成功
+    uploader.on('uploadSuccess', function (file) {
+      console.log("成功");
+      $(".state").text('已上传');
+    });
+    // 文件上传失败
+    uploader.on('uploadError', function (file) {
+      console.log("失败");
+      $(".state").text('上传出错');
+      // 获取文件统计信息
+      console.log(uploader.getStats());
+      //
+      console.log(uploader.getFiles('error'));
+    });
+    // 文件上传完成
+    uploader.on('uploadComplete', function (file) {
+      console.log("完成");
+      $(".progress").fadeOut();
+    });    
+  </script>
+</body>
+
+</html>

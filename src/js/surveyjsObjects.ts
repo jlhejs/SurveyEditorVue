@@ -15,26 +15,13 @@ export interface ISurveyObjectMenuItem {
   hasTitle?: boolean;
   template?: string;
 }
-
 export class SurveyForDesigner extends Survey.Model {
   private selectedElementValue: any;
   editQuestionClick: any;
-  public onSelectedElementChanged: Survey.Event<
-   (sender: Survey.Model , options: any) => any,
-    any
-  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
-  public onEditButtonClick: Survey.Event<
-    (sender: Survey.Model , options: any) => any,
-    any
-  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
-  public onGetMenuItems: Survey.Event<
-    (sender: Survey.Model , options: any) => any,
-    any
-  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
-  public onElementDoubleClick: Survey.Event<
-    (sender: Survey.Model , options: any) => any,
-    any
-  > = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
+  public onSelectedElementChanged: Survey.Event<(sender: Survey.Model , options: any) => any, any> = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
+  public onEditButtonClick: Survey.Event<(sender: Survey.Model , options: any) => any,any> = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
+  public onGetMenuItems: Survey.Event<(sender: Survey.Model , options: any) => any,any> = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
+  public onElementDoubleClick: Survey.Event< (sender: Survey.Model , options: any) => any, any> = new Survey.Event<(sender: Survey.Model , options: any) => any, any>();
   public onUpdateElementAllowingOptions: (options: any) => any;
   constructor(
     jsonObj: any = null,

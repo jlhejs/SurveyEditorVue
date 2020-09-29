@@ -804,7 +804,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
 
     StylesManager.applyTheme(StylesManager.currentTheme);
 
-    this.pages = Vue.observable<Survey.Page>([]);
+    this.pages = '';
 
     this.showSaveButton = Vue.observable(false);
     this.testSurveyWidth = Vue.observable("100%");

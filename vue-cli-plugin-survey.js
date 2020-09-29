@@ -112,7 +112,7 @@ var optionsFn = function(options) {
     name: "survey-" + options.platform,
     version: packageJson.version,
     description:
-      "survey-vue.js aouth:sunyy@zkey.cc",
+      "survey-vue.js aouth:sunny",
     keywords: ["Survey", "JavaScript", "Bootstrap", "Library"].concat(
       platformOptions[options.platform].keywords
     ),
