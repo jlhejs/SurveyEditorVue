@@ -150,7 +150,6 @@ const install = function(Vue) {
 
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
-  debugger
   install(window.Vue);
 }
 export default {

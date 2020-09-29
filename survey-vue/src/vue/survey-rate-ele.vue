@@ -243,7 +243,6 @@
       value(val) {
         this.currentValue = val;
         this.pointerAtLeftHalf = this.value !== Math.floor(this.value);
-        debugger
       }
     },
 

@@ -154,7 +154,6 @@ export class Survey extends Vue {
     super();
   }
   created() {
-  //  debugger 
   }
   mounted() {
     var el = this.$el;

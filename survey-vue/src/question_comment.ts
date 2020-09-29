@@ -60,7 +60,6 @@ export class QuestionCommentModel extends Question {
     return this.getPropertyValue("cols");
   }
   public set cols(val: number) {
-    debugger
     this.setPropertyValue("cols", val);
   }
   public getType(): string {

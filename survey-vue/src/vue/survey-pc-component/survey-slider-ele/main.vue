@@ -74,7 +74,6 @@
 </template>
 
 <script type="text/babel">
-debugger
   import ElInputNumber from 'element-ui/packages/input-number/index.js';
   import SliderButton from './button.vue';
   import SliderMarker from './marker.js';

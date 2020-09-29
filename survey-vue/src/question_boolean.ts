@@ -44,7 +44,6 @@ export class QuestionBooleanModel extends Question {
     return this.value == this.getValueTrue();
   }
   public set checkedValue(val: any) {
-    debugger
     if (this.isValueEmpty(val)) {
       this.value = null;
     } else {
@@ -156,7 +155,6 @@ export class QuestionBooleanModel extends Question {
     return this.valueFalse ? this.valueFalse : false;
   }
   protected setDefaultValue() {
-    debugger
     if (this.defaultValue == "true") this.checkedValue = true;
     if (this.defaultValue == "false") this.checkedValue = false;
     if (this.defaultValue == "indeterminate") this.value = null;

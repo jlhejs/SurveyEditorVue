@@ -126,8 +126,6 @@ export class QuestionTextModel extends Question {
     return this.getLocalizableString("placeHolder");
   }
   protected setNewValue(newValue: any) {
-
-    debugger
     newValue = this.correctValueType(newValue);
     super.setNewValue(newValue);
   }
