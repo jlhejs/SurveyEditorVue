@@ -1,83 +1,53 @@
-import * as ko from "knockout";
+<template>
+  <div class="survey-editor">
+    <el-tabs v-model="viewType">
+      <template v-for="x in tabs">
+        <el-tab-pane :label="x.title" :key='x.name' :name="x.name">
+          {{x.title}}{{viewType}}
+        </el-tab-pane>
+      </template>
+    </el-tabs>
+    <div @click="testclick">testclick</div>
+  </div>
+</template>
+<script lang="ts">
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+import * as ko from "knockout";
 
-import { editorLocalization } from "./editorLocalization";
-import { SurveyObjectEditor } from "./objectEditor";
-import { ISurveyObjectEditorOptions, SurveyPropertyEditorBase} from "./propertyEditors/propertyEditorBase";
-import { SurveyLiveTester } from "./surveylive";
-import { SurveyEmbedingWindow } from "./surveyEmbedingWindow";
-import { SurveyObjects } from "./surveyObjects";
-import { QuestionConverter } from "./questionconverter";
-import { SurveyPropertyEditorShowWindow,SurveyElementPropertyGrid } from "./questionEditors/questionEditor";
-import { SurveyJSONEditor } from "./surveyJSONEditor";
-import { SurveyTextWorker } from "./textWorker";
-import { SurveyUndoRedo, UndoRedoItem } from "./undoredo";
-import { SurveyHelper, ObjType } from "./surveyHelper";
-import { DragDropHelper } from "./dragdrophelper";
-import { QuestionToolbox } from "./questionToolbox";
-import { SurveyJSON5 } from "./json5";
+import { editorLocalization } from "../js/editorLocalization";
+import { SurveyObjectEditor } from "../js/objectEditor";
+import { ISurveyObjectEditorOptions, SurveyPropertyEditorBase} from "../js/propertyEditors/propertyEditorBase";
+import { SurveyLiveTester } from "../js/surveylive";
+import { SurveyEmbedingWindow } from "../js/surveyEmbedingWindow";
+import { SurveyObjects } from "../js/surveyObjects";
+import { QuestionConverter } from "../js/questionconverter";
+import { SurveyPropertyEditorShowWindow,SurveyElementPropertyGrid } from "../js/questionEditors/questionEditor";
+import { SurveyJSONEditor } from "../js/surveyJSONEditor";
+import { SurveyTextWorker } from "../js/textWorker";
+import { SurveyUndoRedo, UndoRedoItem } from "../js/undoredo";
+import { SurveyHelper, ObjType } from "../js/surveyHelper";
+import { DragDropHelper } from "../js/dragdrophelper";
+import { QuestionToolbox } from "../js/questionToolbox";
+import { SurveyJSON5 } from "../js/json5";
 // var templateEditorHtml = require("html-loader?interpolate!val-loader!./templates/entry.html");
 import * as Survey from "survey-vue";
-import { SurveyForDesigner, createAfterRenderHandler } from "./surveyjsObjects";
-import { StylesManager } from "./stylesmanager";
-import { itemAdorner } from "./adorners/item-editor";
-import { Translation } from "./translation";
-import { SurveyLogic } from "./logic";
-
-/**
- * The toolbar item description.
- */
-export interface IToolbarItem {
-  /**
-   * Unique string id
-   */
-  id: string;
-  /**
-   * Set this property to false to make the toolbar item invisible.
-   */
-  visible: boolean;
-  /**
-   * Toolbar item title
-   */
-  title:  string;
-  /**
-   * Set this property to false to disable the toolbar item.
-   */
-  enabled?: boolean;
-  /**
-   * Set this property to false to hide the toolbar item title.
-   */
-  showTitle?:  boolean;
-  /**
-   * A callback that calls on toolbar item click.
-   */
-  action?: () => void;
-  /**
-   * Toolbar item css class
-   */
-  css?:  string;
-  innerCss?:  string;
-  data?: any;
-  template?: string;
-  /**
-   * Toolbar item icon name
-   */
-  icon?: string;
-  items?: any;
-}
-
-/**
- * Survey Creator is WYSIWYG editor.
- */
-
-export class SurveyCreator implements ISurveyObjectEditorOptions {
-
-
+import { SurveyForDesigner, createAfterRenderHandler } from "../js/surveyjsObjects";
+import { StylesManager } from "../js/stylesmanager";
+import { itemAdorner } from "../js/adorners/item-editor";
+import { Translation } from "../js/translation";
+import { SurveyLogic } from "../js/logic";
+@Component
+export class SurveyCreator extends Vue {
+  @Prop({ required: false }) question;
+  public testclick(val) {
+    window.surveyEditortest=this
+    console.log(this)
+  }
   public static defaultNewSurveyText: string = "{ pages: [ { name: 'page1'}] }";
   private _haveCommercialLicense = Vue.observable(false);
   private renderedElement: HTMLElement;
   private surveyjs: HTMLElement;
-
   private jsonEditor: SurveyJSONEditor;
   private elementPropertyGridValue: SurveyElementPropertyGrid;
   public selectedObjectEditorValue: SurveyObjectEditor;
@@ -748,7 +718,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   public set showState(newVal) {
     this.vueShowState=newVal;
   }
-  vueReadOnly = Vue.observable(false);
+  vueReadOnly = false;
   /**
    * A boolean property, false by default. Set it to true to deny editing.
    */
@@ -780,21 +750,13 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   draggingToolboxItem: any;
   clickToolboxItem: any;
   dragEnd: any;
-  /**
-   * The Survey Creator constructor.
-   * @param renderedElement HtmlElement or html element id where survey creator will be rendered
-   * @param options survey creator options. The following options are available: showJSONEditorTab,
-   * showTestSurveyTab, showEmbededSurveyTab, showTranslationTab, inplaceEditForValues, useTabsInElementEditor,
-   * showPropertyGrid, showToolbox, allowModifyPages
-   * questionTypes, showOptions, generateValidJSON, isAutoSave, designerHeight, showErrorOnFailedSave, showObjectTitles, showTitlesInExpressions,
-   * showPagesInTestSurveyTab, showDefaultLanguageInTestSurveyTab, showInvisibleElementsInTestSurveyTab
-   */
-  constructor(renderedElement: any = null, options: any = null) {
+
+  created() {
     this.showOptions = false;
     this.generateValidJSON = true;
     this.designerHeight = "";
     this.showPagesToolbox = true;
-    this.setOptions(options);
+    this.setOptions({});
     this.canDeleteObject = false;
     debugger
     var self = this;
@@ -911,7 +873,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
         : null
     );
 
-    this.viewType = Vue.observable("designer");
+    this.viewType = "designer";
     // this.viewType.subscribe(function(newValue) {
     //   self.onActiveTabChanged.fire(self, { tabName: newValue });
     // });
@@ -1017,9 +979,10 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
         action: () => this.showTranslationEditor()
       });
     }
+    var renderedElement ='app'
 
     if (renderedElement) {
-      this.render(renderedElement);
+      this.renderSurveyEditor(renderedElement);
     }
 
     this.text = "";
@@ -1028,7 +991,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   }
 
   
-
+  
   themeCss = () => {
     return ["bootstrap", "bootstrapmaterial"].indexOf(  StylesManager.currentTheme) === -1
       ? "sv_default_css"
@@ -1221,6 +1184,20 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
    * showTranslationTab, showLogicTab, showOptions, generateValidJSON, isAutoSave, designerHeight.
    */
   public render(element: any = null, options: any = null) {
+    if (options) this.setOptions(options);
+    var self = this;
+    if (element && typeof element == "string") {
+      element = document.getElementById(element);
+    }
+    if (element) {
+      this.renderedElement = element;
+    }
+    element = this.renderedElement;
+    // if (!element) return;
+    // element.innerHTML = templateEditorHtml;
+    self.applyBinding();
+  }
+  public renderSurveyEditor(element: any = null, options: any = null) {
     if (options) this.setOptions(options);
     var self = this;
     if (element && typeof element == "string") {
@@ -2803,3 +2780,8 @@ function addEmptyPanelElement(
   root.appendChild(eDiv);
   return eDiv;
 }
+
+
+Vue.component("survey-editor", SurveyCreator);
+export default SurveyCreator;
+</script>
