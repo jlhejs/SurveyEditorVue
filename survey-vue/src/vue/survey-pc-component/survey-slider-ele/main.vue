@@ -80,15 +80,12 @@
   import Emitter from 'element-ui/src/mixins/emitter.js';
   export default {
     name: 'ElSlider',
-
     mixins: [Emitter],
-
     inject: {
       elForm: {
         default: ''
       }
     },
-
     props: {
       min: {
         type: Number,
