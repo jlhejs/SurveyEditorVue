@@ -423,204 +423,57 @@ export class SurveyCreator extends Vue {
    * @see onPropertyValueChanging
    */
   public onPropertyValidationCustomError: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to change the value entered in the property  You may call a validation, so an end user sees the error immediately
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.value the property value.
-   * <br/> options.newValue set the corrected value into this property. Leave it null if you are ok with the entered value.
-   * <br/> options.doValidation set the value to true to call the property validation. If there is an error, the user sees it immediately.
-   * @see onPropertyValidationCustomError
-   */
+ 
   public onPropertyValueChanging: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to change the value entered in the property  You may call a validation, so an end user sees the error immediately
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.editor the instance of Property 
-   * @see onPropertyValueChanging
-   */
+  
   public onPropertyEditorObjectAssign: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to modify the survey that used on setting value for condition/expression properties, like visibleIf, enableIf and so on.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.editor the instance of Property 
-   * <br/> options.valueQuestionName the name of the question that shows in the survey for choosing the value
-   * <br/> options.survey the instance of the survey that allows to choose the value. You may modify it before it shows to the end-user
-   */
+ 
   public onConditionValueSurveyCreated: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to modify the list (name and titles) od the questions available in a condition 
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.editor the instance of Property 
-   * <br/> options.list the the list of the questions available for condition
-   */
+  
   public onConditionQuestionsGetList: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to process key down event in a property editor
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.editor the instance of Property 
-   * <br/> options.event the instance of mouse event.
-   */
-  public onPropertyEditorKeyDown: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to disable some operations for an element (question/panel).
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object question/panel
-   * <br/> options.allowDelete set it to false to disable deleting the object
-   * <br/> options.allowEdit set it to false to disable calling the modal Editor
-   * <br/> options.allowCopy set it to false to disable copying the object
-   * <br/> options.allowAddToToolbox set it to false to disable adding element to Toolbox
-   * <br/> options.allowDragging set it to false to disable adding element to Toolbox
-   * <br/> options.allowChangeType set it to false to disable changing element type
-   */
-  public onElementAllowOperations: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to add/remove/modify the element (question/panel) menu items.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.items the list of menu items. It has two requried fields: text and onClick: function(obj: Survey.Base) {} and optional name field.
-   * @see onElementAllowOperations
-   */
-  public onDefineElementMenuItems: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to show the description on the top or/and bottom of the property modal 
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName the property name
-   * <br/> options.htmlTop the html  that you want to see on the top of the modal window
-   * <br/> options.htmlBottom the html that you want to see on the bottom of the modal window
-   */
-  public onShowPropertyModalEditorDescription: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to change the text showing in the dropdown of the property grid.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object.
-   * <br/> options.text the current object text, commonly it is a name. You must change this attribute
-   */
-  public onGetObjectTextInPropertyGrid: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  public onPropertyEditorKeyDown: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  public onElementAllowOperations: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  public onDefineElementMenuItems: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  public onShowPropertyModalEditorDescription: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  public onGetObjectTextInPropertyGrid: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
   autoSave = Vue.observable(false);
-  /**
-   * The event is called when end-user addes new element (question or panel) into the survey toolbox.
-   * It calls before adding the element into toolbox and it allows to change the toolbox item attributes using options.itemOptions parameter
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.element is a new added element
-   * <br/> options.itemOptions a json object that allows you to override question properties. Attributes are: name, title, isCopied, iconName, json and category.
-   * @see onCustomElementAddedIntoToolbox
-   */
-  public onCustomElementAddingIntoToolbox: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called when end-user addes new element (question or panel) into the survey toolbox.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.element is a new added element
-   * @see onCustomElementAddingIntoToolbox
-   */
-  public onCustomElementAddedIntoToolbox: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is fired on uploading the file. There are two properties in options: options.name options.callback.
-   * <br/> sender the survey creator object that fires the event
-   * <br/>  name: name, file: file, accept: accept
-   * <br/> file the Javascript File object
-   * <br/> callback called on upload complete
-   * @see uploadFile
-   */
-  public onUploadFile: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The method is called when the translation from csv file is imported.
-   * @see translation
-   * @see showTranslationTab
-   */
-  public onTranslationImported: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to control drag&drop operations.
-   * <br/> sender the survey creator object that fires the event.
-   * <br/> options.survey the editing survey object.
-   * <br/> options.allow set it to false to disable dragging.
-   * <br/> options.target a target element that is dragging.
-   * <br/> options.source a source element. It can be null, if it is a new element, dragging from toolbox.
-   * <br/> options.parent a page or panel where target element is dragging.
-   * <br/> options.insertBefore an element before the target element is dragging. It can be null if parent container (page or panel) is empty or dragging an element under the last element of the container.
-   * <br/> options.insertAfter an element after the target element is dragging. It can be null if parent container (page or panel) is empty or dragging element to the top of the parent container.
-   */
-  public onDragDropAllow: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to get access rendered adorder.
-   * <br/> sender the survey creator object that fires the event.
-   * <br/> options.survey the editing survey object.
-   * <br/> options.question the survey element of the adorner.
-   * <br/> options.adorner the adorner id.
-   * <br/> options.element a root adorner element.
-   * <br/> options.context a context for adorner element, e.g. current item of a select base question.
-   */
-  public onAdornerRendered: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called after user closes the popup element 
-   * <br/> options.element the edited element.
-   * <br/> options.isCanceled indicated user clicked Cancel.
-   */
-  public onElementEditorClosed: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-
-  /**
-   * A boolean property, false by default. Set it to true to call protected doSave method automatically on survey changing.
-   */
+  
+  public onCustomElementAddingIntoToolbox: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  
+  public onCustomElementAddedIntoToolbox: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  
+  public onUploadFile: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  
+  public onTranslationImported: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  
+  public onDragDropAllow: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  
+  public onAdornerRendered: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
+  
+  public onElementEditorClosed: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+ 
   public get isAutoSave() {
     return this.autoSave;
   }
   public set isAutoSave(newVal) {
     this.autoSave=newVal;
   }
-  /**
-   * Set it to false to suppress an alert message about error on saving the survey into database.
-   */
+ 
   public showErrorOnFailedSave: boolean = true;
   vueShowState = Vue.observable(false);
-  /**
-   * A boolean property, false by default. Set it to true to show the state in the toolbar (saving/saved).
-   */
+  
   public get showState() {
     return this.vueShowState;
   }
@@ -628,9 +481,7 @@ export class SurveyCreator extends Vue {
     this.vueShowState=newVal;
   }
   vueReadOnly = false;
-  /**
-   * A boolean property, false by default. Set it to true to deny editing.
-   */
+  
   public get readOnly() {
     return this.vueReadOnly;
   }
