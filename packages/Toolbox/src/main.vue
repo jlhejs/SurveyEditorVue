@@ -1,8 +1,15 @@
 <!-- by sunyy -->
 <template>
-  <div>
-    <div @click='testClick'>testClick</div>
-  </div>
+  <el-scrollbar class="toolbox">
+    <el-menu class="menu">
+        <template v-for="(x, index) in items">
+          <el-menu-item :key="index" :index="x.name" class="item">
+            <i :class="['iconfont ',x.iconName]"></i>
+            <span slot="title" @click="testClick">{{x.title}}</span>
+          </el-menu-item>
+        </template>
+      </el-menu>
+  </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -49,11 +56,13 @@ export interface IQuestionToolboxItem {
 @Component
 export default class Toolbox extends Vue  {
 
-  @Prop() public supportedQuestions:  Array<string>;
+  @Prop() public supportedQuestions:  Array<string>
+
   private testClick(){
     console.log(this)
   }
-  private _orderedQuestions = [
+
+  private orderedQuestionsInit = [
     "text",
     "checkbox",
     "radiogroup",
@@ -65,7 +74,7 @@ export default class Toolbox extends Vue  {
     "html"
   ];
 
-  private _questionDefaultSettings = {
+  private questionDefaultSettings = {
     imagepicker: () => {
       return {
         choices: [
@@ -94,10 +103,11 @@ export default class Toolbox extends Vue  {
    * Modify this array to change the toolbox items order.
    */
   public get orderedQuestions() {
-    return this._orderedQuestions;
+    debugger
+    return this.orderedQuestionsInit;
   }
   public set orderedQuestions(questions) {
-    this._orderedQuestions = questions;
+    this.orderedQuestionsInit = questions;
     this.reorderItems();
   }
   /**
@@ -463,9 +473,9 @@ export default class Toolbox extends Vue  {
   }
   private reorderItems() {
     this.itemsValue.sort((i1, i2) => {
-      var index1 = this._orderedQuestions.indexOf(i1.name);
+      var index1 = this.orderedQuestionsInit.indexOf(i1.name);
       if (index1 === -1) index1 = Number.MAX_VALUE;
-      var index2 = this._orderedQuestions.indexOf(i2.name);
+      var index2 = this.orderedQuestionsInit.indexOf(i2.name);
       if (index2 === -1) index2 = Number.MAX_VALUE;
       return index1 - index2;
     });
@@ -527,8 +537,8 @@ export default class Toolbox extends Vue  {
   private getQuestionJSON(question: any): any {
     var json = new Survey.JsonObject().toJsonObject(question);
     json.type = question.getType();
-    if (!!this._questionDefaultSettings[json.type]) {
-      var defaultSettings = this._questionDefaultSettings[json.type]();
+    if (!!this.questionDefaultSettings[json.type]) {
+      var defaultSettings = this.questionDefaultSettings[json.type]();
       for (var key in defaultSettings) {
         json[key] = defaultSettings[key];
       }
@@ -540,6 +550,7 @@ export default class Toolbox extends Vue  {
     if (!supportedQuestions || supportedQuestions.length == 0)
       supportedQuestions = allTypes;
     var questions = [];
+    var orderedQuestions = this.orderedQuestions
     for (var i = 0; i < this.orderedQuestions.length; i++) {
       var name = this.orderedQuestions[i];
       if (supportedQuestions.indexOf(name) > -1 && allTypes.indexOf(name) > -1)
@@ -562,5 +573,23 @@ export default class Toolbox extends Vue  {
 <style lang='scss'>
 </style>
 <style lang='scss' scoped>
-// @import url(s); 引入公共css类
+.toolbox{
+  height: 100%;
+  max-width: 240px;
+  width: 240px;
+  &::v-deep  .el-scrollbar__wrap{
+    overflow-x: hidden;
+  }
+  .menu{
+    .item{
+      .iconfont{
+          margin-right: 5px;
+          width: 24px;
+          text-align: center;
+          font-size: 18px;
+          vertical-align: middle;
+      }
+    }
+  }
+}
 </style>

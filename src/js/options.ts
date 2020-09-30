@@ -32,7 +32,7 @@ export let options: Options = {
   showLogicTab: true,
   showElementEditorAsPropertyGrid: true,
   showPropertyGrid: false,
-  questionTypes: ["text"],
+  questionTypes: [],
   isAutoSave: true,
   isRTL: true,
   designerHeight: '1200px',

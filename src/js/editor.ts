@@ -795,7 +795,6 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     this.showPagesToolbox = true;
     this.setOptions(options);
     this.canDeleteObject = false;
-    debugger
     var self = this;
 
     StylesManager.applyTheme(StylesManager.currentTheme);

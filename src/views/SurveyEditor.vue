@@ -1118,7 +1118,6 @@ export class SurveyCreator extends Vue {
   }
 
   public showDesigner() {
-    debugger
     this.makeNewViewActive("designer");
   }
 

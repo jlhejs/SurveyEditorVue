@@ -1,16 +1,16 @@
 <!-- by sunyy -->
 <template>
   <div>
-    Designer
-    <Toolbox :supportedQuestions = '[]'/>
+    <Toolbox :supportedQuestions = 'editor.options.questionTypes'/>
   </div>
 </template>
 
-<script>
+<script  lang="ts">
 // import { listStoreManage } from '@/api/user'
 import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 @Component
 export default class Designer extends Vue {
+  @Prop() public editor:  Object
 
 }
 </script>

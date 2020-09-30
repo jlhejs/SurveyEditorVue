@@ -2406,7 +2406,6 @@ export class SurveyModel extends Base
    * @see completeLastPage
    */
   public doComplete() {
-    debugger
     var onCompletingOptions = { allowComplete: true };
     this.onCompleting.fire(this, onCompletingOptions);
     if (!onCompletingOptions.allowComplete) return;
