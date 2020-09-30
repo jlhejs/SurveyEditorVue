@@ -373,8 +373,7 @@ Survey.PageModel.prototype["onCreating"] = function() {
   // console.log("onCreating")
   panelBaseOnCreating(this);
 };
-var s=Survey
- console.log(s)
+
 
 
 Survey.PageModel.prototype["onAfterRenderPage"] = function(el) {

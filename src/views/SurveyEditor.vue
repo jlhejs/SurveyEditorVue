@@ -1,25 +1,20 @@
 <template>
-  <div class="survey-editor" v-if="editor">
-  <el-container class="survey-editor">
-    <el-header style="height: 40px;padding:0">
-      <Tabs :editor="editor"></Tabs>
-    </el-header>
-    <TemplateDesigner :editor="editor" v-show="viewType=='designer'"></TemplateDesigner>
-    <TemplateLive :editor="editor" v-show="viewType=='test'"></TemplateLive>
-    <TemplateLogic :editor="editor" v-show="viewType=='logic'"></TemplateLogic>
-    <TemplateEditor :editor="editor" v-show="viewType=='editor'"></TemplateEditor>
-    <TemplateEmbed :editor="editor" v-show="viewType=='embed'"></TemplateEmbed>
-    <TemplateTranslation :editor="editor" v-show="viewType=='translation'"></TemplateTranslation>
-
-  </el-container>
-  </div>
+  <el-tabs v-model="viewType" class="nav-tabs">
+    <template v-for="(x , index) in tabs">
+      <el-tab-pane :key="index" :label="x.title" :name="x.name" class="nav-content">
+        <span slot="label" :class="['nav-label', x.name,]"> {{x.title}}</span>
+          <keep-alive>
+            <component :is="x.template" :class="['nav-content', x.name]" :editor='editor' :ref='x.template' />
+          </keep-alive>
+      </el-tab-pane>
+    </template>
+  </el-tabs>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import * as ko from "knockout";
-import { setting } from "../js/setting";
-
+import { options, Options } from "../js/options";
 import { editorLocalization } from "../js/editorLocalization";
 import { SurveyObjectEditor } from "../js/objectEditor";
 import { ISurveyObjectEditorOptions, SurveyPropertyEditorBase} from "../js/propertyEditors/propertyEditorBase";
@@ -75,7 +70,7 @@ export class SurveyCreator extends Vue {
     no: number,
     onSaveCallback: (no: number, isSuccess: boolean) => void
   ) => void;
-  private options: any;
+  public options: any = options;
   private stateValue: string = "";
   private dragDropHelper: DragDropHelper = null;
   private showJSONEditorTabValue = Vue.observable<boolean>(false);
@@ -124,6 +119,8 @@ export class SurveyCreator extends Vue {
   public surveyId: string = null;
 
   public surveyPostId: string = null;
+
+  public autoSave = false;
 
   public generateValidJSONChangedCallback: (generateValidJSON: boolean) => void;
 
@@ -201,8 +198,6 @@ export class SurveyCreator extends Vue {
 
   public onGetObjectTextInPropertyGrid: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
 
-  autoSave = false;
-
   public onCustomElementAddingIntoToolbox: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
 
   public onCustomElementAddedIntoToolbox: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
@@ -275,13 +270,14 @@ export class SurveyCreator extends Vue {
     if (this.editor.generateValidJSONChangedCallback)
     this.editor.generateValidJSONChangedCallback(newValue);
   }
-  created(value) {
+  created() {
+    console.log(options)
     this.editor = this
     this.showOptions = false;
     this.generateValidJSON = true;
     this.designerHeight = "";
     this.showPagesToolbox = true;
-    this.setOptions({});
+    this.setOptions(this.options);
     this.canDeleteObject = false;
     var self = this;
     StylesManager.applyTheme(StylesManager.currentTheme);
@@ -386,11 +382,7 @@ export class SurveyCreator extends Vue {
         changeType: changeType
       });
     };
-    this.toolboxValue = new QuestionToolbox(
-      this.options && this.options.questionTypes
-        ? this.options.questionTypes
-        : null
-    );
+    this.toolboxValue = new QuestionToolbox(this.options && this.options.questionTypes  ? this.options.questionTypes  : null);
 
     // this.viewType.subscribe(function(newValue) {
     //   self.onActiveTabChanged.fire(self, { tabName: newValue });
@@ -448,14 +440,14 @@ export class SurveyCreator extends Vue {
     this.tabs.push({
       name: "designer",
       title: this.getLocString("ed.designer"),
-      template: "se-tab-designer",
+      template: "Designer",
       data: this
     });
     if (this.showTestSurveyTab) {
       this.tabs.push({
         name: "test",
         title: this.getLocString("ed.testSurvey"),
-        template: "se-tab-test",
+        template: "Test",
         data: this
       });
     }
@@ -463,7 +455,7 @@ export class SurveyCreator extends Vue {
       this.tabs.push({
         name: "logic",
         title: this.getLocString("ed.logic"),
-        template: "surveylogic",
+        template: "Logic",
         data: this.logic
       });
     }
@@ -471,7 +463,7 @@ export class SurveyCreator extends Vue {
       this.tabs.push({
         name: "editor",
         title: this.getLocString("ed.jsonEditor"),
-        template: "jsoneditor",
+        template: "JsonEditor",
         data: this.jsonEditor
       });
     }
@@ -479,7 +471,7 @@ export class SurveyCreator extends Vue {
       this.tabs.push({
         name: "embed",
         title: this.getLocString("ed.embedSurvey"),
-        template: "surveyembeding",
+        template: "Embeding",
         data: this.surveyEmbeding
       });
     }
@@ -487,7 +479,7 @@ export class SurveyCreator extends Vue {
       this.tabs.push({
         name: "translation",
         title: this.getLocString("ed.translation"),
-        template: "translation",
+        template: "Translation",
         data: this.translation
       });
     }
@@ -624,10 +616,9 @@ export class SurveyCreator extends Vue {
     });
   }
 
-  protected setOptions(options: any) {
+  protected setOptions(options) {
     if (!options) options = {};
     if (!options.hasOwnProperty("generateValidJSON"))options.generateValidJSON = true;
-    this.options = options;
     this.showJSONEditorTabValue= typeof options.showJSONEditorTab !== "undefined"? options.showJSONEditorTab: true;
     this.showTestSurveyTabValue=typeof options.showTestSurveyTab !== "undefined"? options.showTestSurveyTab: true;
     this.showEmbededSurveyTabValue=typeof options.showEmbededSurveyTab !== "undefined"? options.showEmbededSurveyTab: false;
@@ -1112,7 +1103,7 @@ export class SurveyCreator extends Vue {
   public makeNewViewActive(viewType: string = this.viewType): boolean {
     if (!this.canSwitchViewType(viewType)) return false;
     if (viewType == "editor") {
-      this.jsonshow(this.getSurveyTextFromDesigner());
+      this.jsonEditor.show(this.getSurveyTextFromDesigner());
     }
     if (viewType == "test") {
       this.showLiveSurvey();
@@ -2180,3 +2171,29 @@ function addEmptyPanelElement(
 Vue.component("survey-editor", SurveyCreator);
 export default SurveyCreator;
 </script>
+<style lang="scss" scoped>
+  .nav-tabs{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    .nav-label{}
+    .nav-content{
+      height: 100%;
+    }
+    &::v-deep>.el-tabs__header{
+      margin-bottom: 0;
+    }
+    &::v-deep>.el-tabs__content{
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: calc(100% - 39px);
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  }
+</style>

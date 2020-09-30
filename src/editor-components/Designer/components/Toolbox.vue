@@ -1,6 +1,7 @@
 <!-- by sunyy -->
 <template>
   <div>
+    testClick
     <div @click='testClick'>testClick</div>
   </div>
 </template>
@@ -47,7 +48,7 @@ export interface IQuestionToolboxItem {
 
 
 @Component
-export default class Toolbox extends Vue  {
+export default class QuestionToolbox extends Vue  {
 
   @Prop() public supportedQuestions:  Array<string>;
   private testClick(){
