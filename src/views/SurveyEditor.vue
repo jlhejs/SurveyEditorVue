@@ -87,20 +87,12 @@ export class SurveyCreator extends Vue {
   private alwaySaveTextInPropertyEditorsValue: boolean = false;
   private showApplyButtonValue: boolean = true;
   private isRTLValue: boolean = false;
-  /**
-   * If set to true (default value) the creator scrolls to a new element. A new element can be added from Toolbox or by copying.
-   */
+
   public scrollToNewElement: boolean = true;
   hideAdvancedSettings: boolean = false;
   hideToolboxCollapse: boolean = false;
   tabs = Vue.observable([]);
 
-  /**
-  *如果您只购买了商业许可证，您有权将此房产设置为真实。
-  *它将删除小部件顶部关于非商业用途的文本。
-  *在没有商业许可证的情况下将这一财产设定为真实是违法的。
-  *@见有商业执照
-   */
   public get haveCommercialLicense() {
     return this._haveCommercialLicense;
   }
@@ -108,10 +100,6 @@ export class SurveyCreator extends Vue {
     this._haveCommercialLicense=val;
   }
 
-  /**
-   * 如果要就地编辑项值而不是文本，则需要将此属性设置为true。
-   * @see inplaceEditForValues
-   */
   public get inplaceEditForValues() {
     return itemAdorner.inplaceEditForValues;
   }
@@ -119,361 +107,127 @@ export class SurveyCreator extends Vue {
     itemAdorner.inplaceEditForValues = val;
   }
 
-  /**
-   * 如果要在popup元素中使用制表符而不是accordion，则需要将此属性设置为true
-   * @see useTabsInElementEditor
-   */
   public useTabsInElementEditor = false;
 
-  /**
-   * 如果要在页面编辑器和对象选择器中显示标题而不是名称，则需要将此属性设置为true。
-   * @see onShowObjectDisplayName
-   */
   public showObjectTitles = false;
 
-  /**
-   * 如果要在表达式中显示标题而不是名称，则需要将此属性设置为true
-   */
   public showTitlesInExpressions = false;
 
-  /**
-   * 将此属性设置为false以隐藏“测试调查”选项卡中的页面选择器
-   */
   public showPagesInTestSurveyTab = true;
 
-  /**
-   * 将此属性设置为false可禁用添加、编辑和删除页面-允许修改页面
-   */
   public allowModifyPages = true;
 
-  /**
-   * The default value is _"auto"_. It shows the language selector if there are more than two languages are using in the survey.
-   * It shows only used languages in the survey.
-   * Set this property to _false_ to hide the default language selector in the Test Survey Tab.
-   * Set it to _true_ to show this selector even if there is only one language in the survey
-   * Set it to _all_ to show the selector with all available languages (30+)
-   */
   public showDefaultLanguageInTestSurveyTab: boolean | string = "auto";
 
-  /**
-   * Set this property to false to hide the show invisible element checkbox in the Test Survey Tab
-   */
   public showInvisibleElementsInTestSurveyTab = true;
 
-  /**
-   * This property is assign to the survey.surveyId property on showing in the "Embed Survey" tab.
-   * @see showEmbededSurveyTab
-   */
   public surveyId: string = null;
-  /**
-   * This property is assign to the survey.surveyPostId property on showing in the "Embed Survey" tab.
-   * @see showEmbededSurveyTab
-   */
+
   public surveyPostId: string = null;
-  /**
-   * This callback is called on changing "Generate Valid JSON" option.
-   */
+
   public generateValidJSONChangedCallback: (generateValidJSON: boolean) => void;
-  /**
-   * The event is called before undo happens.
-   * <br/> options.canUndo a boolean value. It is true by default. Set it false to hide prevent undo operation.
-   */
-  public onBeforeUndo: Survey.Event<
-    (sender: SurveyCreator, options: any) => any,
-    any
-  > = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called before redo happens.
-   * <br/> options.canRedo a boolean value. It is true by default. Set it false to hide prevent redo operation.
-   */
+
+  public onBeforeUndo: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
+
   public onBeforeRedo: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called after undo happens.
-   * <br/> options.state is an undo/redo item.
-   */
+
   public onAfterUndo: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called after redo happens.
-   * <br/> options.state is an undo/redo item.
-   */
+
   public onAfterRedo: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on changing the selected element. You may change the new selected element by changing the property options.newSelectedElement to your own
-   * <br/> options.newSelectedElement the element that is going to be selected in the survey desiger: question, panel, page or survey.
-   */
+
   public onSelectedElementChanging: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called after the selected element is changed.
-   * <br/> options.newSelectedElement the new selected element in the survey desiger: question, panel, page or survey.
-   */
+
   public onSelectedElementChanged: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called before showing a property in the Property Grid or in Question 
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the survey object, Survey, Page, Panel or Question
-   * <br/> options.property the object property (Survey.JsonObjectProperty object). It has name, className, type, visible, readOnly and other properties.
-   * <br/> options.canShow a boolean value. It is true by default. Set it false to hide the property from the Property Grid and in Question 
-   */
+
   public onShowingProperty: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Obsolete, please use onShowingProperty event.
-   * The event is called before showing a property in the Property Grid or in Question 
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the survey object, Survey, Page, Panel or Question
-   * <br/> options.property the object property (Survey.JsonObjectProperty object). It has name, className, type, visible, readOnly and other properties.
-   * <br/> options.canShow a boolean value. It is true by default. Set it false to hide the property from the Property Grid or in Question Editor
-   * @see onShowingProperty
-   */
+
   public onCanShowProperty: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = this.onShowingProperty;
-  /**
-   * The event is called when creator tab has been rendered.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.tabName the name of the rendered tab
-   * <br/> options.elements the rendered elements
-   * <br/> options.model current context model
-   * <br/> options.tabData the data of the rendered tab
-   */
+
   public onEditorTabRendered: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called when creator active tab is changed.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.tabName the name of new active tab
-   */
+
   public onActiveTabChanged: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on setting a readOnly property of the property  By default the property.readOnly property is used.
-   * You may changed it and make the property editor read only or enabled for a particular object.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the survey object, Survey, Page, Panel or Question
-   * <br/> options.property the object property (Survey.JsonObjectProperty object). It has name, className, type, visible, readOnly and other properties.
-   * <br/> options.readOnly a boolean value. It has value equals to options.readOnly property by default. You may change it.
-   */
+
   public onGetPropertyReadOnly: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event allows you to custom sort properties in the Property Grid. It is a compare function. You should set options.result to -1 or 1 by comparing options.property1 and options.property2.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the survey object, Survey, Page, Panel or Question
-   * <br/> options.property1 the left object property (Survey.JsonObjectProperty object).
-   * <br/> options.property2 the right object property (Survey.JsonObjectProperty object).
-   * <br/> options.result the result of comparing. It can be 0 (use default behavior),  -1 options.property1 is less than options.property2 or 1 options.property1 is more than options.property2
-   */
+
   public onCustomSortProperty: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event allows to display the custom name for objects: questions, pages and panels. By default the object name is using. You may show object title by setting showObjectTitles property to true.
-   * Use this event, if you want custom display name for objects.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the survey object, Survey, Page, Panel or Question
-   * <br/> options.displayName change this property to show your custom display name for the object
-   * @see showObjectTitles
-   */
+
   public onGetObjectDisplayName: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event allows you modify DOM element for a property in the Property Grid. For example, you may change it's styles.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the survey object, Survey, Page, Panel or Question
-   * <br/> options.htmlElement the html element (html table row in our case) that renders the property display name and it's 
-   * <br/> options.property object property (Survey.JsonObjectProperty object).
-   * <br/> options.propertyEditor the property 
-   */
+
   public onPropertyAfterRender: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on deleting an element (question/panel/page) from the survey. Typically, when a user click the delete from the element menu.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.element an instance of the deleting element
-   * <br/> options.elementType the type of the element: 'question', 'panel' or 'page'.
-   * <br/> options.allowing set it to false to cancel the element deleting
-   */
+
   public onElementDeleting: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on adding a new question into the survey. Typically, when a user dropped a Question from the Question Toolbox into designer Survey area.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.question a new added survey question. Survey.Question object
-   * <br/> options.page the survey Page object where question has been added.
-   */
+
   public onQuestionAdded: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called when an end-user double click on an element (question/panel).
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.element an instance of the element
-   */
+
   public onElementDoubleClick: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on adding a new Survey.ItemValue object. It uses as an element in choices array in Radiogroup, checkbox and dropdown questions or Matrix columns and rows properties.
-   * Use this event, to set ItemValue.value and ItemValue.text properties by default or set a value to the custom property.
-   * <br/> sender the survey creator object that fires the event
-   * <br /> options.obj the object that contains the itemsValues array, for example selector, rating and single choice matrix questions.
-   * <br/> options.propertyName  the object property Name. It can be "choices" for selector questions or rateValues for rating question or columns/rows for single choice matrix.
-   * <br/> options.newItem a new created Survey.ItemValue object.
-   * <br/> options.itemValues an editing Survey.ItemValue array. newItem object is not added yet into this array.
-   */
+
   public onItemValueAdded: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called when a user adds a new column into MatrixDropdown or MatrixDynamic questions. Use it to set some properties of Survey.MatrixDropdownColumn by default, for example name or a custom property.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.matrix a matrix question where column is located, matrix.columns.
-   * <br/> options.newColumn a new created Survey.MatrixDropdownColumn object.
-   * <br/> options.columns editable columns objects. They can be different from options.matrix.columns. options.columns and options.matrix.columns are equal after user press Apply or Cancel and options.columns will be set to options.matrix.columns or reset to initial state.
-   */
+
   public onMatrixColumnAdded: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on adding a new panel into the survey.  Typically, when a user dropped a Panel from the Question Toolbox into designer Survey area.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.panel a new added survey panel. Survey.Panel object
-   * <br/> options.page the survey Page object where question has been added.
-   */
+
   public onPanelAdded: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called on adding a new page into the survey.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.page the new survey Page object.
-   */
+
   public onPageAdded: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is called when a survey is changed in the designer. A new page/question/page is added or existing is removed, a property is changed and so on.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options object contains the information about certain modifications
-   * <br/> options.type contains string constant describing certain modification
-   * <br/> Available values:
-   * <br/>
-   * <br/> options.type: "ADDED_FROM_TOOLBOX"
-   * <br/> options.question: newly added question
-   * <br/>
-   * <br/> options.type: "PAGE_ADDED"
-   * <br/> options.newValue: newly created page
-   * <br/>
-   * <br/> options.type: "PAGE_MOVED"
-   * <br/> options.page: page has been moved
-   * <br/> options.indexFrom: pevious index
-   * <br/> options.indexTo: new index
-   * <br/>
-   * <br/> options.type: "QUESTION_CONVERTED"
-   * <br/> options.className: the converted class name
-   * <br/> options.oldValue: pevious object
-   * <br/> options.newValue: the new object, converted from oldVale to the given class name
-   * <br/>
-   * <br/> options.type: "QUESTION_CHANGED_BY_EDITOR"
-   * <br/> options.question: question has been edited in the popup question editor
-   * <br/>
-   * <br/> options.type: "PROPERTY_CHANGED"
-   * <br/> options.name: the name of the property has been changed
-   * <br/> options.target: the object containing the changed property
-   * <br/> options.oldValue: the previous value of the changed property
-   * <br/> options.newValue: the new value of the changed property
-   * <br/>
-   * <br/> options.type: "OBJECT_DELETED"
-   * <br/> options.target: deleted object
-   * <br/>
-   * <br/> options.type: "VIEW_TYPE_CHANGED"
-   * <br/> options.newType: new type of the creator view: editor or designer
-   * <br/>
-   * <br/> options.type: "DO_DROP"
-   * <br/> options.page: the page of the drap/drop operation
-   * <br/> options.source: the source dragged object
-   * <br/> options.target: the drop target
-   * <br/> options.newElement: a new element. It is defined if a user drops question or panel from the toolbox
-   * <br/>
-   * <br/> options.type: "TRANSLATIONS_CHANGED"
-   * <br/>
-   * <br/> options.type: "LOGIC_CHANGED"
-   * <br/> options.item: the survey logic item. It has expression and operations (list of operations) properties
-   * <br/> options.changeType: There are three possible values: "new", "modify" and "delete"
-   */
+  
   public onModified: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is fired on changing question, panel or page name.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj the object (question, panel or page)
-   * <br/> options.oldName the previous name of the element
-   * <br/> options.newName the new name of the element
-   */
+
   public onElementNameChanged: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is fired when the survey creator creates a survey object (Survey.Survey).
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.survey the survey object showing in the creator.
-   * <br/> options.reason indicates what component of the creator requests the survey.
-   */
+
   public onSurveyInstanceCreated: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
  
   public onDesignerSurveyCreated: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * The event is fired when the survey creator runs the survey in the test mode.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.survey  the survey object showing in the "Test survey" tab.
-   */
+ 
   public onTestSurveyCreated: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to control Property Editors UI.
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.editorOptions  options that can be changed.
-   * <br/> options.editorOptions.allowAddRemoveItems a boolean property, true by default. Set it false to disable add/remove items in array properties. For example 'choices', 'columns', 'rows'.
-   * <br/> options.editorOptions.showTextView a boolean property, true by default. Set it false to disable "Fast Entry" tab for "choices" property.
-   * <br/> options.editorOptions.itemsEntryType a string property, 'form' by default. Set it 'fast' to show "Fast Entry" tab for "choices" property by default.
-   */
+
   public onSetPropertyEditorOptions: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  /**
-   * Use this event to show a custom error in the Question Editor on pressing Apply or OK buttons, if the values are not set correctly. The error will be displayed under the property 
-   * <br/> sender the survey creator object that fires the event
-   * <br/> options.obj  the survey object which property is edited in the Property 
-   * <br/> options.propertyName  the name of the edited property.
-   * <br/> options.value the property value.
-   * <br/> options.error the error you want to display. Set the empty string (the default value) or null if there is no errors.
-   * @see onPropertyValueChanging
-   */
+
   public onPropertyValidationCustomError: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onPropertyValueChanging: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  
+
   public onPropertyEditorObjectAssign: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onConditionValueSurveyCreated: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
-  
+
   public onConditionQuestionsGetList: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onPropertyEditorKeyDown: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onElementAllowOperations: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onDefineElementMenuItems: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onShowPropertyModalEditorDescription: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
+
   public onGetObjectTextInPropertyGrid: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
-  autoSave = Vue.observable(false);
-  
+
+  autoSave = false;
+
   public onCustomElementAddingIntoToolbox: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
-  
+
   public onCustomElementAddedIntoToolbox: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
-  
+
   public onUploadFile: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
- 
-  
+
   public onTranslationImported: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
  
-  
   public onDragDropAllow: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
  
-  
   public onAdornerRendered: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
  
-  
   public onElementEditorClosed: Survey.Event<(sender: SurveyCreator, options: any) => any,any> = new Survey.Event<(sender: SurveyCreator, options: any) => any, any>();
  
   public get isAutoSave() {
     return this.autoSave;
   }
+
   public set isAutoSave(newVal) {
     this.autoSave=newVal;
   }
  
   public showErrorOnFailedSave: boolean = true;
   vueShowState = Vue.observable(false);
-  
+
   public get showState() {
     return this.vueShowState;
   }
@@ -481,7 +235,7 @@ export class SurveyCreator extends Vue {
     this.vueShowState=newVal;
   }
   vueReadOnly = false;
-  
+
   public get readOnly() {
     return this.vueReadOnly;
   }
@@ -510,9 +264,7 @@ export class SurveyCreator extends Vue {
   draggingToolboxItem: any;
   clickToolboxItem: any;
   dragEnd: any;
-// "editor.selectedObject":function(newValue){
-//         this.editor.selectedObjectChanged(newValue != null ? newValue.value : null);
-//       },
+
   @Watch('selectedObject')
   selectedObjectChange(newValue){
     this.selectedObjectChanged(newValue != null ? newValue.value : null);
@@ -765,10 +517,6 @@ export class SurveyCreator extends Vue {
       : "sv_" + StylesManager.currentTheme + "_css";
   };
 
-  /**
-   * The list of toolbar items. You may add/remove/replace them.
-   * @see IToolbarItem
-   */
   public toolbarItems = Vue.observable([]);
   protected addToolbarItems() {
     this.toolbarItems.push({
@@ -915,9 +663,7 @@ export class SurveyCreator extends Vue {
     if (typeof options.showInvisibleElementsInTestSurveyTab !== "undefined") {  this.showInvisibleElementsInTestSurveyTab =    options.showInvisibleElementsInTestSurveyTab;}
     if (typeof options.allowModifyPages !== "undefined") {  this.allowModifyPages = options.allowModifyPages;}
   }
-  /**
-   * The editing survey object (Survey.Survey)
-   */
+
   public get survey(): SurveyForDesigner {
     return this.surveyValue;
   }
@@ -937,19 +683,10 @@ export class SurveyCreator extends Vue {
     return this.selectedObjectEditorValue;
   }
 
-  /**
-   * Use this method to force update this element in 
-   * @param element Survey.Question is element to update
-   */
   public update(element: Survey.Question) {
     element["koElementType"].notifySubscribers();
   }
-  /**
-   * Call this method to render the Survey Creator.
-   * @param element HtmlElement or html element id where survey creator will be rendered
-   * @param options survey creator options. The following options are available: showJSONEditorTab, showTestSurveyTab, showEmbededSurveyTab,
-   * showTranslationTab, showLogicTab, showOptions, generateValidJSON, isAutoSave, designerHeight.
-   */
+
   public render(element: any = null, options: any = null) {
     if (options) this.setOptions(options);
     var self = this;
@@ -990,10 +727,7 @@ export class SurveyCreator extends Vue {
       }
     });
   }
-  /**
-   * The Survey JSON as a text. Use it to get Survey JSON or change it.
-   * @see JSON
-   */
+
   public get text(): string {
     if (this.viewType == "editor") return this.jsontext;
     return this.getSurveyTextFromDesigner();
@@ -1001,10 +735,7 @@ export class SurveyCreator extends Vue {
   public set text(value: string) {
     this.changeText(value, true);
   }
-  /**
-   * The Survey JSON. Use it to get Survey JSON or change it.
-   * @see text
-   */
+
   public get JSON(): any {
     return this.survey.toJSON();
   }
@@ -1015,11 +746,7 @@ export class SurveyCreator extends Vue {
       this.initSurveyWithJSON(val, true);
     }
   }
-  /**
-   * Set JSON as text  into survey. Clear undo/redo states optionally.
-   * @param value JSON as text
-   * @param clearState default false. Set this parameter to true to clear undo/redo states.
-   */
+
   public changeText(value: string, clearState = false) {
     var textWorker = new SurveyTextWorker(value);
     this.setTextValue(value);
@@ -1035,51 +762,34 @@ export class SurveyCreator extends Vue {
     this.showDesigner();
     this.setUndoRedoCurrentState(clearState);
   }
-  /**
-   * Toolbox object. Contains information about Question toolbox items.
-   * @see QuestionToolbox
-   */
+
   public get toolbox(): QuestionToolbox {
     return this.toolboxValue;
   }
-  /**
-   * Return the translation mode object.
-   * @see showTranslationTab
-   */
+
   public get translation(): Translation {
     return this.translationValue;
   }
-  /**
-   * Return the logic mode object.
-   * @see showLogicTab
-   */
+
   public get logic(): SurveyLogic {
     return this.logicValue;
   }
 
-  /**
-   * Get and set the maximum of copied questions/panels in the toolbox. The default value is 3
-   */
+
   public get customToolboxQuestionMaxCount(): number {
     return this.toolbox.copiedItemMaxCount;
   }
   public set customToolboxQuestionMaxCount(value: number) {
     this.toolbox.copiedItemMaxCount = value;
   }
-  /**
-   * Returns the creator state. It may return empty string or "saving" and "saved".
-   */
+
   public get state(): string {
     return this.stateValue;
   }
   protected setState(value: string) {
     this.stateValue = value;
   }
-  /**
-   * The delay on saving survey JSON on autoSave in ms. It is 500 ms by default.
-   * If during this period of time an end-user modify survey, then the last version will be saved only. Set to 0 to save immediately.
-   * @see isAutoSave
-   */
+
   public autoSaveDelay: number = 500;
   private autoSaveTimerId = null;
   protected doAutoSave() {
@@ -1126,17 +836,13 @@ export class SurveyCreator extends Vue {
     this.onModified.fire(this, options);
     this.isAutoSave && this.doAutoSave();
   }
-  /**
-   * Undo the latest user operation. Returns true if it performes successful.
-   */
+
   public undo(): boolean {
     if (!this.undoRedo.canUndo) return false;
     this.doUndoRedo(this.undoRedo.undo());
     return true;
   }
-  /**
-   * Redo the latest undo operation. Returns true if it performes successful.
-   */
+
   public redo(): boolean {
     if (!this.undoRedo.canRedo) return false;
     this.doUndoRedo(this.undoRedo.redo());
@@ -1149,10 +855,7 @@ export class SurveyCreator extends Vue {
     var selObj = this.selectedObject ? this.selectedObject.value : null;
     this.undoRedo.setCurrent(this.surveyValue, selObj ? selObj.name : null);
   }
-  /**
-   * Assign to this property a function that will be called on clicking the 'Save' button or on any change if isAutoSave equals true.
-   * @see isAutoSave
-   */
+
   public get saveSurveyFunc() {
     return this.saveSurveyFuncValue;
   }
@@ -1160,10 +863,7 @@ export class SurveyCreator extends Vue {
     this.saveSurveyFuncValue = value;
     this.showSaveButton=(value != null && !this.isAutoSave);
   }
-  
-  /**
-   * Set it to false to completely hide the Property Grid on the right. It allows to edit the properties of the selected object (question/panel/page/survey).
-   */
+
   public get showPropertyGrid() {
     return this.vueShowPropertyGrid
   }
@@ -1178,28 +878,21 @@ export class SurveyCreator extends Vue {
   protected changeHideToolboxCollapse() {
     this.hideToolboxCollapse=(!this.hideToolboxCollapse)
   }
- 
-  /**
-   * Set it to true to show "JSON Editor" tab and to false to hide the tab
-   */
+
   public get showJSONEditorTab() {
     return this.showJSONEditorTabValue;
   }
   public set showJSONEditorTab(value: boolean) {
     this.showJSONEditorTabValue=value;
   }
-  /**
-   * Set it to true to show "Test Survey" tab and to false to hide the tab
-   */
+
   public get showTestSurveyTab() {
     return this.showTestSurveyTabValue;
   }
   public set showTestSurveyTab(value: boolean) {
     this.showTestSurveyTabValue=value;
   }
-  /**
-   * Set it to true to show "Embed Survey" tab and to false to hide the tab
-   */
+
   public get showEmbededSurveyTab() {
     return this.showEmbededSurveyTabValue;
   }
@@ -1207,27 +900,21 @@ export class SurveyCreator extends Vue {
     this.showEmbededSurveyTabValue=value;
   }
   showExternalHelpLink = ko.observable(false);
-  /**
-   * Set it to true to show "Translation" tab and to false to hide the tab
-   */
+
   public get showTranslationTab() {
     return this.showTranslationTabValue;
   }
   public set showTranslationTab(value: boolean) {
     this.showTranslationTabValue=value;
   }
-  /**
-   * Set it to true to show "Logic" tab and to false to hide the tab
-   */
+
   public get showLogicTab() {
     return this.showLogicTabValue;
   }
   public set showLogicTab(value: boolean) {
     this.showLogicTabValue=value;
   }
-  /**
-   * Set it to true to activate RTL support
-   */
+
   public get isRTL() {
     return this.isRTLValue;
   }
@@ -1271,9 +958,7 @@ export class SurveyCreator extends Vue {
   private setTextValue(value: string) {
     this.jsontext = value;
   }
-  /**
-   * Add a new page into the editing survey.
-   */
+
   public addPage = () => {
     var name = SurveyHelper.getNewPageName(this.pages);
     var page = <Survey.Page>this.survey.addNewPage(name);
@@ -1285,10 +970,7 @@ export class SurveyCreator extends Vue {
     this.deleteCurrentObject();
     // this.pages.valueHasMutated(); //TODO why this is need ? (ko problem)
   };
-  /**
-   * Returns the localized string by it's id
-   * @param str the string id.
-   */
+
   public getLocString(str: string) {
     return editorLocalization.getString(str);
   }
@@ -1429,23 +1111,11 @@ export class SurveyCreator extends Vue {
     }
     return true;
   }
-  /**
-   * Returns the current show view name. The possible returns values are:
-   * "designer", "editor", "test", "embed", "logic" and "translation".
-   * @see showDesigner
-   * @see showTestSurvey
-   * @see showJsonEditor
-   * @see showLogicEditor
-   * @see showTranslationEditor
-   * @see showEmbedEditor
-   */
+
   public get showingViewName(): string {
     return this.viewType;
   }
-  /**
-   * Change the active view/tab. It will return false if it can't change the current tab.
-   * @param viewName name of new active view (tab). The following values are available: "designer", "editor", "test", "embed" and "translation".
-   */
+
   public makeNewViewActive(viewType: string = this.viewType): boolean {
     if (!this.canSwitchViewType(viewType)) return false;
     if (viewType == "editor") {
@@ -1462,40 +1132,28 @@ export class SurveyCreator extends Vue {
     }
     return true;
   }
-  /**
-   * Make a "Survey Designer" tab active.
-   */
+
   public showDesigner() {
     debugger
     this.makeNewViewActive("designer");
   }
-  /**
-   * Make a "JSON Editor" tab active.
-   */
+
   public showJsonEditor() {
     this.makeNewViewActive("editor");
   }
-  /**
-   * Make a "Test Survey" tab active.
-   */
+
   public showTestSurvey() {
     this.makeNewViewActive("test");
   }
-  /**
-   * Make a "Embed Survey" tab active.
-   */
+
   public showEmbedEditor() {
     this.makeNewViewActive("embed");
   }
-  /**
-   * Make a "Translation" tab active.
-   */
+
   public showTranslationEditor() {
     this.makeNewViewActive("translation");
   }
-  /**
-   * Make a "Logic" tab active.
-   */
+
   public showLogicEditor() {
     if (!this.canSwitchViewType("logic")) return;
     this.showSurveyLogic();
@@ -1512,10 +1170,7 @@ export class SurveyCreator extends Vue {
     if (page) return <Survey.Page>page;
     return this.surveyObjects.getSelectedObjectPage(obj);
   }
-  
-  /**
-   * Get or set the current selected object in the Creator. It can be a question, panel, page or survey itself.
-   */
+
   public get selectedElement(): any {
     return !!this.selectedObject ? this.selectedObject.value : null;
   }
@@ -2077,10 +1732,7 @@ export class SurveyCreator extends Vue {
       newValue: newQuestion
     });
   }
-  /**
-   * Show the creator dialog. The element can be a question, panel, page or survey
-   * @param element The survey element
-   */
+
   public showElementEditor(
     element: Survey.Base,
     onClose: (isCanceled: boolean) => any
@@ -2157,11 +1809,7 @@ export class SurveyCreator extends Vue {
     this.surveyObjects.selectObject(selectedObject);
   };
 
-  /**
-   * Add a question into Toolbox object
-   * @param question an added Survey.Question
-   * @see toolbox
-   */
+
   public addCustomToolboxQuestion(question: Survey.Question) {
     var options = {};
     this.onCustomElementAddingIntoToolbox.fire(this, {
@@ -2171,18 +1819,12 @@ export class SurveyCreator extends Vue {
     this.toolbox.addCopiedItem(question, options);
     this.onCustomElementAddedIntoToolbox.fire(this, { element: question });
   }
-  /**
-   * Copy a question to the active page
-   * @param question A copied Survey.Question
-   */
+
   public fastCopyQuestion(question: Survey.Base) {
     var newElement = this.copyElement(question);
     this.doClickQuestionCore(newElement, "ELEMENT_COPIED");
   }
-  /**
-   * Create a new page with the same elements and place it next to the current one. It returns the new created Survey.Page
-   * @param page A copied Survey.Page
-   */
+
   public copyPage = (page: Survey.PageModel): Survey.PageModel => {
     var newPage = <Survey.Page>(<any>this.copyElement(page));
     var index = this.pages.indexOf(page);
@@ -2195,10 +1837,7 @@ export class SurveyCreator extends Vue {
     this.setModified({ type: "PAGE_ADDED", newValue: newPage });
     return newPage;
   };
-  /**
-   * Delete an element in the survey. It can be a question, a panel or a page.
-   * @param element a survey element.
-   */
+
   public deleteElement(element: Survey.Base) {
     this.deleteObject(element);
   }
@@ -2472,11 +2111,7 @@ export class SurveyCreator extends Vue {
     };
     this.onAdornerRendered.fire(this, options);
   }
-  /**
-   * Upload the files on a server
-   * @param files files to upload
-   * @param uploadingCallback a call back function to get the status on uploading the file and operation result - URI of the uploaded file
-   */
+
   public uploadFiles(
     files: File[],
     uploadingCallback: (status: string, data: any) => any
