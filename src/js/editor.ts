@@ -776,7 +776,6 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
   doRedoClick: any;
   deleteObjectClick: any;
   runSurveyClick: any;
-  saveButtonClick: any;
   draggingToolboxItem: any;
   clickToolboxItem: any;
   dragEnd: any;
@@ -805,9 +804,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
 
     this.showSaveButton = false;
     this.testSurveyWidth = "100%";
-    this.saveButtonClick = function() {
-      self.doSave();
-    };
+
     window["sel"] = this.selectedObject;
     this.selectedObject = Vue.observable("");
     // this.selectedObject.subscribe(function(newValue) {
@@ -1139,7 +1136,7 @@ export class SurveyCreator implements ISurveyObjectEditorOptions {
     this.toolbarItems.push({
       id: "svd-save",
       visible: this.showSaveButton,
-      action: this.saveButtonClick,
+      action: this.doSave,
       innerCss: "svd_save_btn",
       title: this.getLocString("ed.saveSurvey")
     });
