@@ -17,28 +17,24 @@ Vue.use(ElementUI);
 
 import  ss from '../packages/index';
 ss.install(Vue)
-// const requireComponent = require.context('../packages/',true,/\.vue$/)
-// const components={}
-// requireComponent.keys().forEach(filename => {
-//   //获取组件配置
-//   const componentConfig = requireComponent(filename);
-//   // //截取出组件名称
-//   // filename = filename.replace(/^\.\//,'').replace(/.vue$/,'')
-//   // //全局注册组件
-//   // console.log(filename,componentConfig.default.name || componentConfig)
-//   components[componentConfig.default.name]=componentConfig.default
-// });
-// console.log(components)
 
 
 
-import  editorModels from './components/index';
-Object.keys(editorModels).forEach((key:string) => {
-  var editorModel:any=editorModels;
-  Vue.component(key, editorModel[key]);
 
-})
+// import  editorModels from './components/index';
+// Object.keys(editorModels).forEach((key:string) => {
+//   var editorModel:any=editorModels;
+//   Vue.component(key, editorModel[key]);
+// })
 
+
+const context = require.context('./editor-components', true, /\.vue$/);
+context.keys().forEach((key) => {
+  console.log(context(key))
+  const component = context(key).default;
+  Vue.component(component.name, component);
+});
+import './styles/index.scss';
 
  //全局注册，使用方法为:this.$axios
 
