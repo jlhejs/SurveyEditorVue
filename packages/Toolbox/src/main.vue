@@ -11,7 +11,6 @@
       </el-menu>
   </el-scrollbar>
 </template>
-
 <script lang="ts">
 import * as ko from "knockout";
 import * as Survey from "survey-vue";
