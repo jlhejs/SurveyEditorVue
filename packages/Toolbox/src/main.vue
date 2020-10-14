@@ -127,11 +127,8 @@ export default class Toolbox extends Vue  {
     var supportedQuestions=this.supportedQuestions
     this.createDefaultItems(supportedQuestions);
     var self = this;
-    this.koActiveCategory.subscribe(function(newValue) {
-      for (var i = 0; i < self.koCategories().length; i++) {
-        var category = self.koCategories()[i];
-        (<any>category).koCollapsed((<any>category).name !== newValue);
-      }
+
+  }
     });
   }
   /**
