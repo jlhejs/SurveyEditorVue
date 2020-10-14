@@ -1,11 +1,11 @@
 <!-- by sunyy -->
 <template>
-  <el-scrollbar class="toolbox">
+  <el-scrollbar class="toolbox" @click.native ="clickThis">
     <el-menu class="menu">
         <template v-for="(x, index) in items">
           <el-menu-item :key="index" :index="x.name" class="item">
             <i :class="['iconfont ',x.iconName]"></i>
-            <span slot="title" @click="testClick">{{x.title}}</span>
+            <span slot="title" >{{x.title}}</span>
           </el-menu-item>
         </template>
       </el-menu>
@@ -57,7 +57,7 @@ export default class Toolbox extends Vue  {
 
   @Prop() public supportedQuestions:  Array<string>
 
-  private testClick(){
+  private clickThis(){
     console.log(this)
   }
 
@@ -102,7 +102,6 @@ export default class Toolbox extends Vue  {
    * Modify this array to change the toolbox items order.
    */
   public get orderedQuestions() {
-    debugger
     return this.orderedQuestionsInit;
   }
   public set orderedQuestions(questions) {
@@ -117,11 +116,10 @@ export default class Toolbox extends Vue  {
   private keepAllCategoriesExpandedValue: boolean = false;
   private itemsValue: Array<IQuestionToolboxItem> = [];
 
-  koItems = ko.observableArray();
-  koCategories = ko.observableArray();
-  koActiveCategory = ko.observable("");
-  koHasCategories = ko.observable(false);
-  koCanCollapseCategories = ko.observable(true);
+  categories = [];
+  activeCategory = "";
+  hasCategories = false;
+  canCollapseCategories = true;
 
   created() {
     var supportedQuestions=this.supportedQuestions
@@ -129,11 +127,17 @@ export default class Toolbox extends Vue  {
     var self = this;
 
   }
-    });
+  
+  @Watch("activeCategory")
+  WatchActiveCategory(newVal,oldVal) {
+    var self = this;
+    debugger
+    for (var i = 0; i < self.categories.length; i++) {
+        var category = self.categories[i];
+        category.collapsed=(<any>category).name !== newVal;
+      }
   }
-  /**
-   * The Array of Toolbox items as Text JSON.
-   */
+
   public get jsonText() {
     return JSON.stringify(this.itemsValue);
   }
@@ -141,9 +145,7 @@ export default class Toolbox extends Vue  {
     this.itemsValue = value ? JSON.parse(value) : [];
     this.onItemsChanged();
   }
-  /**
-   * The Array of copied Toolbox items as Text JSON.
-   */
+
   public get copiedJsonText(): string {
     return JSON.stringify(this.copiedItems);
   }
@@ -155,9 +157,7 @@ export default class Toolbox extends Vue  {
       this.addItem(newItems[i]);
     }
   }
-  /**
-   * The Array of Toolbox items.
-   */
+
   public get items(): Array<IQuestionToolboxItem> {
     return this.itemsValue;
   }
@@ -168,9 +168,7 @@ export default class Toolbox extends Vue  {
     }
     return res;
   }
-  /**
-   * The Array of copied Toolbox items
-   */
+
   public get copiedItems(): Array<IQuestionToolboxItem> {
     var result = [];
     for (var i = 0; i < this.itemsValue.length; i++) {
@@ -178,11 +176,7 @@ export default class Toolbox extends Vue  {
     }
     return result;
   }
-  /**
-   * Add toolbox items into the Toolbox
-   * @param items the list of new items
-   * @param clearAll set it to true to clear all previous items.
-   */
+
   public addItems(
     items: Array<IQuestionToolboxItem>,
     clearAll: boolean = false
@@ -195,11 +189,7 @@ export default class Toolbox extends Vue  {
     }
     this.onItemsChanged();
   }
-  /**
-   * Add a copied Question into Toolbox
-   * @param question a copied Survey.Question
-   * @param options a json object that allows you to override question properties. Attributes are: name, title, tooltip, isCopied, iconName, json and category.
-   */
+
   public addCopiedItem(question: Survey.Question, options: any = null) {
     if (!options) options = {};
     var name = !!options.name ? options.name : question.name;
@@ -234,11 +224,7 @@ export default class Toolbox extends Vue  {
     if (!item.title) item.title = item.name;
     if (!item.tooltip) item.tooltip = item.title;
   }
-  /**
-   * Add a new toolbox item, add delete the old item with the same name
-   * @param item the toolbox item description
-   * @see IQuestionToolboxItem
-   */
+ 
   public replaceItem(item: IQuestionToolboxItem): boolean {
     this.correctItem(item);
     var index = this.indexOf(item.name);
@@ -302,7 +288,7 @@ export default class Toolbox extends Vue  {
   }
   public set keepAllCategoriesExpanded(val: boolean) {
     this.keepAllCategoriesExpandedValue = val;
-    this.koCanCollapseCategories(!this.keepAllCategoriesExpanded);
+    this.canCollapseCategories=!this.keepAllCategoriesExpanded;
     this.updateCategoriesState();
   }
   private updateCategoriesState() {
@@ -314,8 +300,8 @@ export default class Toolbox extends Vue  {
         this.expandAllCategories();
       }
     } else {
-      if (this.koCategories().length > 0) {
-        this.activeCategory = (<any>this.koCategories()[0]).name;
+      if (this.categories.length > 0) {
+        this.activeCategory = (<any>this.categories[0]).name;
       }
     }
   }
@@ -342,24 +328,13 @@ export default class Toolbox extends Vue  {
     }
     this.onItemsChanged();
   }
-  /**
-   * Set and get and active category. This property doesn't work if allowExpandMultipleCategories is true. Its default value is empty.
-   * @see allowExpandMultipleCategories
-   * @see expandCategory
-   * @see collapseCategory
-   */
-  public get activeCategory(): string {
-    return this.koActiveCategory();
-  }
-  public set activeCategory(val: string) {
-    this.koActiveCategory(val);
-  }
+
   private doCategoryClick(categoryName: string) {
     if (this.keepAllCategoriesExpanded) return;
     if (this.allowExpandMultipleCategories) {
       var category = this.getCategoryByName(categoryName);
       if (category) {
-        category.koCollapsed(!category.koCollapsed());
+        category.collapsed=!category.collapsed;
       }
     } else {
       this.activeCategory = categoryName;
@@ -375,7 +350,7 @@ export default class Toolbox extends Vue  {
     if (this.allowExpandMultipleCategories) {
       var category = this.getCategoryByName(categoryName);
       if (category) {
-        category.koCollapsed(false);
+        category.collapsed=false;
       }
     } else {
       this.activeCategory = categoryName;
@@ -390,7 +365,7 @@ export default class Toolbox extends Vue  {
     if (!this.allowExpandMultipleCategories) return;
     var category = this.getCategoryByName(categoryName);
     if (category) {
-      category.koCollapsed(true);
+      category.collapsed=true;
     }
   }
   /**
@@ -408,13 +383,13 @@ export default class Toolbox extends Vue  {
     this.expandCollapseAllCategories(true);
   }
   private expandCollapseAllCategories(isCollapsed: boolean) {
-    var categories = this.koCategories();
+    var categories = this.categories;
     for (var i = 0; i < categories.length; i++) {
-      (<any>categories[i]).koCollapsed(isCollapsed);
+      (<any>categories[i]).collapsed=isCollapsed;
     }
   }
   private getCategoryByName(categoryName: string): any {
-    var categories = this.koCategories();
+    var categories = this.categories;
     for (var i = 0; i < categories.length; i++) {
       var category = <any>categories[i];
       if (category.name === categoryName) return category;
@@ -422,11 +397,9 @@ export default class Toolbox extends Vue  {
     return null;
   }
   protected onItemsChanged() {
-    this.koItems([]);
-    this.koItems(this.itemsValue);
     var categories = [];
     var categoriesHash = {};
-    var prevActiveCategory = this.koActiveCategory();
+    var prevActiveCategory = this.activeCategory;
     var self = this;
     for (var i = 0; i < this.itemsValue.length; i++) {
       var item = this.itemsValue[i];
@@ -437,7 +410,7 @@ export default class Toolbox extends Vue  {
         var category = {
           name: categoryName,
           items: [],
-          koCollapsed: ko.observable(categoryName !== prevActiveCategory),
+          collapsed: categoryName !== prevActiveCategory,
           expand: function() {
             self.doCategoryClick(this.name);
           }
@@ -447,19 +420,19 @@ export default class Toolbox extends Vue  {
       }
       categoriesHash[categoryName].items.push(item);
     }
-    this.koCategories(categories);
+    this.categories=categories;
     if (!this.allowExpandMultipleCategories) {
       if (prevActiveCategory && categoriesHash[prevActiveCategory]) {
-        this.koActiveCategory(prevActiveCategory);
+        this.activeCategory=prevActiveCategory;
       } else {
-        this.koActiveCategory(categories.length > 0 ? categories[0].name : "");
+        this.activeCategory=categories.length > 0 ? categories[0].name : "";
       }
     } else {
       if (categories.length > 0) {
-        categories[0].koCollapsed(false);
+        categories[0].collapsed = false;
       }
     }
-    this.koHasCategories(categories.length > 1);
+    this.hasCategories=categories.length > 1;
   }
   private indexOf(name: string) {
     for (var i = 0; i < this.itemsValue.length; i++) {
@@ -480,6 +453,7 @@ export default class Toolbox extends Vue  {
   private createDefaultItems(supportedQuestions: Array<string>) {
     this.clearItems();
     var questions = this.getQuestionTypes(supportedQuestions);
+    debugger
     for (var i = 0; i < questions.length; i++) {
       var name = questions[i];
       var question = Survey.ElementFactory.Instance.createElement(name, "q1");

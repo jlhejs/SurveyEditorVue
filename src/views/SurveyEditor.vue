@@ -495,7 +495,9 @@ export class SurveyCreator extends Vue {
   }
 
   
-  
+  mounted(){
+    this.toolboxValue = new QuestionToolbox(this.options && this.options.questionTypes  ? this.options.questionTypes  : null);
+  }
   themeCss = () => {
     return ["bootstrap", "bootstrapmaterial"].indexOf(  StylesManager.currentTheme) === -1
       ? "sv_default_css"
