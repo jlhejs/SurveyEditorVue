@@ -1,14 +1,25 @@
 <!-- by sunyy -->
 <template>
   <el-scrollbar class="toolbox" @click.native ="clickThis">
-    <el-menu class="menu">
-        <template v-for="(x, index) in items">
+    <el-menu class="menu" :unique-opened='uniqueOpened' v-if="hasCategories">
+      <el-submenu v-for="(navItem, index) in categories" :key="index" :index="navItem.name" >
+        <template slot="title">{{navItem.name}}</template>
+        <template v-for="(x, index) in navItem.items">
           <el-menu-item :key="index" :index="x.name" class="item">
             <i :class="['iconfont ',x.iconName]"></i>
             <span slot="title" >{{x.title}}</span>
           </el-menu-item>
         </template>
-      </el-menu>
+      </el-submenu>
+    </el-menu>
+    <el-menu class="menu" :unique-opened='uniqueOpened' v-else>
+      <template v-for="(x, index) in items">
+        <el-menu-item :key="index" :index="x.name" class="item">
+          <i :class="['iconfont ',x.iconName]"></i>
+          <span slot="title" >{{x.title}}</span>
+        </el-menu-item>
+      </template>
+    </el-menu>
   </el-scrollbar>
 </template>
 <script lang="ts">
@@ -16,6 +27,7 @@ import * as ko from "knockout";
 import * as Survey from "survey-vue";
 import { editorLocalization } from "@/js/editorLocalization";
 import { Component, Prop, Watch, Vue } from "vue-property-decorator";
+import * as s from "@packages/Toolbox/src/main.vue";
 
 /**
  * The Toolbox item description.
@@ -54,13 +66,10 @@ export interface IQuestionToolboxItem {
 
 @Component
 export default class Toolbox extends Vue  {
-
-  @Prop() public supportedQuestions:  Array<string>
-
+  public supportedQuestions:  Array<string>=[]
   private clickThis(){
-    console.log(this)
+    console.log(new s.default({data:{supportedQuestions:["text"]}}))
   }
-
   private orderedQuestionsInit = [
     "text",
     "checkbox",
@@ -112,14 +121,14 @@ export default class Toolbox extends Vue  {
    * The maximum number of copied toolbox items. If an user adding copiedItemMaxCount + 1 item, the first added item will be removed.
    */
   public copiedItemMaxCount: number = 3;
-  private allowExpandMultipleCategoriesValue: boolean = false;
+  private uniqueOpenedValue: boolean = false;
   private keepAllCategoriesExpandedValue: boolean = false;
   private itemsValue: Array<IQuestionToolboxItem> = [];
 
-  categories = [];
-  activeCategory = "";
-  hasCategories = false;
-  canCollapseCategories = true;
+  public categories = [];
+  public activeCategory = "";
+  public hasCategories = false;
+  public canCollapseCategories = true;
 
   created() {
     var supportedQuestions=this.supportedQuestions
@@ -273,13 +282,14 @@ export default class Toolbox extends Vue  {
    * Set it to true, to allow end-user to expand more than one category. There will no active category in this case
    * @see activeCategory
    */
-  public get allowExpandMultipleCategories(): boolean {
-    return this.allowExpandMultipleCategoriesValue;
+  public get uniqueOpened(): boolean {
+    return this.uniqueOpenedValue;
   }
-  public set allowExpandMultipleCategories(val: boolean) {
-    this.allowExpandMultipleCategoriesValue = val;
+  public set uniqueOpened(val: boolean) {
+    this.uniqueOpenedValue = val;
     this.updateCategoriesState();
   }
+
   /**
    * Set it to true to expand all categories and hide expand/collapse category buttons
    */
@@ -314,6 +324,7 @@ export default class Toolbox extends Vue  {
   public changeCategory(name: string, category: string) {
     this.changeCategories([{ name: name, category: category }]);
   }
+  
   /**
    * Change categories for several toolbox items.
    * @param changedItems the array of objects {name: "your toolbox item name", category: "new category name"}
@@ -340,6 +351,7 @@ export default class Toolbox extends Vue  {
       this.activeCategory = categoryName;
     }
   }
+  
   /**
    * Expand a category by its name. If allowExpandMultipleCategories is false (default value), all other categories become collapsed
    * @param categoryName the category name
@@ -356,6 +368,7 @@ export default class Toolbox extends Vue  {
       this.activeCategory = categoryName;
     }
   }
+  
   /**
    * Collapse a category by its name. If allowExpandMultipleCategories is false (default value) this function does nothing
    * @param categoryName the category name
@@ -368,6 +381,7 @@ export default class Toolbox extends Vue  {
       category.collapsed=true;
     }
   }
+  
   /**
    * Expand all categories. If allowExpandMultipleCategories is false (default value) this function does nothing
    * @see allowExpandMultipleCategories
@@ -375,6 +389,7 @@ export default class Toolbox extends Vue  {
   public expandAllCategories() {
     this.expandCollapseAllCategories(false);
   }
+  
   /**
    * Collapse all categories. If allowExpandMultipleCategories is false (default value) this function does nothing
    * @see allowExpandMultipleCategories
@@ -550,7 +565,11 @@ export default class Toolbox extends Vue  {
   &::v-deep  .el-scrollbar__wrap{
     overflow-x: hidden;
   }
+  &::v-deep  .el-scrollbar__view{
+    height: 100%;
+  }
   .menu{
+    height: 100%;
     .item{
       .iconfont{
           margin-right: 5px;

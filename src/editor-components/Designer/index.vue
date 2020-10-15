@@ -1,7 +1,7 @@
 <!-- by sunyy -->
 <template>
   <div>
-    <Toolbox :supportedQuestions = 'editor.options.questionTypes' ref="Toolbox"/>
+    <Toolbox :supportedQuestions = 'editor.options.questionTypes'/>
   </div>
 </template>
 
