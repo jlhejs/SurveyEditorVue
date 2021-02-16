@@ -30,10 +30,10 @@ ss.install(Vue)
 
 const context = require.context('./editor-components', true, /\.vue$/);
 context.keys().forEach((key) => {
-  console.log(context(key))
   const component = context(key).default;
   Vue.component(component.name, component);
 });
+window.Vue = Vue
 import './styles/index.scss';
 
  //全局注册，使用方法为:this.$axios

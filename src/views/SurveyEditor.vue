@@ -1,5 +1,6 @@
 <template>
   <el-tabs v-model="viewType" class="nav-tabs">
+    clickThis
     <template v-for="(x , index) in tabs">
       <el-tab-pane :key="index" :label="x.title" :name="x.name" class="nav-content">
         <span slot="label" :class="['nav-label', x.name,]"> {{x.title}}</span>
@@ -28,7 +29,6 @@ import { SurveyTextWorker } from "../js/textWorker";
 import { SurveyUndoRedo, UndoRedoItem } from "../js/undoredo";
 import { SurveyHelper, ObjType } from "../js/surveyHelper";
 import { DragDropHelper } from "../js/dragdrophelper";
-import { QuestionToolbox } from "../js/questionToolbox";
 import { SurveyJSON5 } from "../js/json5";
 import * as Survey from "survey-vue";
 import { SurveyForDesigner, createAfterRenderHandler } from "../js/surveyjsObjects";
@@ -36,13 +36,12 @@ import { StylesManager } from "../js/stylesmanager";
 import { itemAdorner } from "../js/adorners/item-editor";
 import { Translation } from "../js/translation";
 import { SurveyLogic } from "../js/logic";
+import QuestionToolbox from "@packages/Toolbox/src/main.vue";
+
 @Component
 export class SurveyCreator extends Vue {
   @Prop({ required: false }) question;
-  public testclick(val) {
-    window.surveyEditortest=this
-    console.log(editor)
-  }
+
   public editor:any = '';
 
   public static defaultNewSurveyText: string = "{ pages: [ { name: 'page1'}] }";
@@ -271,7 +270,6 @@ export class SurveyCreator extends Vue {
     this.editor.generateValidJSONChangedCallback(newValue);
   }
   created() {
-    console.log(options)
     this.editor = this
     this.showOptions = false;
     this.generateValidJSON = true;
@@ -382,8 +380,14 @@ export class SurveyCreator extends Vue {
         changeType: changeType
       });
     };
-    this.toolboxValue = new QuestionToolbox(this.options && this.options.questionTypes  ? this.options.questionTypes  : null);
-
+    this.toolboxValue = new QuestionToolbox({
+      data: function() {
+        return {
+          supportedQuestions:self.options && self.options.questionTypes  ? self.options.questionTypes  : null
+        }
+      }
+    })
+    console.log(this.toolboxValue)
     // this.viewType.subscribe(function(newValue) {
     //   self.onActiveTabChanged.fire(self, { tabName: newValue });
     // });
@@ -495,7 +499,9 @@ export class SurveyCreator extends Vue {
   }
 
   
-  
+  mounted(){
+    this.toolboxValue = new QuestionToolbox(this.options && this.options.questionTypes  ? this.options.questionTypes  : null);
+  }
   themeCss = () => {
     return ["bootstrap", "bootstrapmaterial"].indexOf(  StylesManager.currentTheme) === -1
       ? "sv_default_css"

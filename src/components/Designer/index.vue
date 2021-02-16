@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <Toolbar :editor="editor"></Toolbar>
-    <PagesEditor :editor="editor"></PagesEditor>
-    <Main :editor="editor" ></Main>
-    <QuestionEditor :editor="editor"></QuestionEditor> 
+  <div class="1111111111111111111111111111">
+    <Toolbar :editor="editor" class="toolbar"></Toolbar>
+    <PagesEditor :editor="editor" class="pages-editor"></PagesEditor>
+    <Main :editor="editor" class="main"></Main>
+    <QuestionEditor :editor="editor" class="question-editor"></QuestionEditor> 
   </div>
 </template>
 <script>

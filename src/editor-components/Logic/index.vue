@@ -1,6 +1,6 @@
 <!-- by sunyy -->
 <template>
-  <div>Logic</div>
+  <div>LogicTemplate</div>
 </template>
 
 <script>
